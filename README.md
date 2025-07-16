@@ -29,6 +29,20 @@ python3 generate_summary.py
 The script relies on `fetch_sheet.py` and therefore also requires internet
 access.
 
+## build_leaderboards.py
+
+`build_leaderboards.py` combines fetching the sheet, storing the raw CSV under
+`data/history.csv` and producing a simple text leaderboard at
+`data/leaderboard.txt`. The leaderboard lists the fastest driver for each
+track, best times per vehicle, each driver's career best and more. If a row is
+marked as belonging to a championship, it will be listed separately.
+
+Run it with:
+
+```bash
+python3 build_leaderboards.py
+```
+
 ## prefab/TextDisplay.cs
 
 `prefab/TextDisplay.cs` is a simple Unity component that downloads a text file
