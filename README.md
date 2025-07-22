@@ -48,3 +48,16 @@ python3 build_leaderboards.py
 `prefab/TextDisplay.cs` is a simple Unity component that downloads a text file
 from a URL and displays it in a `Text` UI element. Attach it to a prefab and set
 the `url` and `targetText` fields in the Inspector.
+
+## build_site.py
+
+`build_site.py` reads the generated leaderboard text and creates a static
+`site/index.html` page. This page can be served via GitHub Pages so players can
+browse the latest results.
+
+```bash
+python3 build_site.py
+```
+
+After committing the contents of the `site` directory you can configure GitHub
+Pages to publish from that folder.
