@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VRChat World List</title>
+</head>
+<body>
+<h1>Approved VRChat Worlds</h1>
+<ul id="worlds"></ul>
+<script>
+fetch('approved_export.json')
+  .then(r => r.json())
+  .then(data => {
+     const list = document.getElementById('worlds');
+     data.forEach(w => {
+         const li = document.createElement('li');
+         li.textContent = `${w.name} by ${w.author} (${w.visits} visits)`;
+         list.appendChild(li);
+     });
+  })
+  .catch(() => {
+     document.getElementById('worlds').textContent = 'Failed to load';
+  });
+</script>
+</body>
+</html>
