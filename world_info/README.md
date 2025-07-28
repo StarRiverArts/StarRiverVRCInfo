@@ -24,14 +24,17 @@ Create ``scraper/headers.json`` with your login cookie::
 
 Run the tools in order:
 
-1. ``python3 scraper/scraper.py --keyword Taiwan --limit 50`` to search worlds
-   or ``python3 scraper/scraper.py --user usr_abc123 --limit 50`` to fetch a
-   creator's worlds using the ``https://vrchat.com/api/1/user/{id}/worlds``
-   endpoint.  Add ``--cookie``, ``--username`` or ``--password`` to supply
-   authentication headers. Results are written to ``raw_worlds.json``.
+1. ``python3 scraper/scraper.py --keyword Taiwan --limit 50`` to search worlds.
+   To collect a creator's worlds, use ``--user usr_abc123`` which will launch a
+   headless browser via Playwright to scrape ``https://vrchat.com/home/user`` and
+   then query each world ID.  Add ``--cookie``, ``--username`` or ``--password``
+   to supply authentication headers. Results are written to ``raw_worlds.json``.
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
    an interface that lets you log in, fetch worlds and apply filters.
 3. ``python3 scraper/exporter.py``
+
+Fetching a creator's worlds requires the ``playwright`` package.  Install it and
+run ``playwright install`` before using the ``--user`` option.
 
 Copy `scraper/approved_export.json` into `docs/` to update the website or load
 it inside Unity using the `GenerateWorldCards` editor script.

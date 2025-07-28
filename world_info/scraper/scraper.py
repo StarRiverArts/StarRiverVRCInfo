@@ -1,10 +1,12 @@
 
 """Retrieve world data from the VRChat API.
 
-This script queries the unofficial VRChat API to fetch world information
-and stores the results as a JSON list.  Authentication headers such as
-cookies can be supplied in ``headers.json`` or via command line options.
-The credentials file is ignored by git so your secrets remain local.
+This script queries the unofficial VRChat API to fetch world information and
+stores the results as a JSON list.  Searching by keyword uses the HTTP API.
+To list a creator's worlds we scrape the website using Playwright because there
+is no stable API endpoint.  Authentication headers can be supplied in
+``headers.json`` or via command line options.  The credentials file is ignored
+by git so your secrets remain local.
 """
 
 from __future__ import annotations
@@ -12,8 +14,10 @@ from __future__ import annotations
 import base64
 import json
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, List, Optional
 import time
+
+from playwright.sync_api import sync_playwright
 
 import requests
 
@@ -44,6 +48,7 @@ def _load_headers(cookie: Optional[str] = None,
 
     return headers
 
+HEADERS: Dict[str, str] = _load_headers()
 
 HEADERS: Dict[str, str] = _load_headers()
 
@@ -83,12 +88,75 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
     return _fetch_paginated(base, limit, delay, headers)
 
 
+def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
+    """Convert a standard cookie header string into Playwright cookie dicts."""
+    cookies: List[Dict[str, str]] = []
+    for part in cookie_str.split(";"):
+        if "=" in part:
+            name, value = part.strip().split("=", 1)
+            cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
+    return cookies
+
+
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
-    """Fetch worlds created by the given user ID."""
-    # Use the public website API which accepts the user ID in the path.
-    base = f"https://vrchat.com/api/1/user/{user_id}/worlds"
-    return _fetch_paginated(base, limit, delay, headers)
+    """Fetch worlds created by the given user ID.
+
+    VRChat does not expose an official endpoint for this, so we load the
+    user's page using Playwright and parse the world cards from the HTML.
+    """
+
+    headers = headers or HEADERS
+    cookie_str = headers.get("Cookie", "")
+
+    url = f"https://vrchat.com/home/user/{user_id}"
+    results: List[dict] = []
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context()
+        if cookie_str:
+            context.add_cookies(_cookie_to_playwright(cookie_str))
+        page = context.new_page()
+        page.goto(url)
+        page.wait_for_timeout(int(delay * 1000))
+
+        while len(results) < limit:
+            cards = page.query_selector_all("a[href^='/home/world/wrld_']")
+            for card in cards[len(results):]:
+                name = (card.inner_text() or "").strip()
+                link = card.get_attribute("href") or ""
+                world_id = link.split("/")[-1]
+                results.append({"name": name, "id": world_id})
+                if len(results) >= limit:
+                    break
+
+            if len(results) >= limit:
+                break
+            show_more = page.query_selector("button:has-text('Show More')")
+            if show_more:
+                show_more.click()
+                page.wait_for_timeout(int(delay * 1000))
+            else:
+                break
+
+        browser.close()
+
+    # For each world ID we can fetch detailed info via the official world endpoint
+    details: List[dict] = []
+    for r in results:
+        try:
+            info = requests.get(
+                f"https://api.vrchat.cloud/api/1/worlds/{r['id']}",
+                headers=headers,
+                timeout=30,
+            )
+            info.raise_for_status()
+            details.append(info.json())
+        except requests.HTTPError:
+            continue
+
+    return details[:limit]
 
 
 def extract_info(world: dict) -> Dict[str, object]:

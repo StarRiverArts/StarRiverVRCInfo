@@ -9,7 +9,9 @@ The interface provides several tabs:
 - User Worlds: fetch and display worlds created by a specific user.
 
 The tool relies on functions in ``scraper/scraper.py``.  Results are saved
-under that folder for reuse by other scripts.
+under that folder for reuse by other scripts.  Fetching a creator's worlds uses
+Playwright to scrape the VRChat website, so the ``playwright`` package must be
+installed and ``playwright install`` executed beforehand.
 """
 from __future__ import annotations
 
