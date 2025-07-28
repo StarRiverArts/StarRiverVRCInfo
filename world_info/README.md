@@ -4,7 +4,7 @@ This tool collects information about VRChat worlds, lets you review the entries
 and exports a filtered JSON file for use on a website or in Unity.
 
 ```
-VRChat World Info/
+world_info/
 ├─ scraper/
 │  ├─ scraper.py          # query the VRChat API for world info
 │  ├─ review_tool.py      # mark worlds as approved
