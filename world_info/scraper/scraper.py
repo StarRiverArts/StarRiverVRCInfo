@@ -109,6 +109,7 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
 
     if sync_playwright is None:
         raise RuntimeError("playwright is required for user world scraping")
+
     headers = headers or HEADERS
     cookie_str = headers.get("Cookie", "")
 

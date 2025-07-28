@@ -10,6 +10,18 @@
 更完整的架構與流程說明請見
 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
 
+安裝相依套件：
+
+```bash
+pip install -r requirements.txt
+```
+
+若要爬取作者世界，請於安裝後執行：
+
+```bash
+playwright install
+```
+
 ---
 
 ## 檔案結構

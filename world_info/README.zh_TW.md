@@ -18,6 +18,18 @@ world_info/
    └─ GenerateWorldCards.cs
 ```
 
+執行前請先安裝 Python 套件：
+
+```bash
+pip install -r requirements.txt
+```
+
+若需抓取作者世界，再執行：
+
+```bash
+playwright install
+```
+
 請在 ``scraper/headers.json`` 中輸入登入後取得的 Cookie，例如：
 
 ```

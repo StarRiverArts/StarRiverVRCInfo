@@ -18,6 +18,14 @@ world_info/
    └─ GenerateWorldCards.cs
 ```
 
+Install the required Python packages with::
+
+  pip install -r requirements.txt
+
+If you plan to fetch a creator's worlds, also run::
+
+  playwright install
+
 Create ``scraper/headers.json`` with your login cookie::
 
   {"Cookie": "auth=...; twoFactorAuth=...; machineId=..."}
