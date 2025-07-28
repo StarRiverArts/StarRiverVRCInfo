@@ -1,0 +1,12 @@
+Racing Club/__pycache__/
+Racing Club/report/
+Racing Club/data/
+
+VRChat World Info/scraper/*.json
+VRChat World Info/__pycache__/
+VRChat World Info/docs/approved_export.json
+
+data/
+report/
+site/
+__pycache__/
