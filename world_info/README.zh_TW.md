@@ -4,7 +4,7 @@
 並匯出篩選後的 JSON 檔，可用於網站或 Unity 專案。
 
 ```
-VRChat World Info/
+world_info/
 ├─ scraper/
 │  ├─ scraper.py          # 從 VRChat API 取得世界資料
 │  ├─ review_tool.py      # 標記世界是否核可

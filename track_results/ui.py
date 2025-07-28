@@ -11,7 +11,7 @@ from tkinter import ttk, filedialog, messagebox
 from pathlib import Path
 
 
-WORLD_BASE = Path(__file__).resolve().parent.parent / "VRChat World Info"
+WORLD_BASE = Path(__file__).resolve().parent.parent / "world_info"
 RAW_FILE = WORLD_BASE / "scraper" / "raw_worlds.json"
 REVIEW_FILE = WORLD_BASE / "scraper" / "reviewed_worlds.json"
 
