@@ -15,17 +15,27 @@ import base64
 import json
 import csv
 import datetime as dt
-from openpyxl import Workbook, load_workbook
 from pathlib import Path
 from typing import Dict, List, Optional
 import time
 
 try:
+    from openpyxl import Workbook, load_workbook  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    Workbook = None  # type: ignore
+    load_workbook = None  # type: ignore
+
+try:
+
     from playwright.sync_api import sync_playwright  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
 
-import requests
+try:
+    import requests  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    requests = None  # type: ignore
+
 
 BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
@@ -151,6 +161,7 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
     return history
 
 
+
 def _append_history_table(row: List[object]) -> None:
     """Append a metrics row to ``history_table.csv``."""
     if not HISTORY_TABLE.exists():
@@ -178,12 +189,11 @@ def _append_history_table(row: List[object]) -> None:
         writer.writerow(row)
 
 
-    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(row)
-
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
+    if Workbook is None or load_workbook is None:
+        return
+
     if EXCEL_FILE.exists():
         wb = load_workbook(EXCEL_FILE)
         ws = wb.active
@@ -214,6 +224,8 @@ def _append_excel_row(row: List[object]) -> None:
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
     """Fetch up to ``limit`` worlds from ``base_url`` using pagination."""
+    if requests is None:
+        raise RuntimeError("requests package is required")
     results: List[dict] = []
     offset = 0
     while len(results) < limit:
@@ -242,6 +254,9 @@ def _fetch_paginated(base_url: str, limit: int, delay: float,
 
 def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
                   headers: Optional[Dict[str, str]] = None) -> List[dict]:
+    if requests is None:
+        raise RuntimeError("requests package is required")
+
     base = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}"
     return _fetch_paginated(base, limit, delay, headers)
 
@@ -255,18 +270,7 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
 
-    VRChat does not expose an official endpoint for this, so we load the
-    user's page using Playwright and parse the world cards from the HTML.
-    """
 
-    if sync_playwright is None:
-        raise RuntimeError("playwright is required for user world scraping")
-
-    headers = headers or HEADERS
-    cookie_str = headers.get("Cookie", "")
-
-    url = f"https://vrchat.com/home/user/{user_id}"
-    results: List[dict] = []
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
@@ -278,6 +282,8 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
 
     if sync_playwright is None:
         raise RuntimeError("playwright is required for user world scraping")
+    if requests is None:
+        raise RuntimeError("requests package is required")
 
     headers = headers or HEADERS
     cookie_str = headers.get("Cookie", "")

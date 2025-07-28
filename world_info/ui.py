@@ -317,7 +317,7 @@ class WorldInfoUI(tk.Tk):
         # axes
         self.canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.canvas.create_line(pad, pad, pad, height - pad)
-        
+
     def _on_select_user_world(self, event=None) -> None:
         item = self.user_tree.focus()
         if not item:
@@ -357,7 +357,6 @@ class WorldInfoUI(tk.Tk):
                 self.user_canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
-
 
 
 def main() -> None:  # pragma: no cover - simple runtime entry
