@@ -1,3 +1,4 @@
+
 """Retrieve world data from the VRChat API."""
 
 from __future__ import annotations
