@@ -3,8 +3,93 @@
 from __future__ import annotations
 
 import random
+import json
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+
+
+from pathlib import Path
+
+
+WORLD_BASE = Path(__file__).resolve().parent.parent / "VRChat World Info"
+RAW_FILE = WORLD_BASE / "scraper" / "raw_worlds.json"
+REVIEW_FILE = WORLD_BASE / "scraper" / "reviewed_worlds.json"
+
+
+class WorldReviewTab(ttk.Frame):
+    """A tab for reviewing VRChat worlds."""
+
+    def __init__(self, master: ttk.Frame) -> None:
+        super().__init__(master)
+        self.pack(fill=tk.BOTH, expand=True)
+        self.worlds = self._load_json(RAW_FILE)
+        self.reviews = self._load_json(REVIEW_FILE, default={})
+        self.index = 0
+        self._build_widgets()
+        self._show_world()
+
+    def _load_json(self, path: Path, default=None):
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return default
+
+    def _build_widgets(self) -> None:
+        self.label_name = ttk.Label(self, text="", font=("Arial", 12))
+        self.label_name.pack(pady=4)
+        self.text_desc = tk.Text(self, height=8, wrap="word")
+        self.text_desc.pack(fill=tk.BOTH, expand=True, padx=5)
+        frame = ttk.Frame(self)
+        frame.pack(pady=4)
+        ttk.Button(frame, text="Approve", command=self._approve).grid(row=0, column=0, padx=2)
+        ttk.Button(frame, text="Reject", command=self._reject).grid(row=0, column=1, padx=2)
+        ttk.Button(frame, text="Skip", command=self._next).grid(row=0, column=2, padx=2)
+        self.status_label = ttk.Label(frame, text="")
+        self.status_label.grid(row=0, column=3, padx=10)
+
+    def _save(self):
+        with open(REVIEW_FILE, "w", encoding="utf-8") as f:
+            json.dump(self.reviews, f, ensure_ascii=False, indent=2)
+
+    def _show_world(self):
+        if self.index >= len(self.worlds):
+            self.label_name.config(text="")
+            self.text_desc.delete("1.0", tk.END)
+            self.status_label.config(text="")
+            return
+        w = self.worlds[self.index]
+        self.label_name.config(text=f"{w.get('name')} by {w.get('author')}")
+        desc = (
+            f"ID: {w.get('worldId')}\n"
+            f"Visits: {w.get('visits', 0)}\n"
+            f"Tags: {', '.join(w.get('tags', []))}\n\n"
+            f"{w.get('description', '')}"
+        )
+        self.text_desc.delete("1.0", tk.END)
+        self.text_desc.insert(tk.END, desc)
+        status = self.reviews.get(w["worldId"], "pending")
+        self.status_label.config(text=status)
+
+    def _approve(self):
+        if self.index < len(self.worlds):
+            w = self.worlds[self.index]
+            self.reviews[w["worldId"]] = "approved"
+            self._save()
+            self.index += 1
+            self._show_world()
+
+    def _reject(self):
+        if self.index < len(self.worlds):
+            w = self.worlds[self.index]
+            self.reviews[w["worldId"]] = "rejected"
+            self._save()
+            self.index += 1
+            self._show_world()
+
+    def _next(self):
+        self.index += 1
+        self._show_world()
+
 
 
 class RacingUI(tk.Tk):
@@ -53,6 +138,11 @@ class RacingUI(tk.Tk):
         frame_champ = ttk.Frame(notebook)
         notebook.add(frame_champ, text="Championship")
         self._build_championship_tab(frame_champ)
+
+        # Tab 7: World Review
+        frame_world = ttk.Frame(notebook)
+        notebook.add(frame_world, text="World Review")
+        WorldReviewTab(frame_world)
 
     def _build_load_tab(self, frame: ttk.Frame) -> None:
         ttk.Label(frame, text="Google Sheet URL:").grid(row=0, column=0, sticky="w", pady=4)

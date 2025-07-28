@@ -6,17 +6,50 @@
 </head>
 <body>
 <h1>Approved VRChat Worlds</h1>
+<div>
+  Sort:
+  <select id="sort">
+    <option value="latest">Latest</option>
+    <option value="popular">Popular</option>
+  </select>
+  Tag:
+  <select id="tag"></select>
+</div>
 <ul id="worlds"></ul>
 <script>
 fetch('approved_export.json')
   .then(r => r.json())
   .then(data => {
      const list = document.getElementById('worlds');
-     data.forEach(w => {
+     const tagSel = document.getElementById('tag');
+     const tags = new Set();
+     data.forEach(w => (w.tags || []).forEach(t => tags.add(t)));
+     tagSel.innerHTML = '<option value="all">All</option>' +
+       Array.from(tags).map(t => `<option value="${t}">${t}</option>`).join('');
+
+     function render() {
+       const sort = document.getElementById('sort').value;
+       const tag = tagSel.value;
+       let worlds = data.slice();
+       if (tag !== 'all') {
+         worlds = worlds.filter(w => (w.tags || []).includes(tag));
+       }
+       if (sort === 'latest') {
+         worlds.sort((a,b) => (b.publicationDate || '').localeCompare(a.publicationDate || ''));
+       } else {
+         worlds.sort((a,b) => (b.visits||0) - (a.visits||0));
+       }
+       list.innerHTML = '';
+       worlds.forEach(w => {
          const li = document.createElement('li');
-         li.textContent = `${w.name} by ${w.author} (${w.visits} visits)`;
+         li.innerHTML = `<a href="${w.worldUrl}">${w.name}</a> by ${w.author} (${w.visits} visits)`;
          list.appendChild(li);
-     });
+       });
+     }
+
+     document.getElementById('sort').addEventListener('change', render);
+     tagSel.addEventListener('change', render);
+     render();
   })
   .catch(() => {
      document.getElementById('worlds').textContent = 'Failed to load';

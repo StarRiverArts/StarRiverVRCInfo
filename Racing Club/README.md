@@ -67,7 +67,8 @@ Pages to publish from that folder.
 `ui.py` offers a small Tkinter interface. It lets you enter a Google Sheet URL
 or a local CSV path, then view various leaderboards across several tabs. One tab
 allows manual record entry while another provides a simple championship bracket
-generator.
+generator. The final tab embeds the VRChat world review tool so you can approve
+world data directly inside the same window.
 
 For Traditional Chinese instructions, see
 [`README.zh_TW.md`](README.zh_TW.md).

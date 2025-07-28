@@ -21,13 +21,22 @@ def main():
     for w in worlds:
         if reviews.get(w["worldId"]) == "approved":
             approved.append({
-                "worldId": w["worldId"],
-                "name": w["name"],
-                "author": w["author"],
-                "description": w["description"],
-                "imageUrl": w["imageUrl"],
-                "tags": w["tags"],
-                "visits": w["visits"],
+                "worldId": w.get("世界ID") or w.get("worldId"),
+                "name": w.get("世界名稱") or w.get("name"),
+                "author": w.get("author"),
+                "description": w.get("description"),
+                "imageUrl": w.get("imageUrl"),
+                "tags": w.get("Tag") or w.get("tags"),
+                "visits": w.get("瀏覽人次") or w.get("visits"),
+                "capacity": w.get("世界大小"),
+                "created_at": w.get("上傳日期"),
+                "updated_at": w.get("更新日期"),
+                "labsPublicationDate": w.get("實驗室日期"),
+                "publicationDate": w.get("發布日期"),
+                "favorites": w.get("收藏人次"),
+                "heat": w.get("世界熱度"),
+                "popularity": w.get("世界熱門度"),
+                "worldUrl": w.get("世界連結"),
             })
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:

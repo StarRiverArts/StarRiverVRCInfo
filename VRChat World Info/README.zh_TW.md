@@ -6,13 +6,13 @@
 ```
 VRChat World Info/
 ├─ scraper/
-│  ├─ scraper.py          # 爬取世界資料（範例實作）
+│  ├─ scraper.py          # 從 VRChat API 取得世界資料
 │  ├─ review_tool.py      # 標記世界是否核可
 │  ├─ exporter.py         # 產生 approved_export.json
 │  └─ raw_worlds.json     # 產生的範例資料
 ├─ ui.py                  # Tkinter 審核介面
 ├─ docs/
-│  ├─ index.html          # 簡易清單頁面
+│  ├─ index.html          # 提供篩選功能的世界清單頁面
 │  └─ approved_export.json
 └─ unity_prefab_generator/
    └─ GenerateWorldCards.cs
@@ -20,7 +20,8 @@ VRChat World Info/
 
 執行順序：
 
-1. `python3 scraper/scraper.py`
+1. `python3 scraper/scraper.py --keyword Taiwan` 以關鍵字搜尋世界，
+   或 `python3 scraper/scraper.py --user usr_abc123` 取得指定作者世界。
 2. `python3 scraper/review_tool.py`（或執行 `python3 ui.py` 使用圖形介面）
 3. `python3 scraper/exporter.py`
 

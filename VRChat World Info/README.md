@@ -6,13 +6,13 @@ and exports a filtered JSON file for use on a website or in Unity.
 ```
 VRChat World Info/
 ├─ scraper/
-│  ├─ scraper.py          # fetch world data (sample implementation)
+│  ├─ scraper.py          # query the VRChat API for world info
 │  ├─ review_tool.py      # mark worlds as approved
 │  ├─ exporter.py         # create approved_export.json
 │  └─ raw_worlds.json     # generated sample data
 ├─ ui.py                  # simple tkinter review interface
 ├─ docs/
-│  ├─ index.html          # simple page listing approved worlds
+│  ├─ index.html          # page listing approved worlds with filters
 │  └─ approved_export.json
 └─ unity_prefab_generator/
    └─ GenerateWorldCards.cs
@@ -20,7 +20,8 @@ VRChat World Info/
 
 Run the scripts in order:
 
-1. `python3 scraper/scraper.py`
+1. `python3 scraper/scraper.py --keyword Taiwan` to search worlds by keyword
+   or `python3 scraper/scraper.py --user usr_abc123` to fetch worlds from a creator.
 2. `python3 scraper/review_tool.py` (or run `python3 ui.py` for a GUI)
 3. `python3 scraper/exporter.py`
 
