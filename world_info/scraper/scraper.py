@@ -84,7 +84,9 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
-    base = f"https://api.vrchat.cloud/api/1/users/{user_id}/worlds?"
+    # The legacy ``/users/{user_id}/worlds`` endpoint was removed. Use the
+    # supported query parameter approach instead.
+    base = f"https://api.vrchat.cloud/api/1/worlds?user={user_id}"
     return _fetch_paginated(base, limit, delay, headers)
 
 
