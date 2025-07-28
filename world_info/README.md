@@ -30,11 +30,14 @@ Run the tools in order:
    then query each world ID.  Add ``--cookie``, ``--username`` or ``--password``
    to supply authentication headers. Results are written to ``raw_worlds.json``.
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
-   an interface that lets you log in, fetch worlds and apply filters.
+   an interface that lets you log in, fetch worlds and apply filters. The world
+   list tab now shows results in a sortable table.
 3. ``python3 scraper/exporter.py``
 
 Fetching a creator's worlds requires the ``playwright`` package.  Install it and
-run ``playwright install`` before using the ``--user`` option.
+run ``playwright install`` before using the ``--user`` option.  If the package
+is missing, the UI will still run but the creator-world feature will be
+disabled.
 
 Copy `scraper/approved_export.json` into `docs/` to update the website or load
 it inside Unity using the `GenerateWorldCards` editor script.

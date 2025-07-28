@@ -122,8 +122,18 @@ class WorldInfoUI(tk.Tk):
 
     # World list tab
     def _build_list_tab(self) -> None:
-        self.listbox = tk.Listbox(self.tab_list)
-        self.listbox.pack(fill=tk.BOTH, expand=True)
+        columns = ("name", "visits", "id")
+        self.tree = ttk.Treeview(self.tab_list, columns=columns, show="headings")
+        self.tree.heading("name", text="Name")
+        self.tree.heading("visits", text="Visits")
+        self.tree.heading("id", text="World ID")
+        self.tree.column("name", width=250)
+        self.tree.column("visits", width=80, anchor="e")
+        self.tree.column("id", width=200)
+        vsb = ttk.Scrollbar(self.tab_list, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=vsb.set)
+        self.tree.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
 
     # User worlds tab
     def _build_user_tab(self) -> None:
@@ -193,11 +203,13 @@ class WorldInfoUI(tk.Tk):
         else:
             worlds.sort(key=lambda w: w.get("visits", 0), reverse=True)
         self.filtered = worlds
-        self.listbox.delete(0, tk.END)
+        for item in self.tree.get_children():
+            self.tree.delete(item)
         for w in self.filtered:
             name = w.get("name") or w.get("世界名稱")
             visits = w.get("visits") or w.get("瀏覽人次")
-            self.listbox.insert(tk.END, f"{name} ({visits})")
+            world_id = w.get("id") or w.get("世界ID")
+            self.tree.insert("", tk.END, values=(name, visits, world_id))
         self.nb.select(self.tab_list)
 
 

@@ -17,7 +17,10 @@ from pathlib import Path
 from typing import Dict, List, Optional
 import time
 
-from playwright.sync_api import sync_playwright
+try:
+    from playwright.sync_api import sync_playwright  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    sync_playwright = None  # type: ignore
 
 import requests
 
@@ -48,7 +51,6 @@ def _load_headers(cookie: Optional[str] = None,
 
     return headers
 
-HEADERS: Dict[str, str] = _load_headers()
 
 HEADERS: Dict[str, str] = _load_headers()
 
@@ -97,7 +99,6 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
 
-
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
     """Fetch worlds created by the given user ID.
@@ -106,6 +107,8 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
     user's page using Playwright and parse the world cards from the HTML.
     """
 
+    if sync_playwright is None:
+        raise RuntimeError("playwright is required for user world scraping")
     headers = headers or HEADERS
     cookie_str = headers.get("Cookie", "")
 
