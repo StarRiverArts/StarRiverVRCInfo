@@ -95,6 +95,7 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
     ]
 
 
+
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
@@ -177,6 +178,10 @@ def _append_history_table(row: List[object]) -> None:
         writer.writerow(row)
 
 
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
+
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
     if EXCEL_FILE.exists():
@@ -203,6 +208,7 @@ def _append_excel_row(row: List[object]) -> None:
         ])
     ws.append(row)
     wb.save(EXCEL_FILE)
+
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
@@ -249,6 +255,18 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
 
+    VRChat does not expose an official endpoint for this, so we load the
+    user's page using Playwright and parse the world cards from the HTML.
+    """
+
+    if sync_playwright is None:
+        raise RuntimeError("playwright is required for user world scraping")
+
+    headers = headers or HEADERS
+    cookie_str = headers.get("Cookie", "")
+
+    url = f"https://vrchat.com/home/user/{user_id}"
+    results: List[dict] = []
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
