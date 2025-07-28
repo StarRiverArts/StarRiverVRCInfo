@@ -10,7 +10,7 @@ world_info/
 │  ├─ review_tool.py      # mark worlds as approved
 │  ├─ exporter.py         # create approved_export.json
 │  └─ raw_worlds.json     # generated sample data
-├─ ui.py                  # simple tkinter review interface
+├─ ui.py                  # Tkinter interface for login and world search
 ├─ docs/
 │  ├─ index.html          # page listing approved worlds with filters
 │  └─ approved_export.json
@@ -26,8 +26,10 @@ Run the tools in order:
 
 1. ``python3 scraper/scraper.py --keyword Taiwan --limit 50`` to search worlds
    or ``python3 scraper/scraper.py --user usr_abc123 --limit 50`` to fetch a
-   creator's worlds.  Results are written to ``raw_worlds.json``.
-2. ``python3 scraper/review_tool.py`` (or run ``python3 ui.py`` for a GUI)
+   creator's worlds.  Add ``--cookie``, ``--username`` or ``--password`` to
+   supply authentication headers. Results are written to ``raw_worlds.json``.
+2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
+   an interface that lets you log in, fetch worlds and apply filters.
 3. ``python3 scraper/exporter.py``
 
 Copy `scraper/approved_export.json` into `docs/` to update the website or load
