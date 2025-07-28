@@ -10,12 +10,24 @@ world_info/
 │  ├─ review_tool.py      # 標記世界是否核可
 │  ├─ exporter.py         # 產生 approved_export.json
 │  └─ raw_worlds.json     # 產生的範例資料
-├─ ui.py                  # Tkinter 審核介面
+├─ ui.py                  # Tkinter 介面，可登入並搜尋世界
 ├─ docs/
 │  ├─ index.html          # 提供篩選功能的世界清單頁面
 │  └─ approved_export.json
 └─ unity_prefab_generator/
    └─ GenerateWorldCards.cs
+```
+
+執行前請先安裝 Python 套件：
+
+```bash
+pip install -r requirements.txt
+```
+
+若需抓取作者世界，再執行：
+
+```bash
+playwright install
 ```
 
 請在 ``scraper/headers.json`` 中輸入登入後取得的 Cookie，例如：
@@ -26,11 +38,20 @@ world_info/
 
 執行流程：
 
-1. `python3 scraper/scraper.py --keyword Taiwan --limit 50` 以關鍵字搜尋世界，
-   或 `python3 scraper/scraper.py --user usr_abc123 --limit 50` 取得指定作者世界，
+1. `python3 scraper/scraper.py --keyword Taiwan --limit 50` 以關鍵字搜尋世界。
+   若要抓取某作者世界，使用 `--user usr_abc123`，會透過 Playwright 在
+   `https://vrchat.com/home/user/` 頁面爬取 worldId，再查詢詳細資料。
+   可額外加入 `--cookie`、`--username` 或 `--password` 提供驗證資訊，
    結果會輸出到 `raw_worlds.json`。
-2. `python3 scraper/review_tool.py`（或執行 `python3 ui.py` 使用圖形介面）
+2. `python3 scraper/review_tool.py`（可選）或執行 `python3 ui.py`，
+   透過圖形介面登入並搜尋、篩選世界。世界列表頁以表格方式呈現資料，
+   並新增「歷史記錄」分頁，可追蹤瀏覽人數、收藏數與熱度變化折線圖。
+   每次抓取資料也會在 `scraper/history_table.csv` 追加一行，記錄
+   瀏覽收藏比、距離上次更新等指標。
 3. `python3 scraper/exporter.py`
+
+若要抓取作者世界，需先安裝 `playwright` 套件並執行 `playwright install`。
+若未安裝此套件，圖形介面仍可使用，但無法取得作者創作世界。
 
 完成後，將 `scraper/approved_export.json` 複製到 `docs/` 以更新網站，
 或在 Unity 中使用 `GenerateWorldCards` 編輯器腳本載入。
