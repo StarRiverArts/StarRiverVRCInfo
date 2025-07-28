@@ -13,6 +13,8 @@ from __future__ import annotations
 
 import base64
 import json
+import csv
+import datetime as dt
 from pathlib import Path
 from typing import Dict, List, Optional
 import time
@@ -26,6 +28,8 @@ import requests
 
 BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
+HISTORY_FILE = BASE / "history.json"
+HISTORY_TABLE = BASE / "history_table.csv"
 
 
 def _load_headers(cookie: Optional[str] = None,
@@ -53,6 +57,111 @@ def _load_headers(cookie: Optional[str] = None,
 
 
 HEADERS: Dict[str, str] = _load_headers()
+
+
+def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
+    if not value:
+        return None
+    try:
+        if value.endswith('Z'):
+            value = value[:-1] + '+00:00'
+        return dt.datetime.fromisoformat(value)
+    except Exception:
+        return None
+
+
+def load_history() -> Dict[str, List[dict]]:
+    """Load the long-term history file if present."""
+    if HISTORY_FILE.exists():
+        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                return {}
+    return {}
+
+
+def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[dict]]:
+    """Append new stats to ``history.json`` unless recorded recently."""
+    history = load_history()
+    now = int(time.time())
+    appended = False
+    for w in worlds:
+        wid = w.get("id") or w.get("worldId")
+        if not wid:
+            continue
+        recs = history.setdefault(wid, [])
+        if recs and now - recs[-1].get("timestamp", 0) < threshold:
+            continue
+        rec = {
+            "timestamp": now,
+            "visits": w.get("visits"),
+            "favorites": w.get("favorites"),
+            "heat": w.get("heat"),
+            "popularity": w.get("popularity"),
+        }
+        recs.append(rec)
+        _append_history_table(w, rec)
+        appended = True
+    if appended:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+    return history
+
+
+def _append_history_table(world: dict, rec: dict) -> None:
+    """Append a row to ``history_table.csv`` with derived metrics."""
+    if not HISTORY_TABLE.exists():
+        with open(HISTORY_TABLE, "w", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([
+                "世界名稱",
+                "發布日期",
+                "最後更新",
+                "瀏覽人次",
+                "大小",
+                "收藏次數",
+                "熱度",
+                "人氣",
+                "實驗室到發布",
+                "瀏覽蒐藏比",
+                "距離上次更新",
+                "已發布",
+                "人次發布比",
+            ])
+
+    pub = _parse_date(world.get("publicationDate"))
+    updated = _parse_date(world.get("updated_at"))
+    labs = _parse_date(world.get("labsPublicationDate"))
+    now = dt.datetime.utcnow()
+
+    days_labs_to_pub = (pub - labs).days if pub and labs else ""
+    visits = world.get("visits") or 0
+    favs = world.get("favorites") or 0
+    ratio_vf = round(visits / favs, 2) if favs else ""
+    since_update = (now - updated).days if updated else ""
+    since_pub = (now - pub).days if pub else 0
+    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
+
+    row = [
+        world.get("name"),
+        world.get("publicationDate"),
+        world.get("updated_at"),
+        visits,
+        world.get("capacity"),
+        favs,
+        world.get("heat"),
+        world.get("popularity"),
+        days_labs_to_pub,
+        ratio_vf,
+        since_update,
+        world.get("releaseStatus"),
+        visits_per_day,
+    ]
+
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
@@ -98,6 +207,7 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             name, value = part.strip().split("=", 1)
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
+
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
@@ -221,6 +331,7 @@ def main() -> None:
         parser.error("--keyword or --user is required")
 
     parsed = [extract_info(w) for w in worlds]
+    update_history(worlds)
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(parsed, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(parsed)} worlds to {args.out}")

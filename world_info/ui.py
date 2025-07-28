@@ -20,7 +20,12 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from scraper.scraper import fetch_worlds, _load_headers
+from scraper.scraper import (
+    fetch_worlds,
+    _load_headers,
+    load_history,
+    update_history,
+)
 
 BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
@@ -37,6 +42,7 @@ class WorldInfoUI(tk.Tk):
         self.data: list[dict] = []
         self.user_data: list[dict] = []
         self.filtered: list[dict] = []
+        self.history: dict[str, list[dict]] = load_history()
 
         self._build_tabs()
 
@@ -51,18 +57,21 @@ class WorldInfoUI(tk.Tk):
         self.tab_filter = ttk.Frame(self.nb)
         self.tab_list = ttk.Frame(self.nb)
         self.tab_user = ttk.Frame(self.nb)
+        self.tab_history = ttk.Frame(self.nb)
 
         self.nb.add(self.tab_entry, text="入口")
         self.nb.add(self.tab_data, text="資料")
         self.nb.add(self.tab_filter, text="篩選")
         self.nb.add(self.tab_list, text="世界列表")
         self.nb.add(self.tab_user, text="個人世界")
+        self.nb.add(self.tab_history, text="歷史記錄")
 
         self._build_entry_tab()
         self._build_data_tab()
         self._build_filter_tab()
         self._build_list_tab()
         self._build_user_tab()
+        self._build_history_tab()
 
     # ------------------------------------------------------------------
     # Entry tab widgets
@@ -139,6 +148,16 @@ class WorldInfoUI(tk.Tk):
     def _build_user_tab(self) -> None:
         self.text_user = tk.Text(self.tab_user, wrap="word")
         self.text_user.pack(fill=tk.BOTH, expand=True)
+        
+    def _build_history_tab(self) -> None:
+        f = self.tab_history
+        self.var_hist_world = tk.StringVar()
+        self.box_hist_world = ttk.Combobox(f, textvariable=self.var_hist_world, values=list(self.history.keys()))
+        self.box_hist_world.pack(fill=tk.X, pady=2)
+        self.box_hist_world.bind("<<ComboboxSelected>>", self._draw_history)
+        self.canvas = tk.Canvas(f, bg="white")
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self._update_history_options()
 
     # ------------------------------------------------------------------
     # Actions
@@ -158,6 +177,9 @@ class WorldInfoUI(tk.Tk):
             self.data = fetch_worlds(keyword=keyword, limit=50, headers=self.headers)
             with open(RAW_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
+            update_history(self.data)
+            self.history = load_history()
+            self._update_history_options()
             self.text_data.delete("1.0", tk.END)
             self.text_data.insert(tk.END, json.dumps(self.data, ensure_ascii=False, indent=2))
             self._update_tag_options()
@@ -177,6 +199,9 @@ class WorldInfoUI(tk.Tk):
             self.user_data = fetch_worlds(user_id=user_id, limit=50, headers=self.headers)
             with open(USER_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.user_data, f, ensure_ascii=False, indent=2)
+            update_history(self.user_data)
+            self.history = load_history()
+            self._update_history_options()
             self.text_user.delete("1.0", tk.END)
             self.text_user.insert(tk.END, json.dumps(self.user_data, ensure_ascii=False, indent=2))
             self.nb.select(self.tab_user)
@@ -211,6 +236,55 @@ class WorldInfoUI(tk.Tk):
             world_id = w.get("id") or w.get("世界ID")
             self.tree.insert("", tk.END, values=(name, visits, world_id))
         self.nb.select(self.tab_list)
+
+    def _update_history_options(self) -> None:
+        self.box_hist_world["values"] = list(self.history.keys())
+        if self.history:
+            self.var_hist_world.set(list(self.history.keys())[0])
+            self._draw_history()
+
+    def _draw_history(self, event=None) -> None:
+        world_id = self.var_hist_world.get()
+        data = self.history.get(world_id, [])
+        self.canvas.delete("all")
+        if not data:
+            return
+        width = int(self.canvas.winfo_width() or 600)
+        height = int(self.canvas.winfo_height() or 300)
+        pad = 40
+        times = [d["timestamp"] for d in data]
+        min_t = min(times)
+        max_t = max(times)
+        if max_t == min_t:
+            max_t += 1
+        scale_x = width - 2 * pad
+        scale_y = height - 2 * pad
+
+        def xy(idx, val, max_val):
+            x = pad + (times[idx] - min_t) / (max_t - min_t) * scale_x
+            y = height - pad - min(val, max_val) / max_val * scale_y
+            return x, y
+
+        colors = {
+            "visits": "blue",
+            "favorites": "green",
+            "heat": "red",
+            "popularity": "purple",
+        }
+        limits = {
+            "visits": 5000,
+            "favorites": 5000,
+            "heat": 10,
+            "popularity": 10,
+        }
+        for key, color in colors.items():
+            points = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
+            for a, b in zip(points, points[1:]):
+                self.canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
+        # axes
+        self.canvas.create_line(pad, height - pad, width - pad, height - pad)
+        self.canvas.create_line(pad, pad, pad, height - pad)
+
 
 
 def main() -> None:  # pragma: no cover - simple runtime entry

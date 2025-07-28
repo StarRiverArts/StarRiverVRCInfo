@@ -39,7 +39,10 @@ Run the tools in order:
    to supply authentication headers. Results are written to ``raw_worlds.json``.
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
    an interface that lets you log in, fetch worlds and apply filters. The world
-   list tab now shows results in a sortable table.
+   list tab now shows results in a sortable table. A new "History" tab tracks
+   visits, favorites and heat over time with a simple line chart. Each fetch
+   also appends a row to ``scraper/history_table.csv`` with additional metrics
+   like visit/favorite ratio and days since last update.
 3. ``python3 scraper/exporter.py``
 
 Fetching a creator's worlds requires the ``playwright`` package.  Install it and
