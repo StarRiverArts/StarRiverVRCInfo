@@ -6,7 +6,9 @@
 用於從 Google 試算表下載賽車紀錄並產生文字或 HTML 形式的排行榜。詳盡使用方式請參考 [`Racing Club/README.zh_TW.md`](Racing%20Club/README.zh_TW.md)。
 
 ## VRChat World Info
-用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案。詳細流程請參考 [`VRChat World Info/README.zh_TW.md`](VRChat%20World%20Info/README.zh_TW.md)。
+用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，並附帶簡易的 Tkinter 圖形審核介面。詳細流程請參考 [`VRChat World Info/README.zh_TW.md`](VRChat%20World%20Info/README.zh_TW.md)。
+更完整的架構與流程說明請見
+[`VRChat World Info/complete_guide.zh_TW.md`](VRChat%20World%20Info/complete_guide.zh_TW.md)。
 
 ---
 
