@@ -56,8 +56,15 @@ def _fetch_paginated(base_url: str, limit: int, delay: float,
     while len(results) < limit:
         remaining = min(60, limit - len(results))
         url = f"{base_url}&n={remaining}&offset={offset}"
-        r = requests.get(url, headers=headers or HEADERS, timeout=30)
-        r.raise_for_status()
+        try:
+            r = requests.get(url, headers=headers or HEADERS, timeout=30)
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:  # pragma: no cover - runtime only
+            if e.response is not None and e.response.status_code == 403:
+                raise RuntimeError(
+                    "403 Forbidden: check your cookie or login credentials"
+                ) from e
+            raise
         chunk = r.json()
         if not isinstance(chunk, list):
             break

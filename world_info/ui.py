@@ -150,6 +150,8 @@ class WorldInfoUI(tk.Tk):
             self.text_data.insert(tk.END, json.dumps(self.data, ensure_ascii=False, indent=2))
             self._update_tag_options()
             self.nb.select(self.tab_data)
+        except RuntimeError as e:  # pragma: no cover - runtime only
+            messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
             messagebox.showerror("Error", str(e))
 
@@ -166,6 +168,8 @@ class WorldInfoUI(tk.Tk):
             self.text_user.delete("1.0", tk.END)
             self.text_user.insert(tk.END, json.dumps(self.user_data, ensure_ascii=False, indent=2))
             self.nb.select(self.tab_user)
+        except RuntimeError as e:  # pragma: no cover - runtime only
+            messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
             messagebox.showerror("Error", str(e))
 
