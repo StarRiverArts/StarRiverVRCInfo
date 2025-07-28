@@ -148,7 +148,6 @@ class WorldInfoUI(tk.Tk):
     def _build_user_tab(self) -> None:
         self.text_user = tk.Text(self.tab_user, wrap="word")
         self.text_user.pack(fill=tk.BOTH, expand=True)
-        
     def _build_history_tab(self) -> None:
         f = self.tab_history
         self.var_hist_world = tk.StringVar()

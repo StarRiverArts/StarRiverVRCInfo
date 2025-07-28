@@ -63,9 +63,12 @@ def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
     try:
-        if value.endswith('Z'):
-            value = value[:-1] + '+00:00'
-        return dt.datetime.fromisoformat(value)
+        if value.endswith("Z"):
+            value = value[:-1] + "+00:00"
+        dt_obj = dt.datetime.fromisoformat(value)
+        if dt_obj.tzinfo is None:
+            dt_obj = dt_obj.replace(tzinfo=dt.timezone.utc)
+        return dt_obj
     except Exception:
         return None
 
@@ -133,7 +136,7 @@ def _append_history_table(world: dict, rec: dict) -> None:
     pub = _parse_date(world.get("publicationDate"))
     updated = _parse_date(world.get("updated_at"))
     labs = _parse_date(world.get("labsPublicationDate"))
-    now = dt.datetime.utcnow()
+    now = dt.datetime.now(dt.timezone.utc)
 
     days_labs_to_pub = (pub - labs).days if pub and labs else ""
     visits = world.get("visits") or 0
