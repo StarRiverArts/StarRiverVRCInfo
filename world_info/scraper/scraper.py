@@ -15,6 +15,7 @@ import base64
 import json
 import csv
 import datetime as dt
+from openpyxl import Workbook, load_workbook
 from pathlib import Path
 from typing import Dict, List, Optional
 import time
@@ -30,6 +31,7 @@ BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
 HISTORY_FILE = BASE / "history.json"
 HISTORY_TABLE = BASE / "history_table.csv"
+EXCEL_FILE = BASE / "worlds.xlsx"
 
 
 def _load_headers(cookie: Optional[str] = None,
@@ -57,6 +59,41 @@ def _load_headers(cookie: Optional[str] = None,
 
 
 HEADERS: Dict[str, str] = _load_headers()
+
+
+def record_row(world: dict, now: Optional[int] = None) -> List[object]:
+    """Return a metrics row for history tables and Excel."""
+    ts_now = dt.datetime.fromtimestamp(now, dt.timezone.utc) if isinstance(now, int) else dt.datetime.now(dt.timezone.utc)
+
+    pub = _parse_date(world.get("publicationDate"))
+    updated = _parse_date(world.get("updated_at"))
+    labs = _parse_date(world.get("labsPublicationDate"))
+
+    days_labs_to_pub = (pub - labs).days if pub and labs else ""
+    visits = world.get("visits") or 0
+    favs = world.get("favorites") or 0
+    ratio_vf = round(visits / favs, 2) if favs else ""
+    since_update = (ts_now - updated).days if updated else ""
+    since_pub = (ts_now - pub).days if pub else 0
+    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
+
+    return [
+        world.get("name"),
+        world.get("id"),
+        world.get("publicationDate"),
+        world.get("updated_at"),
+        visits,
+        world.get("capacity"),
+        favs,
+        world.get("heat"),
+        world.get("popularity"),
+        days_labs_to_pub,
+        ratio_vf,
+        since_update,
+        world.get("releaseStatus"),
+        visits_per_day,
+    ]
+
 
 
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
@@ -104,7 +141,9 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
             "popularity": w.get("popularity"),
         }
         recs.append(rec)
-        _append_history_table(w, rec)
+        row = record_row(w, now)
+        _append_history_table(row)
+        _append_excel_row(row)
         appended = True
     if appended:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
@@ -112,13 +151,14 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
     return history
 
 
-def _append_history_table(world: dict, rec: dict) -> None:
-    """Append a row to ``history_table.csv`` with derived metrics."""
+def _append_history_table(row: List[object]) -> None:
+    """Append a metrics row to ``history_table.csv``."""
     if not HISTORY_TABLE.exists():
         with open(HISTORY_TABLE, "w", encoding="utf-8", newline="") as f:
             writer = csv.writer(f)
             writer.writerow([
                 "世界名稱",
+                "世界ID",
                 "發布日期",
                 "最後更新",
                 "瀏覽人次",
@@ -133,38 +173,42 @@ def _append_history_table(world: dict, rec: dict) -> None:
                 "人次發布比",
             ])
 
-    pub = _parse_date(world.get("publicationDate"))
-    updated = _parse_date(world.get("updated_at"))
-    labs = _parse_date(world.get("labsPublicationDate"))
-    now = dt.datetime.now(dt.timezone.utc)
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
-    days_labs_to_pub = (pub - labs).days if pub and labs else ""
-    visits = world.get("visits") or 0
-    favs = world.get("favorites") or 0
-    ratio_vf = round(visits / favs, 2) if favs else ""
-    since_update = (now - updated).days if updated else ""
-    since_pub = (now - pub).days if pub else 0
-    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
-
-    row = [
-        world.get("name"),
-        world.get("publicationDate"),
-        world.get("updated_at"),
-        visits,
-        world.get("capacity"),
-        favs,
-        world.get("heat"),
-        world.get("popularity"),
-        days_labs_to_pub,
-        ratio_vf,
-        since_update,
-        world.get("releaseStatus"),
-        visits_per_day,
-    ]
 
     with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(row)
+
+def _append_excel_row(row: List[object]) -> None:
+    """Append a metrics row to ``worlds.xlsx``."""
+    if EXCEL_FILE.exists():
+        wb = load_workbook(EXCEL_FILE)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+        ws.append([
+            "世界名稱",
+            "世界ID",
+            "發布日期",
+            "最後更新",
+            "瀏覽人次",
+            "大小",
+            "收藏次數",
+            "熱度",
+            "人氣",
+            "實驗室到發布",
+            "瀏覽蒐藏比",
+            "距離上次更新",
+            "已發布",
+            "人次發布比",
+        ])
+    ws.append(row)
+    wb.save(EXCEL_FILE)
+
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
@@ -211,6 +255,18 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
 
+    VRChat does not expose an official endpoint for this, so we load the
+    user's page using Playwright and parse the world cards from the HTML.
+    """
+
+    if sync_playwright is None:
+        raise RuntimeError("playwright is required for user world scraping")
+
+    headers = headers or HEADERS
+    cookie_str = headers.get("Cookie", "")
+
+    url = f"https://vrchat.com/home/user/{user_id}"
+    results: List[dict] = []
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:

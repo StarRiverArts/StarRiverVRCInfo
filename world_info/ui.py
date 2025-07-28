@@ -25,6 +25,7 @@ from scraper.scraper import (
     _load_headers,
     load_history,
     update_history,
+    record_row,
 )
 
 BASE = Path(__file__).resolve().parent
@@ -146,8 +147,37 @@ class WorldInfoUI(tk.Tk):
 
     # User worlds tab
     def _build_user_tab(self) -> None:
-        self.text_user = tk.Text(self.tab_user, wrap="word")
-        self.text_user.pack(fill=tk.BOTH, expand=True)
+        f = self.tab_user
+        self.user_tree = ttk.Treeview(f, show="headings")
+        columns = [
+            "世界名稱",
+            "世界ID",
+            "發布日期",
+            "最後更新",
+            "瀏覽人次",
+            "大小",
+            "收藏次數",
+            "熱度",
+            "人氣",
+            "實驗室到發布",
+            "瀏覽蒐藏比",
+            "距離上次更新",
+            "已發布",
+            "人次發布比",
+        ]
+        self.user_tree["columns"] = list(range(len(columns)))
+        for idx, col in enumerate(columns):
+            self.user_tree.heading(str(idx), text=col)
+            self.user_tree.column(str(idx), width=80, anchor="center")
+        vsb = ttk.Scrollbar(f, orient="vertical", command=self.user_tree.yview)
+        self.user_tree.configure(yscrollcommand=vsb.set)
+        self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
+        self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
+
+        self.user_canvas = tk.Canvas(f, bg="white", height=200)
+        self.user_canvas.pack(fill=tk.BOTH, expand=True)
+
     def _build_history_tab(self) -> None:
         f = self.tab_history
         self.var_hist_world = tk.StringVar()
@@ -201,8 +231,12 @@ class WorldInfoUI(tk.Tk):
             update_history(self.user_data)
             self.history = load_history()
             self._update_history_options()
-            self.text_user.delete("1.0", tk.END)
-            self.text_user.insert(tk.END, json.dumps(self.user_data, ensure_ascii=False, indent=2))
+
+            for item in self.user_tree.get_children():
+                self.user_tree.delete(item)
+            for w in self.user_data:
+                row = record_row(w)
+                self.user_tree.insert("", tk.END, values=row)
             self.nb.select(self.tab_user)
         except RuntimeError as e:  # pragma: no cover - runtime only
             messagebox.showerror("HTTP Error", str(e))
@@ -283,6 +317,46 @@ class WorldInfoUI(tk.Tk):
         # axes
         self.canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.canvas.create_line(pad, pad, pad, height - pad)
+        
+    def _on_select_user_world(self, event=None) -> None:
+        item = self.user_tree.focus()
+        if not item:
+            return
+        values = self.user_tree.item(item, "values")
+        if len(values) < 2:
+            return
+        world_id = values[1]
+        self._draw_user_chart(world_id)
+
+    def _draw_user_chart(self, world_id: str) -> None:
+        data = self.history.get(world_id, [])
+        self.user_canvas.delete("all")
+        if not data:
+            return
+        width = int(self.user_canvas.winfo_width() or 600)
+        height = int(self.user_canvas.winfo_height() or 200)
+        pad = 40
+        times = [d["timestamp"] for d in data]
+        min_t = min(times)
+        max_t = max(times)
+        if max_t == min_t:
+            max_t += 1
+        scale_x = width - 2 * pad
+        scale_y = height - 2 * pad
+
+        def xy(idx, val, max_val):
+            x = pad + (times[idx] - min_t) / (max_t - min_t) * scale_x
+            y = height - pad - min(val, max_val) / max_val * scale_y
+            return x, y
+
+        colors = {"visits": "blue", "favorites": "green", "heat": "red", "popularity": "purple"}
+        limits = {"visits": 5000, "favorites": 5000, "heat": 10, "popularity": 10}
+        for key, color in colors.items():
+            pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
+            for a, b in zip(pts, pts[1:]):
+                self.user_canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
+        self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
+        self.user_canvas.create_line(pad, pad, pad, height - pad)
 
 
 

@@ -41,8 +41,9 @@ Run the tools in order:
    an interface that lets you log in, fetch worlds and apply filters. The world
    list tab now shows results in a sortable table. A new "History" tab tracks
    visits, favorites and heat over time with a simple line chart. Each fetch
-   also appends a row to ``scraper/history_table.csv`` with additional metrics
-   like visit/favorite ratio and days since last update.
+   also appends a row to ``scraper/history_table.csv`` and ``scraper/worlds.xlsx``
+   with additional metrics like visit/favorite ratio and days since last update.
+   ``worlds.xlsx`` can be opened in Excel to edit or import existing data.
 3. ``python3 scraper/exporter.py``
 
 Fetching a creator's worlds requires the ``playwright`` package.  Install it and
