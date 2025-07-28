@@ -26,6 +26,7 @@ except Exception:  # pragma: no cover - optional dependency
     load_workbook = None  # type: ignore
 
 try:
+
     from playwright.sync_api import sync_playwright  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
@@ -34,6 +35,7 @@ try:
     import requests  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     requests = None  # type: ignore
+
 
 BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
@@ -103,6 +105,7 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
     ]
 
 
+
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
@@ -156,6 +159,7 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
             json.dump(history, f, ensure_ascii=False, indent=2)
     return history
+
 
 
 def _append_history_table(row: List[object]) -> None:
@@ -216,6 +220,7 @@ def _append_excel_row(row: List[object]) -> None:
     wb.save(EXCEL_FILE)
 
 
+
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
     """Fetch up to ``limit`` worlds from ``base_url`` using pagination."""
@@ -264,6 +269,7 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             name, value = part.strip().split("=", 1)
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
+
 
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
