@@ -99,7 +99,6 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
 
-
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
     """Fetch worlds created by the given user ID.
