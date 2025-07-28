@@ -55,7 +55,8 @@ def _fetch_paginated(base_url: str, limit: int, delay: float,
     offset = 0
     while len(results) < limit:
         remaining = min(60, limit - len(results))
-        url = f"{base_url}&n={remaining}&offset={offset}"
+        sep = '&' if '?' in base_url else '?'  # handle URLs with no query yet
+        url = f"{base_url}{sep}n={remaining}&offset={offset}"
         try:
             r = requests.get(url, headers=headers or HEADERS, timeout=30)
             r.raise_for_status()
@@ -84,9 +85,9 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
                     headers: Optional[Dict[str, str]] = None) -> List[dict]:
-    # The legacy ``/users/{user_id}/worlds`` endpoint was removed. Use the
-    # supported query parameter approach instead.
-    base = f"https://api.vrchat.cloud/api/1/worlds?user={user_id}"
+    """Fetch worlds created by the given user ID."""
+    # Use the public website API which accepts the user ID in the path.
+    base = f"https://vrchat.com/api/1/user/{user_id}/worlds"
     return _fetch_paginated(base, limit, delay, headers)
 
 

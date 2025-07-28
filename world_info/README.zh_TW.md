@@ -27,7 +27,8 @@ world_info/
 執行流程：
 
 1. `python3 scraper/scraper.py --keyword Taiwan --limit 50` 以關鍵字搜尋世界，
-   或 `python3 scraper/scraper.py --user usr_abc123 --limit 50` 取得指定作者世界，
+   或 `python3 scraper/scraper.py --user usr_abc123 --limit 50` 透過
+   `https://vrchat.com/api/1/user/{id}/worlds` 取得指定作者世界，
    可額外加入 `--cookie`、`--username` 或 `--password` 提供驗證資訊，
    結果會輸出到 `raw_worlds.json`。
 2. `python3 scraper/review_tool.py`（可選）或執行 `python3 ui.py`，

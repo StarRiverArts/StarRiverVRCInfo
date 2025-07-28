@@ -26,8 +26,9 @@ Run the tools in order:
 
 1. ``python3 scraper/scraper.py --keyword Taiwan --limit 50`` to search worlds
    or ``python3 scraper/scraper.py --user usr_abc123 --limit 50`` to fetch a
-   creator's worlds.  Add ``--cookie``, ``--username`` or ``--password`` to
-   supply authentication headers. Results are written to ``raw_worlds.json``.
+   creator's worlds using the ``https://vrchat.com/api/1/user/{id}/worlds``
+   endpoint.  Add ``--cookie``, ``--username`` or ``--password`` to supply
+   authentication headers. Results are written to ``raw_worlds.json``.
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
    an interface that lets you log in, fetch worlds and apply filters.
 3. ``python3 scraper/exporter.py``
