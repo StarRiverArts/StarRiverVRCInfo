@@ -1,11 +1,19 @@
 
-"""Retrieve world data from the VRChat API."""
+"""Retrieve world data from the VRChat API.
+
+This script queries the unofficial VRChat API to fetch world information
+and stores the results as a JSON list.  Authentication headers such as
+cookies should be provided in ``headers.json``.  The file is ignored by
+git so your credentials remain local.
+"""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, Iterable, List
+import time
+
 import requests
 
 BASE = Path(__file__).parent
@@ -13,7 +21,7 @@ HEADERS_FILE = BASE / "headers.json"
 
 
 def _load_headers() -> Dict[str, str]:
-    """Load HTTP headers (e.g. cookies) from headers.json."""
+    """Load HTTP headers from ``headers.json`` if it exists."""
     if HEADERS_FILE.exists():
         with open(HEADERS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -23,18 +31,34 @@ def _load_headers() -> Dict[str, str]:
 HEADERS = _load_headers()
 
 
-def search_worlds(keyword: str, n: int = 20) -> List[dict]:
-    url = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}&n={n}"
-    r = requests.get(url, headers=HEADERS, timeout=30)
-    r.raise_for_status()
-    return r.json()
+def _fetch_paginated(base_url: str, limit: int, delay: float) -> List[dict]:
+    """Fetch up to ``limit`` worlds from ``base_url`` using pagination."""
+    results: List[dict] = []
+    offset = 0
+    while len(results) < limit:
+        remaining = min(60, limit - len(results))
+        url = f"{base_url}&n={remaining}&offset={offset}"
+        r = requests.get(url, headers=HEADERS, timeout=30)
+        r.raise_for_status()
+        chunk = r.json()
+        if not isinstance(chunk, list):
+            break
+        results.extend(chunk)
+        if len(chunk) < remaining:
+            break
+        offset += len(chunk)
+        time.sleep(delay)
+    return results[:limit]
 
 
-def get_user_worlds(user_id: str, n: int = 20) -> List[dict]:
-    url = f"https://api.vrchat.cloud/api/1/users/{user_id}/worlds?n={n}"
-    r = requests.get(url, headers=HEADERS, timeout=30)
-    r.raise_for_status()
-    return r.json()
+def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0) -> List[dict]:
+    base = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}"
+    return _fetch_paginated(base, limit, delay)
+
+
+def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0) -> List[dict]:
+    base = f"https://api.vrchat.cloud/api/1/users/{user_id}/worlds?"
+    return _fetch_paginated(base, limit, delay)
 
 
 def extract_info(world: dict) -> Dict[str, object]:
@@ -60,23 +84,24 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description="Query VRChat worlds")
-    parser.add_argument("--keyword", help="keyword to search", default=None)
-    parser.add_argument("--user", help="creator userId", default=None)
-    parser.add_argument("--n", type=int, default=20, help="number of worlds")
+    parser.add_argument("--keyword", help="search keyword")
+    parser.add_argument("--user", help="creator userId")
+    parser.add_argument("--limit", type=int, default=20, help="maximum worlds")
+    parser.add_argument("--delay", type=float, default=1.0, help="seconds between requests")
+    parser.add_argument("--out", type=Path, default=BASE / "raw_worlds.json", help="output JSON path")
     args = parser.parse_args()
 
     if args.keyword:
-        worlds = search_worlds(args.keyword, args.n)
+        worlds = search_worlds(args.keyword, args.limit, args.delay)
     elif args.user:
-        worlds = get_user_worlds(args.user, args.n)
+        worlds = get_user_worlds(args.user, args.limit, args.delay)
     else:
         parser.error("--keyword or --user is required")
 
     parsed = [extract_info(w) for w in worlds]
-    out = BASE / "raw_worlds.json"
-    with open(out, "w", encoding="utf-8") as f:
+    with open(args.out, "w", encoding="utf-8") as f:
         json.dump(parsed, f, ensure_ascii=False, indent=2)
-    print(f"Saved {len(parsed)} worlds to {out}")
+    print(f"Saved {len(parsed)} worlds to {args.out}")
 
 
 if __name__ == "__main__":
