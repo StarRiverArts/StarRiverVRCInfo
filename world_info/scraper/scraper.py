@@ -48,6 +48,7 @@ def _load_headers(cookie: Optional[str] = None,
 
     return headers
 
+HEADERS: Dict[str, str] = _load_headers()
 
 HEADERS: Dict[str, str] = _load_headers()
 
