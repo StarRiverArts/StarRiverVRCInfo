@@ -238,6 +238,10 @@ def _append_excel_row(row: List[object]) -> None:
     ws.append(row)
     wb.save(EXCEL_FILE)
 
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
+
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
