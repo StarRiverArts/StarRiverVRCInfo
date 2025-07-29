@@ -44,6 +44,7 @@ USER_FILE = BASE / "scraper" / "user_worlds.json"
 # Column headers for metrics tables
 METRIC_COLS = [
     "世界名稱",
+    "世界ID",
     "發布日期",
     "最後更新",
     "瀏覽人次",
@@ -208,7 +209,22 @@ class WorldInfoUI(tk.Tk):
 
         self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
+        ttk.Label(self.tab_user_list, text=LEGEND_TEXT).pack()
 
+    def _build_dashboard_tab(self) -> None:
+        """Create the dashboard view with a summary table and charts."""
+        f = self.tab_dashboard
+        self.dash_tree = ttk.Treeview(f, show="headings")
+        self.dash_tree["columns"] = list(range(len(METRIC_COLS)))
+        for idx, col in enumerate(METRIC_COLS):
+            self.dash_tree.heading(str(idx), text=col)
+            self.dash_tree.column(str(idx), width=80, anchor="center")
+        self.dash_tree.pack(fill=tk.X)
+
+        self.chart_container = ttk.Frame(f)
+        self.chart_container.pack(fill=tk.BOTH, expand=True)
+        self.chart_container.bind("<Configure>", self._arrange_dashboard_charts)
+        self.chart_frames: list[tuple[tk.Frame, tk.Canvas, dict]] = []
 
     def _build_history_tab(self) -> None:
         f = self.tab_history
@@ -287,7 +303,6 @@ class WorldInfoUI(tk.Tk):
                 )
             self._create_world_tabs()
             self._update_dashboard()
-
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
@@ -719,7 +734,11 @@ class WorldInfoUI(tk.Tk):
 
 
 def main() -> None:  # pragma: no cover - simple runtime entry
-    app = WorldInfoUI()
+    try:
+        app = WorldInfoUI()
+    except tk.TclError as e:  # pragma: no cover - runtime only
+        print("Failed to launch Tkinter UI:", e)
+        return
     app.mainloop()
 
 

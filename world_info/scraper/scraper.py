@@ -42,13 +42,6 @@ HISTORY_TABLE = BASE / "history_table.xlsx"
 EXCEL_FILE = BASE / "worlds.xlsx"
 
     headers = {"User-Agent": "Mozilla/5.0"}
-    
-def _load_headers(cookie: Optional[str] = None,
-                  username: Optional[str] = None,
-                  password: Optional[str] = None) -> Dict[str, str]:
-    """Load HTTP headers from ``headers.json`` and command line options."""
-
-    headers = {"User-Agent": "Mozilla/5.0"}
 
 def _load_headers(cookie: Optional[str] = None,
                   username: Optional[str] = None,
@@ -194,6 +187,68 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
             json.dump(history, f, ensure_ascii=False, indent=2)
     return history
 
+def _append_history_table(row: List[object]) -> None:
+    """Append a metrics row to ``history_table.xlsx``."""
+    headers = [
+        "爬取日期",
+        "世界名稱",
+        "世界ID",
+        "發布日期",
+        "最後更新",
+        "瀏覽人次",
+        "大小",
+        "收藏次數",
+        "熱度",
+        "人氣",
+        "實驗室到發布",
+        "瀏覽蒐藏比",
+        "距離上次更新",
+        "已發布",
+        "人次發布比",
+    ]
+    if Workbook is None or load_workbook is None:
+        raise RuntimeError("openpyxl is required to write Excel logs")
+    if HISTORY_TABLE.exists():
+        wb = load_workbook(HISTORY_TABLE)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+        ws.append(headers)
+    ws.append(row)
+    wb.save(HISTORY_TABLE)
+
+
+def _append_excel_row(row: List[object]) -> None:
+    """Append a metrics row to ``worlds.xlsx``."""
+    headers = [
+        "爬取日期",
+        "世界名稱",
+        "世界ID",
+        "發布日期",
+        "最後更新",
+        "瀏覽人次",
+        "大小",
+        "收藏次數",
+        "熱度",
+        "人氣",
+        "實驗室到發布",
+        "瀏覽蒐藏比",
+        "距離上次更新",
+        "已發布",
+        "人次發布比",
+    ]
+    if Workbook is None or load_workbook is None:
+        raise RuntimeError("openpyxl is required to write Excel logs")
+    if EXCEL_FILE.exists():
+        wb = load_workbook(EXCEL_FILE)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+        ws.append(headers)
+    ws.append(row)
+    wb.save(EXCEL_FILE)
 
 def _append_history_table(row: List[object]) -> None:
     """Append a metrics row to ``history_table.xlsx``."""
@@ -332,7 +387,6 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
     VRChat does not expose an official endpoint for this, so we load the
     user's page using Playwright and parse the world cards from the HTML.
     """
-
 
     if sync_playwright is None:
         raise RuntimeError("playwright is required for user world scraping")
