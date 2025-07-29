@@ -180,7 +180,6 @@ class WorldInfoUI(tk.Tk):
         self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
         vsb.pack(side="right", fill=tk.Y)
         self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
-
         self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
 
@@ -379,7 +378,6 @@ class WorldInfoUI(tk.Tk):
             text.insert("1.0", json.dumps(w, ensure_ascii=False, indent=2))
             name = w.get("name") or w.get("世界名稱") or w.get("id")
             self.user_nb.add(frame, text=str(name)[:15])
-
 
 def main() -> None:  # pragma: no cover - simple runtime entry
     app = WorldInfoUI()

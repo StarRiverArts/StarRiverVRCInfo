@@ -26,6 +26,7 @@ except Exception:  # pragma: no cover - optional dependency
     load_workbook = None  # type: ignore
 
 try:
+
     from playwright.sync_api import sync_playwright  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
@@ -101,7 +102,6 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
         world.get("releaseStatus"),
         visits_per_day,
     ]
-
 
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
@@ -184,6 +184,9 @@ def _append_history_table(row: List[object]) -> None:
         writer = csv.writer(f)
         writer.writerow(row)
 
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
@@ -214,7 +217,6 @@ def _append_excel_row(row: List[object]) -> None:
         ])
     ws.append(row)
     wb.save(EXCEL_FILE)
-
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
@@ -254,7 +256,6 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
 
     base = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}"
     return _fetch_paginated(base, limit, delay, headers)
-
 
 def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
     """Convert a standard cookie header string into Playwright cookie dicts."""
