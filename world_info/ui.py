@@ -16,7 +16,6 @@ installed and ``playwright install`` executed beforehand.
 from __future__ import annotations
 
 import json
-import csv
 import datetime as dt
 from pathlib import Path
 import tkinter as tk
@@ -29,7 +28,14 @@ from scraper.scraper import (
     update_history,
     record_row,
     _parse_date,
+    EXCEL_FILE,
+    HISTORY_TABLE,
 )
+
+try:
+    from openpyxl import load_workbook  # type: ignore
+except Exception:  # pragma: no cover - optional
+    load_workbook = None  # type: ignore
 
 BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
@@ -76,6 +82,7 @@ class WorldInfoUI(tk.Tk):
         self._build_list_tab()
         self._build_user_tab()
         self._build_history_tab()
+        self._load_local_tables()
 
     # ------------------------------------------------------------------
     # Entry tab widgets
@@ -197,6 +204,32 @@ class WorldInfoUI(tk.Tk):
         self.canvas.pack(fill=tk.BOTH, expand=True)
         self._update_history_options()
 
+    def _load_local_tables(self) -> None:
+        """Load existing Excel history and populate the user world list."""
+        if load_workbook is None:
+            return
+        if EXCEL_FILE.exists():
+            wb = load_workbook(EXCEL_FILE)
+            ws = wb.active
+            for row in ws.iter_rows(min_row=2, values_only=True):
+                self.user_tree.insert("", tk.END, values=row)
+                self.user_data.append({
+                    "世界名稱": row[0],
+                    "世界ID": row[1],
+                    "發布日期": row[2],
+                    "最後更新": row[3],
+                    "瀏覽人次": row[4],
+                    "大小": row[5],
+                    "收藏次數": row[6],
+                    "熱度": row[7],
+                    "人氣": row[8],
+                    "實驗室到發布": row[9],
+                    "瀏覽蒐藏比": row[10],
+                    "距離上次更新": row[11],
+                    "已發布": row[12],
+                    "人次發布比": row[13],
+                })
+            self._create_world_tabs()
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:

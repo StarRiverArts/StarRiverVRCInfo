@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import base64
 import json
-import csv
 import datetime as dt
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -26,7 +25,6 @@ except Exception:  # pragma: no cover - optional dependency
     load_workbook = None  # type: ignore
 
 try:
-
     from playwright.sync_api import sync_playwright  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
@@ -39,7 +37,7 @@ except Exception:  # pragma: no cover - optional dependency
 BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
 HISTORY_FILE = BASE / "history.json"
-HISTORY_TABLE = BASE / "history_table.csv"
+HISTORY_TABLE = BASE / "history_table.xlsx"
 EXCEL_FILE = BASE / "worlds.xlsx"
 
 
@@ -178,33 +176,37 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
 
 
 def _append_history_table(row: List[object]) -> None:
-    """Append a metrics row to ``history_table.csv``."""
-    if not HISTORY_TABLE.exists():
-        with open(HISTORY_TABLE, "w", encoding="utf-8-sig", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow([
-                "世界名稱",
-                "世界ID",
-                "發布日期",
-                "最後更新",
-                "瀏覽人次",
-                "大小",
-                "收藏次數",
-                "熱度",
-                "人氣",
-                "實驗室到發布",
-                "瀏覽蒐藏比",
-                "距離上次更新",
-                "已發布",
-                "人次發布比",
-            ])
-    with open(HISTORY_TABLE, "a", encoding="utf-8-sig", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(row)
+    """Append a metrics row to ``history_table.xlsx``."""
+    if Workbook is None or load_workbook is None:
+        return
 
-    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(row)
+    headers = [
+        "世界名稱",
+        "世界ID",
+        "發布日期",
+        "最後更新",
+        "瀏覽人次",
+        "大小",
+        "收藏次數",
+        "熱度",
+        "人氣",
+        "實驗室到發布",
+        "瀏覽蒐藏比",
+        "距離上次更新",
+        "已發布",
+        "人次發布比",
+    ]
+
+    if HISTORY_TABLE.exists():
+        wb = load_workbook(HISTORY_TABLE)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+        ws.append(headers)
+    ws.append(row)
+    wb.save(HISTORY_TABLE)
+
 
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
@@ -235,6 +237,10 @@ def _append_excel_row(row: List[object]) -> None:
         ])
     ws.append(row)
     wb.save(EXCEL_FILE)
+
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
