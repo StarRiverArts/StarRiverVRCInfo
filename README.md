@@ -15,5 +15,11 @@ See [`world_info/README.md`](world_info/README.md) for details.
 Additional background is available in
 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md) (Chinese).
 
+Install dependencies with::
+
+  pip install -r requirements.txt
+
+If creator-world scraping is required, run ``playwright install`` after installing the packages.
+
 For Traditional Chinese instructions, read
 [`README.zh_TW.md`](README.zh_TW.md).
