@@ -166,6 +166,7 @@ class WorldInfoUI(tk.Tk):
 
         self.user_tree = ttk.Treeview(self.tab_user_list, show="headings")
         columns = [
+            "爬取日期",
             "世界名稱",
             "世界ID",
             "發布日期",
@@ -213,22 +214,62 @@ class WorldInfoUI(tk.Tk):
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
                 self.user_tree.insert("", tk.END, values=row)
-                self.user_data.append({
-                    "世界名稱": row[0],
-                    "世界ID": row[1],
-                    "發布日期": row[2],
-                    "最後更新": row[3],
-                    "瀏覽人次": row[4],
-                    "大小": row[5],
-                    "收藏次數": row[6],
-                    "熱度": row[7],
-                    "人氣": row[8],
-                    "實驗室到發布": row[9],
-                    "瀏覽蒐藏比": row[10],
-                    "距離上次更新": row[11],
-                    "已發布": row[12],
-                    "人次發布比": row[13],
-                })
+                if len(row) == 15:
+                    (
+                        fetched,
+                        name,
+                        wid,
+                        pub,
+                        upd,
+                        visits,
+                        size,
+                        fav,
+                        heat,
+                        pop,
+                        labs_to_pub,
+                        vf,
+                        since_upd,
+                        released,
+                        vpp,
+                    ) = row
+                else:
+                    # backward compatibility with old files without fetch date
+                    fetched = ""
+                    (
+                        name,
+                        wid,
+                        pub,
+                        upd,
+                        visits,
+                        size,
+                        fav,
+                        heat,
+                        pop,
+                        labs_to_pub,
+                        vf,
+                        since_upd,
+                        released,
+                        vpp,
+                    ) = row
+                self.user_data.append(
+                    {
+                        "爬取日期": fetched,
+                        "世界名稱": name,
+                        "世界ID": wid,
+                        "發布日期": pub,
+                        "最後更新": upd,
+                        "瀏覽人次": visits,
+                        "大小": size,
+                        "收藏次數": fav,
+                        "熱度": heat,
+                        "人氣": pop,
+                        "實驗室到發布": labs_to_pub,
+                        "瀏覽蒐藏比": vf,
+                        "距離上次更新": since_upd,
+                        "已發布": released,
+                        "人次發布比": vpp,
+                    }
+                )
             self._create_world_tabs()
     # ------------------------------------------------------------------
     # Actions
@@ -267,7 +308,12 @@ class WorldInfoUI(tk.Tk):
             messagebox.showerror("Error", "User ID required")
             return
         try:
-            self.user_data = fetch_worlds(user_id=user_id, limit=50, headers=self.headers)
+            self.user_data = fetch_worlds(
+                user_id=user_id, limit=50, headers=self.headers
+            )
+            fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
+            for w in self.user_data:
+                w["爬取日期"] = fetch_date
             with open(USER_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.user_data, f, ensure_ascii=False, indent=2)
             update_history(self.user_data)
@@ -376,9 +422,9 @@ class WorldInfoUI(tk.Tk):
         if not item:
             return
         values = self.user_tree.item(item, "values")
-        if len(values) < 2:
+        if len(values) < 3:
             return
-        world_id = values[1]
+        world_id = values[2]
         self._draw_user_chart(world_id)
 
     def _draw_user_chart(self, world_id: str) -> None:
@@ -490,8 +536,41 @@ class WorldInfoUI(tk.Tk):
         # remove old tabs except the first (list tab)
         for tab_id in self.user_nb.tabs()[1:]:
             self.user_nb.forget(tab_id)
+
+        unique: dict[str, dict] = {}
         for w in self.user_data:
+            wid = w.get("世界ID") or w.get("worldId") or w.get("id")
+            if wid:
+                unique[wid] = w  # keep last occurrence
+
+        for w in unique.values():
             frame = ttk.Frame(self.user_nb)
+
+            # dashboard table with a single metrics row
+            dash = ttk.LabelFrame(frame, text="儀表板")
+            dash.pack(fill=tk.X, padx=4, pady=2)
+            metrics_cols = [
+                "世界名稱",
+                "發布日期",
+                "最後更新",
+                "瀏覽人次",
+                "大小",
+                "收藏次數",
+                "熱度",
+                "人氣",
+                "實驗室到發布",
+                "瀏覽蒐藏比",
+                "距離上次更新",
+                "已發布",
+                "人次發布比",
+            ]
+            dash_tree = ttk.Treeview(dash, columns=list(range(len(metrics_cols))), show="headings", height=2)
+            for idx, col in enumerate(metrics_cols):
+                dash_tree.heading(str(idx), text=col)
+                dash_tree.column(str(idx), width=80, anchor="center")
+            row = record_row(w)
+            dash_tree.insert("", tk.END, values=row[1:])  # exclude fetch date
+            dash_tree.pack(fill=tk.X, expand=True)
 
             # section 1: latest fetched info
             sec1 = ttk.LabelFrame(frame, text="本次資料")

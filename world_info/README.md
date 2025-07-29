@@ -42,7 +42,8 @@ Run the tools in order:
    list tab now shows results in a sortable table. A new "History" tab tracks
    visits, favorites and heat over time with a simple line chart. Each fetch
    also appends a row to ``scraper/history_table.xlsx`` and ``scraper/worlds.xlsx``
-   with additional metrics like visit/favorite ratio and days since last update.
+   with additional metrics like visit/favorite ratio, days since last update and
+   the fetch date (``YYYY/MM/DD``) so you know when the data was retrieved.
    These Excel files require the ``openpyxl`` package and can be edited directly
    in spreadsheet software.
 3. ``python3 scraper/exporter.py``
