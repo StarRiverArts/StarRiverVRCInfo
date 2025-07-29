@@ -62,7 +62,6 @@ METRIC_COLS = [
 # Legend for line charts
 LEGEND_TEXT = "藍:人次 綠:收藏 紅:熱度 紫:熱門度 橘:實驗室 黑:公開 灰:更新"
 
-
 class WorldInfoUI(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
@@ -571,6 +570,7 @@ class WorldInfoUI(tk.Tk):
         for tab_id in self.detail_nb.tabs()[1:]:
             self.detail_nb.forget(tab_id)
 
+
         unique: dict[str, dict] = {}
         for w in self.user_data:
             wid = w.get("世界ID") or w.get("worldId") or w.get("id")
@@ -579,6 +579,7 @@ class WorldInfoUI(tk.Tk):
 
         for w in unique.values():
             frame = ttk.Frame(self.detail_nb)
+
 
             # dashboard table with a single metrics row
             dash = ttk.LabelFrame(frame, text="儀表板")
