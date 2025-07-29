@@ -41,7 +41,13 @@ HISTORY_FILE = BASE / "history.json"
 HISTORY_TABLE = BASE / "history_table.xlsx"
 EXCEL_FILE = BASE / "worlds.xlsx"
 
+def _load_headers(cookie: Optional[str] = None,
+                  username: Optional[str] = None,
+                  password: Optional[str] = None) -> Dict[str, str]:
+    """Load HTTP headers from ``headers.json`` and command line options."""
 
+    headers = {"User-Agent": "Mozilla/5.0"}
+    
 def _load_headers(cookie: Optional[str] = None,
                   username: Optional[str] = None,
                   password: Optional[str] = None) -> Dict[str, str]:
@@ -249,6 +255,147 @@ def _append_excel_row(row: List[object]) -> None:
         ws.append(headers)
     ws.append(row)
     wb.save(EXCEL_FILE)
+
+    pub = _parse_date(world.get("publicationDate"))
+    updated = _parse_date(world.get("updated_at"))
+    labs = _parse_date(world.get("labsPublicationDate"))
+
+    days_labs_to_pub = (pub - labs).days if pub and labs else ""
+    visits = world.get("visits") or 0
+    favs = world.get("favorites") or 0
+    ratio_vf = round(visits / favs, 2) if favs else ""
+    since_update = (ts_now - updated).days if updated else ""
+    since_pub = (ts_now - pub).days if pub else 0
+    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
+
+    return [
+        world.get("name"),
+        world.get("id"),
+        world.get("publicationDate"),
+        world.get("updated_at"),
+        visits,
+        world.get("capacity"),
+        favs,
+        world.get("heat"),
+        world.get("popularity"),
+        days_labs_to_pub,
+        ratio_vf,
+        since_update,
+        world.get("releaseStatus"),
+        visits_per_day,
+    ]
+
+
+def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
+    if not value:
+        return None
+    try:
+        # allow plain dates like "2025/7/12" for manual edits
+        if isinstance(value, (int, float)):
+            return dt.datetime.fromtimestamp(float(value), dt.timezone.utc)
+        if value.endswith("Z"):
+            value = value[:-1] + "+00:00"
+        if "T" in value:
+            dt_obj = dt.datetime.fromisoformat(value)
+        else:
+            for fmt in ("%Y/%m/%d", "%Y-%m-%d"):
+                try:
+                    dt_obj = dt.datetime.strptime(value, fmt)
+                    break
+                except ValueError:
+                    dt_obj = None
+            if dt_obj is None:
+                return None
+        if dt_obj.tzinfo is None:
+            dt_obj = dt_obj.replace(tzinfo=dt.timezone.utc)
+        return dt_obj
+    except Exception:
+        return None
+
+
+def load_history() -> Dict[str, List[dict]]:
+    """Load the long-term history file if present."""
+    if HISTORY_FILE.exists():
+        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                return {}
+    return {}
+
+
+def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[dict]]:
+    """Append new stats to ``history.json`` unless recorded recently."""
+    history = load_history()
+    now = int(time.time())
+    appended = False
+    for w in worlds:
+        wid = w.get("id") or w.get("worldId")
+        if not wid:
+            continue
+        recs = history.setdefault(wid, [])
+        if recs and now - recs[-1].get("timestamp", 0) < threshold:
+            continue
+        rec = {
+            "timestamp": now,
+            "name": w.get("name"),
+            "created_at": w.get("created_at"),
+            "visits": w.get("visits"),
+            "favorites": w.get("favorites"),
+            "heat": w.get("heat"),
+            "popularity": w.get("popularity"),
+            "updated_at": w.get("updated_at"),
+            "publicationDate": w.get("publicationDate"),
+            "labsPublicationDate": w.get("labsPublicationDate"),
+        }
+        recs.append(rec)
+        row = record_row(w, now)
+        _append_history_table(row)
+        _append_excel_row(row)
+        appended = True
+    if appended:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+    return history
+
+    days_labs_to_pub = (pub - labs).days if pub and labs else ""
+    visits = world.get("visits") or 0
+    favs = world.get("favorites") or 0
+    ratio_vf = round(visits / favs, 2) if favs else ""
+    since_update = (ts_now - updated).days if updated else ""
+    since_pub = (ts_now - pub).days if pub else 0
+    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
+
+def _append_history_table(row: List[object]) -> None:
+    """Append a metrics row to ``history_table.xlsx``."""
+    headers = [
+        "世界名稱",
+        "世界ID",
+        "發布日期",
+        "最後更新",
+        "瀏覽人次",
+        "大小",
+        "收藏次數",
+        "熱度",
+        "人氣",
+        "實驗室到發布",
+        "瀏覽蒐藏比",
+        "距離上次更新",
+        "已發布",
+        "人次發布比",
+    ]
+    if Workbook is None or load_workbook is None:
+        raise RuntimeError("openpyxl is required to write Excel logs")
+
+    if HISTORY_TABLE.exists():
+        wb = load_workbook(HISTORY_TABLE)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+        ws.append(headers)
+    ws.append(row)
+    wb.save(HISTORY_TABLE)
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
