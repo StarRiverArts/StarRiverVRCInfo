@@ -16,6 +16,7 @@ installed and ``playwright install`` executed beforehand.
 from __future__ import annotations
 
 import json
+import csv
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -26,6 +27,7 @@ from scraper.scraper import (
     load_history,
     update_history,
     record_row,
+    _parse_date,
 )
 
 BASE = Path(__file__).resolve().parent
@@ -180,6 +182,7 @@ class WorldInfoUI(tk.Tk):
         self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
         vsb.pack(side="right", fill=tk.Y)
         self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
+
         self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
 
@@ -364,8 +367,80 @@ class WorldInfoUI(tk.Tk):
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
 
+    def _load_history_rows(self, world_id: str) -> list[dict]:
+        """Return history rows for a world ID."""
+        return list(self.history.get(world_id, []))
+
+    def _draw_world_chart(self, canvas: tk.Canvas, world: dict) -> None:
+        world_id = world.get("id") or world.get("worldId")
+        data = self.history.get(world_id, [])
+        canvas.delete("all")
+        if not data:
+            return
+
+        width = int(canvas.winfo_width() or 600)
+        height = int(canvas.winfo_height() or 200)
+        pad = 40
+
+        times = [d["timestamp"] for d in data]
+        labs = _parse_date(world.get("labsPublicationDate"))
+        pub = _parse_date(world.get("publicationDate"))
+        update_times = []
+        for d in data:
+            u = _parse_date(d.get("updated_at"))
+            if u:
+                update_times.append(int(u.timestamp()))
+
+        extra = [t for t in [labs, pub] if t]
+        t_extra = [int(t.timestamp()) for t in extra] + update_times
+        min_t = min([min(times)] + t_extra) if t_extra else min(times)
+        max_t = max([max(times)] + t_extra) if t_extra else max(times)
+        if max_t == min_t:
+            max_t += 1
+
+        scale_x = width - 2 * pad
+        scale_y = height - 2 * pad
+
+        def x_at(ts: int) -> float:
+            return pad + (ts - min_t) / (max_t - min_t) * scale_x
+
+        def y_val(val: float, limit: float) -> float:
+            return height - pad - min(val, limit) / limit * scale_y
+
+        colors = {
+            "visits": "blue",
+            "favorites": "green",
+            "heat": "red",
+            "popularity": "purple",
+        }
+        limits = {"visits": 10000, "favorites": 10000, "heat": 10, "popularity": 10}
+
+        for key, color in colors.items():
+            pts = []
+            for rec in data:
+                ts = rec["timestamp"]
+                val = rec.get(key, 0) or 0
+                pts.append((x_at(ts), y_val(val, limits[key])))
+            for a, b in zip(pts, pts[1:]):
+                canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
+
+        # event lines
+        if labs:
+            x = x_at(int(labs.timestamp()))
+            canvas.create_line(x, pad, x, height - pad, fill="orange", dash=(4, 2))
+        if pub:
+            x = x_at(int(pub.timestamp()))
+            canvas.create_line(x, pad, x, height - pad, fill="black", dash=(4, 2))
+        for t in update_times:
+            x = x_at(t)
+            canvas.create_line(x, pad, x, height - pad, fill="gray", dash=(2, 2))
+
+        canvas.create_line(pad, height - pad, width - pad, height - pad)
+        canvas.create_line(pad, pad, pad, height - pad)
+        canvas.create_line(width - pad, pad, width - pad, height - pad)
+
     def _create_world_tabs(self) -> None:
-        """Create sub-tabs for each fetched user world."""
+        """Create sub-tabs for each fetched user world with history."""
         if not hasattr(self, "user_nb"):
             return
         # remove old tabs except the first (list tab)
@@ -373,11 +448,42 @@ class WorldInfoUI(tk.Tk):
             self.user_nb.forget(tab_id)
         for w in self.user_data:
             frame = ttk.Frame(self.user_nb)
-            text = tk.Text(frame, wrap="word")
-            text.pack(fill=tk.BOTH, expand=True)
-            text.insert("1.0", json.dumps(w, ensure_ascii=False, indent=2))
+
+            # section 1: latest fetched info
+            sec1 = ttk.LabelFrame(frame, text="本次資料")
+            sec1.pack(fill=tk.X, padx=4, pady=2)
+            info_tree = ttk.Treeview(sec1, columns=("k", "v"), show="headings", height=8)
+            info_tree.heading("k", text="欄位")
+            info_tree.heading("v", text="值")
+            for key, val in w.items():
+                info_tree.insert("", tk.END, values=(key, val))
+            info_tree.pack(fill=tk.BOTH, expand=True)
+
+            # section 2: history table from CSV
+            sec2 = ttk.LabelFrame(frame, text="歷史紀錄")
+            sec2.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
+            hist_tree = ttk.Treeview(sec2, show="headings")
+            cols = ["timestamp", "visits", "favorites", "heat", "popularity", "updated"]
+            hist_tree["columns"] = cols
+            headers = ["時間", "人次", "收藏", "熱度", "熱門度", "更新"]
+            for c, h in zip(cols, headers):
+                hist_tree.heading(c, text=h)
+                hist_tree.column(c, width=80, anchor="center")
+            rows = self._load_history_rows(w.get("id") or w.get("worldId"))
+            for r in rows:
+                hist_tree.insert("", tk.END, values=(r["timestamp"], r.get("visits"), r.get("favorites"), r.get("heat"), r.get("popularity"), r.get("updated_at")))
+            hist_tree.pack(fill=tk.BOTH, expand=True)
+
+            # section 3: chart
+            sec3 = ttk.LabelFrame(frame, text="折線圖")
+            sec3.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
+            canvas = tk.Canvas(sec3, bg="white", height=200)
+            canvas.pack(fill=tk.BOTH, expand=True)
+            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
+
             name = w.get("name") or w.get("世界名稱") or w.get("id")
             self.user_nb.add(frame, text=str(name)[:15])
+
 
 def main() -> None:  # pragma: no cover - simple runtime entry
     app = WorldInfoUI()

@@ -103,6 +103,7 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
         visits_per_day,
     ]
 
+
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
@@ -146,6 +147,9 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
             "favorites": w.get("favorites"),
             "heat": w.get("heat"),
             "popularity": w.get("popularity"),
+            "updated_at": w.get("updated_at"),
+            "publicationDate": w.get("publicationDate"),
+            "labsPublicationDate": w.get("labsPublicationDate"),
         }
         recs.append(rec)
         row = record_row(w, now)
@@ -218,6 +222,7 @@ def _append_excel_row(row: List[object]) -> None:
     ws.append(row)
     wb.save(EXCEL_FILE)
 
+
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
     """Fetch up to ``limit`` worlds from ``base_url`` using pagination."""
@@ -256,6 +261,7 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
 
     base = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}"
     return _fetch_paginated(base, limit, delay, headers)
+
 
 def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
     """Convert a standard cookie header string into Playwright cookie dicts."""
