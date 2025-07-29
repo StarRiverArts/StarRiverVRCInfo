@@ -49,6 +49,13 @@ def _load_headers(cookie: Optional[str] = None,
 
     headers = {"User-Agent": "Mozilla/5.0"}
 
+def _load_headers(cookie: Optional[str] = None,
+                  username: Optional[str] = None,
+                  password: Optional[str] = None) -> Dict[str, str]:
+    """Load HTTP headers from ``headers.json`` and command line options."""
+
+    headers = {"User-Agent": "Mozilla/5.0"}
+
     if HEADERS_FILE.exists():
         with open(HEADERS_FILE, "r", encoding="utf-8") as f:
             try:
@@ -175,6 +182,13 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
             json.dump(history, f, ensure_ascii=False, indent=2)
     return history
 
+    days_labs_to_pub = (pub - labs).days if pub and labs else ""
+    visits = world.get("visits") or 0
+    favs = world.get("favorites") or 0
+    ratio_vf = round(visits / favs, 2) if favs else ""
+    since_update = (ts_now - updated).days if updated else ""
+    since_pub = (ts_now - pub).days if pub else 0
+    visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
 
 def _append_history_table(row: List[object]) -> None:
     """Append a metrics row to ``history_table.xlsx``."""
@@ -196,6 +210,7 @@ def _append_history_table(row: List[object]) -> None:
     ]
     if Workbook is None or load_workbook is None:
         raise RuntimeError("openpyxl is required to write Excel logs")
+
     if HISTORY_TABLE.exists():
         wb = load_workbook(HISTORY_TABLE)
         ws = wb.active
@@ -236,6 +251,7 @@ def _append_excel_row(row: List[object]) -> None:
         ws.append(headers)
     ws.append(row)
     wb.save(EXCEL_FILE)
+
 
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
@@ -300,6 +316,7 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
         raise RuntimeError("playwright is required for user world scraping")
     if requests is None:
         raise RuntimeError("requests package is required")
+
 
     headers = headers or HEADERS
     cookie_str = headers.get("Cookie", "")
