@@ -148,7 +148,13 @@ class WorldInfoUI(tk.Tk):
     # User worlds tab
     def _build_user_tab(self) -> None:
         f = self.tab_user
-        self.user_tree = ttk.Treeview(f, show="headings")
+        self.user_nb = ttk.Notebook(f)
+        self.user_nb.pack(fill=tk.BOTH, expand=True)
+
+        self.tab_user_list = ttk.Frame(self.user_nb)
+        self.user_nb.add(self.tab_user_list, text="列表")
+
+        self.user_tree = ttk.Treeview(self.tab_user_list, show="headings")
         columns = [
             "世界名稱",
             "世界ID",
@@ -169,13 +175,12 @@ class WorldInfoUI(tk.Tk):
         for idx, col in enumerate(columns):
             self.user_tree.heading(str(idx), text=col)
             self.user_tree.column(str(idx), width=80, anchor="center")
-        vsb = ttk.Scrollbar(f, orient="vertical", command=self.user_tree.yview)
+        vsb = ttk.Scrollbar(self.tab_user_list, orient="vertical", command=self.user_tree.yview)
         self.user_tree.configure(yscrollcommand=vsb.set)
         self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
         vsb.pack(side="right", fill=tk.Y)
         self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
-
-        self.user_canvas = tk.Canvas(f, bg="white", height=200)
+        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
 
     def _build_history_tab(self) -> None:
@@ -237,6 +242,7 @@ class WorldInfoUI(tk.Tk):
             for w in self.user_data:
                 row = record_row(w)
                 self.user_tree.insert("", tk.END, values=row)
+            self._create_world_tabs()
             self.nb.select(self.tab_user)
         except RuntimeError as e:  # pragma: no cover - runtime only
             messagebox.showerror("HTTP Error", str(e))
@@ -358,6 +364,20 @@ class WorldInfoUI(tk.Tk):
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
 
+    def _create_world_tabs(self) -> None:
+        """Create sub-tabs for each fetched user world."""
+        if not hasattr(self, "user_nb"):
+            return
+        # remove old tabs except the first (list tab)
+        for tab_id in self.user_nb.tabs()[1:]:
+            self.user_nb.forget(tab_id)
+        for w in self.user_data:
+            frame = ttk.Frame(self.user_nb)
+            text = tk.Text(frame, wrap="word")
+            text.pack(fill=tk.BOTH, expand=True)
+            text.insert("1.0", json.dumps(w, ensure_ascii=False, indent=2))
+            name = w.get("name") or w.get("世界名稱") or w.get("id")
+            self.user_nb.add(frame, text=str(name)[:15])
 
 def main() -> None:  # pragma: no cover - simple runtime entry
     app = WorldInfoUI()

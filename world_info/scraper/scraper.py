@@ -36,7 +36,6 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     requests = None  # type: ignore
 
-
 BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
 HISTORY_FILE = BASE / "history.json"
@@ -104,8 +103,6 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
         visits_per_day,
     ]
 
-
-
 def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
@@ -161,11 +158,10 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
     return history
 
 
-
 def _append_history_table(row: List[object]) -> None:
     """Append a metrics row to ``history_table.csv``."""
     if not HISTORY_TABLE.exists():
-        with open(HISTORY_TABLE, "w", encoding="utf-8", newline="") as f:
+        with open(HISTORY_TABLE, "w", encoding="utf-8-sig", newline="") as f:
             writer = csv.writer(f)
             writer.writerow([
                 "世界名稱",
@@ -188,6 +184,9 @@ def _append_history_table(row: List[object]) -> None:
         writer = csv.writer(f)
         writer.writerow(row)
 
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
@@ -218,8 +217,6 @@ def _append_excel_row(row: List[object]) -> None:
         ])
     ws.append(row)
     wb.save(EXCEL_FILE)
-
-
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
@@ -260,7 +257,6 @@ def search_worlds(keyword: str, limit: int = 20, delay: float = 1.0,
     base = f"https://api.vrchat.cloud/api/1/worlds?search={keyword}"
     return _fetch_paginated(base, limit, delay, headers)
 
-
 def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
     """Convert a standard cookie header string into Playwright cookie dicts."""
     cookies: List[Dict[str, str]] = []
@@ -269,7 +265,6 @@ def _cookie_to_playwright(cookie_str: str) -> List[Dict[str, str]]:
             name, value = part.strip().split("=", 1)
             cookies.append({"name": name, "value": value, "url": "https://vrchat.com"})
     return cookies
-
 
 
 def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
