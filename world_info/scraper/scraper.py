@@ -41,6 +41,14 @@ HISTORY_FILE = BASE / "history.json"
 HISTORY_TABLE = BASE / "history_table.xlsx"
 EXCEL_FILE = BASE / "worlds.xlsx"
 
+    headers = {"User-Agent": "Mozilla/5.0"}
+    
+def _load_headers(cookie: Optional[str] = None,
+                  username: Optional[str] = None,
+                  password: Optional[str] = None) -> Dict[str, str]:
+    """Load HTTP headers from ``headers.json`` and command line options."""
+
+    headers = {"User-Agent": "Mozilla/5.0"}
 
 def _load_headers(cookie: Optional[str] = None,
                   username: Optional[str] = None,
@@ -250,6 +258,22 @@ def _append_excel_row(row: List[object]) -> None:
     ws.append(row)
     wb.save(EXCEL_FILE)
 
+    return [
+        world.get("name"),
+        world.get("id"),
+        world.get("publicationDate"),
+        world.get("updated_at"),
+        visits,
+        world.get("capacity"),
+        favs,
+        world.get("heat"),
+        world.get("popularity"),
+        days_labs_to_pub,
+        ratio_vf,
+        since_update,
+        world.get("releaseStatus"),
+        visits_per_day,
+    ]
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:
@@ -308,6 +332,7 @@ def get_user_worlds(user_id: str, limit: int = 20, delay: float = 1.0,
     VRChat does not expose an official endpoint for this, so we load the
     user's page using Playwright and parse the world cards from the HTML.
     """
+
 
     if sync_playwright is None:
         raise RuntimeError("playwright is required for user world scraping")

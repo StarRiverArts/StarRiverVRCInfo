@@ -61,7 +61,6 @@ METRIC_COLS = [
 # Legend for line charts
 LEGEND_TEXT = "藍:人次 綠:收藏 紅:熱度 紫:熱門度 橘:實驗室 黑:公開 灰:更新"
 
-
 class WorldInfoUI(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
@@ -209,22 +208,7 @@ class WorldInfoUI(tk.Tk):
 
         self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
-        ttk.Label(self.tab_user_list, text=LEGEND_TEXT).pack()
 
-    def _build_dashboard_tab(self) -> None:
-        """Create the dashboard view with a summary table and charts."""
-        f = self.tab_dashboard
-        self.dash_tree = ttk.Treeview(f, show="headings")
-        self.dash_tree["columns"] = list(range(len(METRIC_COLS)))
-        for idx, col in enumerate(METRIC_COLS):
-            self.dash_tree.heading(str(idx), text=col)
-            self.dash_tree.column(str(idx), width=80, anchor="center")
-        self.dash_tree.pack(fill=tk.X)
-
-        self.chart_container = ttk.Frame(f)
-        self.chart_container.pack(fill=tk.BOTH, expand=True)
-        self.chart_container.bind("<Configure>", self._arrange_dashboard_charts)
-        self.chart_frames: list[tuple[tk.Frame, tk.Canvas, dict]] = []
 
     def _build_history_tab(self) -> None:
         f = self.tab_history
@@ -303,6 +287,7 @@ class WorldInfoUI(tk.Tk):
                 )
             self._create_world_tabs()
             self._update_dashboard()
+
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
@@ -570,6 +555,7 @@ class WorldInfoUI(tk.Tk):
         for tab_id in self.detail_nb.tabs()[1:]:
             self.detail_nb.forget(tab_id)
 
+
         unique: dict[str, dict] = {}
         for w in self.user_data:
             wid = w.get("世界ID") or w.get("worldId") or w.get("id")
@@ -578,6 +564,7 @@ class WorldInfoUI(tk.Tk):
 
         for w in unique.values():
             frame = ttk.Frame(self.detail_nb)
+
 
             # dashboard table with a single metrics row
             dash = ttk.LabelFrame(frame, text="儀表板")
