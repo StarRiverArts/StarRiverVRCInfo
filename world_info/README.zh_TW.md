@@ -47,8 +47,8 @@ playwright install
    透過圖形介面登入並搜尋、篩選世界。世界列表頁以表格方式呈現資料，
    並新增「歷史記錄」分頁，可追蹤瀏覽人數、收藏數與熱度變化折線圖。
    每次抓取資料也會在 `scraper/history_table.xlsx` 與 `scraper/worlds.xlsx`
-   追加一行，記錄瀏覽收藏比、距離上次更新等指標。
-   `worlds.xlsx` 可使用試算表軟體開啟，以方便手動編輯或匯入既有資料。
+   追加一行，記錄瀏覽收藏比、距離上次更新等指標。這些 Excel 檔需安裝
+   `openpyxl` 套件後才能正確寫入，可直接以試算表軟體開啟編輯。
 3. `python3 scraper/exporter.py`
 
 若要抓取作者世界，需先安裝 `playwright` 套件並執行 `playwright install`。

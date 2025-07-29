@@ -503,7 +503,7 @@ class WorldInfoUI(tk.Tk):
                 info_tree.insert("", tk.END, values=(key, val))
             info_tree.pack(fill=tk.BOTH, expand=True)
 
-            # section 2: history table from CSV
+            # section 2: history table from history JSON
             sec2 = ttk.LabelFrame(frame, text="歷史紀錄")
             sec2.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
             hist_tree = ttk.Treeview(sec2, show="headings")
@@ -549,6 +549,11 @@ class WorldInfoUI(tk.Tk):
                 created = _parse_date(r.get("created_at"))
                 labs = _parse_date(r.get("labsPublicationDate"))
                 pub = _parse_date(r.get("publicationDate"))
+                ts_str = ts_dt.strftime("%Y/%m/%d")
+                upd_str = upd.strftime("%Y/%m/%d") if upd else ""
+                created_str = created.strftime("%Y/%m/%d") if created else ""
+                labs_str = labs.strftime("%Y/%m/%d") if labs else ""
+                pub_str = pub.strftime("%Y/%m/%d") if pub else ""
                 days_to_pub = ""
                 if pub and created:
                     days_to_pub = (pub - created).days
@@ -562,15 +567,15 @@ class WorldInfoUI(tk.Tk):
                     "",
                     tk.END,
                     values=(
-                        ts,
+                        ts_str,
                         r.get("visits"),
                         r.get("favorites"),
                         r.get("heat"),
                         r.get("popularity"),
-                        r.get("updated_at"),
-                        r.get("created_at"),
-                        r.get("labsPublicationDate"),
-                        r.get("publicationDate"),
+                        upd_str,
+                        created_str,
+                        labs_str,
+                        pub_str,
                         days_to_pub,
                         days_since,
                         vpd,

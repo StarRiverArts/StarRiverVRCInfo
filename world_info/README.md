@@ -43,7 +43,8 @@ Run the tools in order:
    visits, favorites and heat over time with a simple line chart. Each fetch
    also appends a row to ``scraper/history_table.xlsx`` and ``scraper/worlds.xlsx``
    with additional metrics like visit/favorite ratio and days since last update.
-   ``worlds.xlsx`` can be opened in Excel to edit or import existing data.
+   These Excel files require the ``openpyxl`` package and can be edited directly
+   in spreadsheet software.
 3. ``python3 scraper/exporter.py``
 
 Fetching a creator's worlds requires the ``playwright`` package.  Install it and
