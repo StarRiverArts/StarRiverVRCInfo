@@ -41,6 +41,25 @@ BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
 USER_FILE = BASE / "scraper" / "user_worlds.json"
 
+# Column headers for metrics tables
+METRIC_COLS = [
+    "世界名稱",
+    "發布日期",
+    "最後更新",
+    "瀏覽人次",
+    "大小",
+    "收藏次數",
+    "熱度",
+    "人氣",
+    "實驗室到發布",
+    "瀏覽蒐藏比",
+    "距離上次更新",
+    "已發布",
+    "人次發布比",
+]
+
+# Legend for line charts
+LEGEND_TEXT = "藍:人次 綠:收藏 紅:熱度 紫:熱門度 橘:實驗室 黑:公開 灰:更新"
 
 class WorldInfoUI(tk.Tk):
     def __init__(self) -> None:
@@ -161,27 +180,22 @@ class WorldInfoUI(tk.Tk):
         self.user_nb = ttk.Notebook(f)
         self.user_nb.pack(fill=tk.BOTH, expand=True)
 
-        self.tab_user_list = ttk.Frame(self.user_nb)
-        self.user_nb.add(self.tab_user_list, text="列表")
+        # dashboard and detail notebooks
+        self.tab_dashboard = ttk.Frame(self.user_nb)
+        self.tab_detail = ttk.Frame(self.user_nb)
+        self.user_nb.add(self.tab_dashboard, text="儀表板")
+        self.user_nb.add(self.tab_detail, text="詳細列表")
+
+        self._build_dashboard_tab()
+
+        self.detail_nb = ttk.Notebook(self.tab_detail)
+        self.detail_nb.pack(fill=tk.BOTH, expand=True)
+
+        self.tab_user_list = ttk.Frame(self.detail_nb)
+        self.detail_nb.add(self.tab_user_list, text="所有世界")
 
         self.user_tree = ttk.Treeview(self.tab_user_list, show="headings")
-        columns = [
-            "爬取日期",
-            "世界名稱",
-            "世界ID",
-            "發布日期",
-            "最後更新",
-            "瀏覽人次",
-            "大小",
-            "收藏次數",
-            "熱度",
-            "人氣",
-            "實驗室到發布",
-            "瀏覽蒐藏比",
-            "距離上次更新",
-            "已發布",
-            "人次發布比",
-        ]
+        columns = ["爬取日期"] + METRIC_COLS
         self.user_tree["columns"] = list(range(len(columns)))
         for idx, col in enumerate(columns):
             self.user_tree.heading(str(idx), text=col)
@@ -194,6 +208,7 @@ class WorldInfoUI(tk.Tk):
 
         self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
+
 
     def _build_history_tab(self) -> None:
         f = self.tab_history
@@ -271,6 +286,8 @@ class WorldInfoUI(tk.Tk):
                     }
                 )
             self._create_world_tabs()
+            self._update_dashboard()
+
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
@@ -326,6 +343,7 @@ class WorldInfoUI(tk.Tk):
                 row = record_row(w)
                 self.user_tree.insert("", tk.END, values=row)
             self._create_world_tabs()
+            self._update_dashboard()
             self.nb.select(self.tab_user)
         except RuntimeError as e:  # pragma: no cover - runtime only
             messagebox.showerror("HTTP Error", str(e))
@@ -531,11 +549,12 @@ class WorldInfoUI(tk.Tk):
 
     def _create_world_tabs(self) -> None:
         """Create sub-tabs for each fetched user world with history."""
-        if not hasattr(self, "user_nb"):
+        if not hasattr(self, "detail_nb"):
             return
         # remove old tabs except the first (list tab)
-        for tab_id in self.user_nb.tabs()[1:]:
-            self.user_nb.forget(tab_id)
+        for tab_id in self.detail_nb.tabs()[1:]:
+            self.detail_nb.forget(tab_id)
+
 
         unique: dict[str, dict] = {}
         for w in self.user_data:
@@ -544,28 +563,14 @@ class WorldInfoUI(tk.Tk):
                 unique[wid] = w  # keep last occurrence
 
         for w in unique.values():
-            frame = ttk.Frame(self.user_nb)
+            frame = ttk.Frame(self.detail_nb)
+
 
             # dashboard table with a single metrics row
             dash = ttk.LabelFrame(frame, text="儀表板")
             dash.pack(fill=tk.X, padx=4, pady=2)
-            metrics_cols = [
-                "世界名稱",
-                "發布日期",
-                "最後更新",
-                "瀏覽人次",
-                "大小",
-                "收藏次數",
-                "熱度",
-                "人氣",
-                "實驗室到發布",
-                "瀏覽蒐藏比",
-                "距離上次更新",
-                "已發布",
-                "人次發布比",
-            ]
-            dash_tree = ttk.Treeview(dash, columns=list(range(len(metrics_cols))), show="headings", height=2)
-            for idx, col in enumerate(metrics_cols):
+            dash_tree = ttk.Treeview(dash, columns=list(range(len(METRIC_COLS))), show="headings", height=2)
+            for idx, col in enumerate(METRIC_COLS):
                 dash_tree.heading(str(idx), text=col)
                 dash_tree.column(str(idx), width=80, anchor="center")
             row = record_row(w)
@@ -668,10 +673,49 @@ class WorldInfoUI(tk.Tk):
             sec3.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
             canvas = tk.Canvas(sec3, bg="white", height=200)
             canvas.pack(fill=tk.BOTH, expand=True)
+            ttk.Label(sec3, text=LEGEND_TEXT).pack()
             self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
 
             name = w.get("name") or w.get("世界名稱") or w.get("id")
-            self.user_nb.add(frame, text=str(name)[:15])
+            self.detail_nb.add(frame, text=str(name)[:15])
+
+    def _update_dashboard(self) -> None:
+        """Refresh the dashboard table and charts."""
+        if not hasattr(self, "dash_tree"):
+            return
+        for item in self.dash_tree.get_children():
+            self.dash_tree.delete(item)
+
+        unique: dict[str, dict] = {}
+        for w in self.user_data:
+            wid = w.get("世界ID") or w.get("worldId") or w.get("id")
+            if wid:
+                unique[wid] = w
+        for w in unique.values():
+            row = record_row(w)
+            self.dash_tree.insert("", tk.END, values=row[1:])
+
+        for frame, _, _ in getattr(self, "chart_frames", []):
+            frame.destroy()
+        self.chart_frames = []
+        for w in unique.values():
+            frm = ttk.Frame(self.chart_container)
+            canvas = tk.Canvas(frm, bg="white", width=240, height=180)
+            canvas.pack(fill=tk.BOTH, expand=True)
+            ttk.Label(frm, text=LEGEND_TEXT).pack()
+            self.chart_frames.append((frm, canvas, w))
+            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
+        self._arrange_dashboard_charts()
+
+    def _arrange_dashboard_charts(self, event=None) -> None:
+        if not hasattr(self, "chart_frames"):
+            return
+        width = self.chart_container.winfo_width() if event is None else event.width
+        cols = max(1, width // 260)
+        for idx, (frm, _c, _w) in enumerate(self.chart_frames):
+            frm.grid(row=idx // cols, column=idx % cols, padx=4, pady=4, sticky="nsew")
+        for c in range(cols):
+            self.chart_container.columnconfigure(c, weight=1)
 
 
 def main() -> None:  # pragma: no cover - simple runtime entry
