@@ -26,6 +26,7 @@ except Exception:  # pragma: no cover - optional dependency
     load_workbook = None  # type: ignore
 
 try:
+
     from playwright.sync_api import sync_playwright  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
@@ -197,11 +198,13 @@ def _append_history_table(row: List[object]) -> None:
                 "已發布",
                 "人次發布比",
             ])
-
     with open(HISTORY_TABLE, "a", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(row)
 
+    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
 
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
