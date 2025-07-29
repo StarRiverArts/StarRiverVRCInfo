@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import csv
+import datetime as dt
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -280,13 +281,23 @@ class WorldInfoUI(tk.Tk):
         self.nb.select(self.tab_list)
 
     def _update_history_options(self) -> None:
-        self.box_hist_world["values"] = list(self.history.keys())
-        if self.history:
-            self.var_hist_world.set(list(self.history.keys())[0])
+        self.hist_map: dict[str, str] = {}
+        values = []
+        for wid, recs in self.history.items():
+            name = ""
+            if isinstance(recs, list) and recs:
+                name = recs[0].get("name", "")
+            label = f"{name} ({wid})" if name else wid
+            values.append(label)
+            self.hist_map[label] = wid
+        self.box_hist_world["values"] = values
+        if values:
+            self.var_hist_world.set(values[0])
             self._draw_history()
 
     def _draw_history(self, event=None) -> None:
-        world_id = self.var_hist_world.get()
+        label = self.var_hist_world.get()
+        world_id = getattr(self, "hist_map", {}).get(label, label)
         data = self.history.get(world_id, [])
         self.canvas.delete("all")
         if not data:
@@ -463,15 +474,76 @@ class WorldInfoUI(tk.Tk):
             sec2 = ttk.LabelFrame(frame, text="歷史紀錄")
             sec2.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
             hist_tree = ttk.Treeview(sec2, show="headings")
-            cols = ["timestamp", "visits", "favorites", "heat", "popularity", "updated"]
+            cols = [
+                "timestamp",
+                "visits",
+                "favorites",
+                "heat",
+                "popularity",
+                "updated_at",
+                "created_at",
+                "labs",
+                "pub",
+                "days_to_pub",
+                "days_since_upd",
+                "visits_per_day",
+                "fav_per_day",
+            ]
             hist_tree["columns"] = cols
-            headers = ["時間", "人次", "收藏", "熱度", "熱門度", "更新"]
+            headers = [
+                "時間",
+                "人次",
+                "收藏",
+                "熱度",
+                "熱門度",
+                "更新",
+                "上傳",
+                "實驗室",
+                "公開",
+                "上傳到公開",
+                "距離更新",
+                "人次/天",
+                "收藏/天",
+            ]
             for c, h in zip(cols, headers):
                 hist_tree.heading(c, text=h)
                 hist_tree.column(c, width=80, anchor="center")
             rows = self._load_history_rows(w.get("id") or w.get("worldId"))
             for r in rows:
-                hist_tree.insert("", tk.END, values=(r["timestamp"], r.get("visits"), r.get("favorites"), r.get("heat"), r.get("popularity"), r.get("updated_at")))
+                ts = r["timestamp"]
+                ts_dt = dt.datetime.fromtimestamp(ts, dt.timezone.utc)
+                upd = _parse_date(r.get("updated_at"))
+                created = _parse_date(r.get("created_at"))
+                labs = _parse_date(r.get("labsPublicationDate"))
+                pub = _parse_date(r.get("publicationDate"))
+                days_to_pub = ""
+                if pub and created:
+                    days_to_pub = (pub - created).days
+                elif pub and labs:
+                    days_to_pub = (pub - labs).days
+                days_since = (ts_dt - upd).days if upd else ""
+                since_pub = (ts_dt - pub).days if pub else 0
+                vpd = round((r.get("visits", 0) or 0) / since_pub, 2) if since_pub > 0 else ""
+                fpd = round((r.get("favorites", 0) or 0) / since_pub, 2) if since_pub > 0 else ""
+                hist_tree.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        ts,
+                        r.get("visits"),
+                        r.get("favorites"),
+                        r.get("heat"),
+                        r.get("popularity"),
+                        r.get("updated_at"),
+                        r.get("created_at"),
+                        r.get("labsPublicationDate"),
+                        r.get("publicationDate"),
+                        days_to_pub,
+                        days_since,
+                        vpd,
+                        fpd,
+                    ),
+                )
             hist_tree.pack(fill=tk.BOTH, expand=True)
 
             # section 3: chart

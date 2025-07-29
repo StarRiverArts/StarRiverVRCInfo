@@ -108,9 +108,22 @@ def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
     if not value:
         return None
     try:
+        # allow plain dates like "2025/7/12" for manual edits
+        if isinstance(value, (int, float)):
+            return dt.datetime.fromtimestamp(float(value), dt.timezone.utc)
         if value.endswith("Z"):
             value = value[:-1] + "+00:00"
-        dt_obj = dt.datetime.fromisoformat(value)
+        if "T" in value:
+            dt_obj = dt.datetime.fromisoformat(value)
+        else:
+            for fmt in ("%Y/%m/%d", "%Y-%m-%d"):
+                try:
+                    dt_obj = dt.datetime.strptime(value, fmt)
+                    break
+                except ValueError:
+                    dt_obj = None
+            if dt_obj is None:
+                return None
         if dt_obj.tzinfo is None:
             dt_obj = dt_obj.replace(tzinfo=dt.timezone.utc)
         return dt_obj
@@ -143,6 +156,8 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
             continue
         rec = {
             "timestamp": now,
+            "name": w.get("name"),
+            "created_at": w.get("created_at"),
             "visits": w.get("visits"),
             "favorites": w.get("favorites"),
             "heat": w.get("heat"),
@@ -183,8 +198,7 @@ def _append_history_table(row: List[object]) -> None:
                 "已發布",
                 "人次發布比",
             ])
-
-    with open(HISTORY_TABLE, "a", encoding="utf-8", newline="") as f:
+    with open(HISTORY_TABLE, "a", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(row)
 
