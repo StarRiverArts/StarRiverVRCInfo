@@ -33,13 +33,18 @@ from scraper.scraper import (
 )
 
 try:
-    from openpyxl import load_workbook  # type: ignore
+    from openpyxl import load_workbook, Workbook  # type: ignore
 except Exception:  # pragma: no cover - optional
     load_workbook = None  # type: ignore
+    Workbook = None  # type: ignore
 
 BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
 USER_FILE = BASE / "scraper" / "user_worlds.json"
+# configuration and extra spreadsheets
+SETTINGS_FILE = BASE / "scraper" / "settings.json"
+PERSONAL_FILE = BASE / "scraper" / "StarRiverArts.xlsx"
+TAIWAN_FILE = BASE / "scraper" / "taiwan_worlds.xlsx"
 
 # Column headers for metrics tables
 METRIC_COLS = [
@@ -74,7 +79,9 @@ class WorldInfoUI(tk.Tk):
         self.filtered: list[dict] = []
         self.history: dict[str, list[dict]] = load_history()
 
+        self.settings = self._load_settings()
         self._build_tabs()
+        self._apply_settings()
 
     # ------------------------------------------------------------------
     # UI construction
@@ -88,6 +95,7 @@ class WorldInfoUI(tk.Tk):
         self.tab_list = ttk.Frame(self.nb)
         self.tab_user = ttk.Frame(self.nb)
         self.tab_history = ttk.Frame(self.nb)
+        self.tab_settings = ttk.Frame(self.nb)
 
         self.nb.add(self.tab_entry, text="入口")
         self.nb.add(self.tab_data, text="資料")
@@ -95,6 +103,7 @@ class WorldInfoUI(tk.Tk):
         self.nb.add(self.tab_list, text="世界列表")
         self.nb.add(self.tab_user, text="個人世界")
         self.nb.add(self.tab_history, text="歷史記錄")
+        self.nb.add(self.tab_settings, text="設定")
 
         self._build_entry_tab()
         self._build_data_tab()
@@ -102,6 +111,7 @@ class WorldInfoUI(tk.Tk):
         self._build_list_tab()
         self._build_user_tab()
         self._build_history_tab()
+        self._build_settings_tab()
         self._load_local_tables()
 
     # ------------------------------------------------------------------
@@ -138,6 +148,8 @@ class WorldInfoUI(tk.Tk):
         btn_frame.grid(row=row, column=0, columnspan=2, pady=4)
         ttk.Button(btn_frame, text="Search", command=self._on_search).grid(row=0, column=0, padx=2)
         ttk.Button(btn_frame, text="User Worlds", command=self._on_user).grid(row=0, column=1, padx=2)
+        ttk.Button(btn_frame, text="Personal Search", command=self._search_personal).grid(row=0, column=2, padx=2)
+        ttk.Button(btn_frame, text="Taiwan Search", command=self._search_taiwan).grid(row=0, column=3, padx=2)
 
     # ------------------------------------------------------------------
     # Data tab widgets
@@ -236,12 +248,75 @@ class WorldInfoUI(tk.Tk):
         self.canvas.pack(fill=tk.BOTH, expand=True)
         self._update_history_options()
 
+    def _build_settings_tab(self) -> None:
+        f = self.tab_settings
+        row = 0
+        ttk.Label(f, text="Cookie").grid(row=row, column=0, sticky="e")
+        self.var_set_cookie = tk.StringVar()
+        tk.Entry(f, textvariable=self.var_set_cookie, width=60).grid(row=row, column=1, padx=4, pady=2)
+        row += 1
+
+        ttk.Label(f, text="個人關鍵字").grid(row=row, column=0, sticky="e")
+        self.var_personal_kw = tk.StringVar()
+        tk.Entry(f, textvariable=self.var_personal_kw, width=40).grid(row=row, column=1, padx=4, pady=2)
+        row += 1
+
+        ttk.Label(f, text="台灣關鍵字").grid(row=row, column=0, sticky="e")
+        self.var_taiwan_kw = tk.StringVar()
+        tk.Entry(f, textvariable=self.var_taiwan_kw, width=40).grid(row=row, column=1, padx=4, pady=2)
+        row += 1
+
+        ttk.Label(f, text="黑名單").grid(row=row, column=0, sticky="e")
+        self.var_blacklist = tk.StringVar()
+        tk.Entry(f, textvariable=self.var_blacklist, width=40).grid(row=row, column=1, padx=4, pady=2)
+        row += 1
+
+        ttk.Label(f, text="玩家ID").grid(row=row, column=0, sticky="e")
+        self.var_playerid_set = tk.StringVar()
+        tk.Entry(f, textvariable=self.var_playerid_set).grid(row=row, column=1, padx=4, pady=2)
+        row += 1
+
+        ttk.Button(f, text="Save", command=self._save_settings).grid(row=row, column=0, columnspan=2, pady=4)
+
+    def _load_settings(self) -> dict:
+        if SETTINGS_FILE.exists():
+            try:
+                with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        return {}
+
+    def _save_settings(self) -> None:
+        self.settings["cookie"] = self.var_set_cookie.get()
+        self.settings["personal_keywords"] = self.var_personal_kw.get()
+        self.settings["taiwan_keywords"] = self.var_taiwan_kw.get()
+        self.settings["blacklist"] = self.var_blacklist.get()
+        self.settings["player_id"] = self.var_playerid_set.get()
+        if "personal_file" not in self.settings:
+            self.settings["personal_file"] = PERSONAL_FILE.name
+        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(self.settings, f, ensure_ascii=False, indent=2)
+        self._apply_settings()
+
+    def _apply_settings(self) -> None:
+        self.var_cookie.set(self.settings.get("cookie", ""))
+        self.var_set_cookie.set(self.settings.get("cookie", ""))
+        self.var_personal_kw.set(self.settings.get("personal_keywords", ""))
+        self.var_taiwan_kw.set(self.settings.get("taiwan_keywords", ""))
+        self.var_blacklist.set(self.settings.get("blacklist", ""))
+        player_id = self.settings.get("player_id", "")
+        self.var_userid.set(player_id)
+        self.var_playerid_set.set(player_id)
+
     def _load_local_tables(self) -> None:
-        """Load existing Excel history and populate the user world list."""
+        """Load existing personal Excel file and populate the user world list."""
         if load_workbook is None:
             return
-        if EXCEL_FILE.exists():
-            wb = load_workbook(EXCEL_FILE)
+        file_name = self.settings.get("personal_file", PERSONAL_FILE.name)
+        file_path = BASE / "scraper" / file_name
+        if file_path.exists():
+            wb = load_workbook(file_path)
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
                 self.user_tree.insert("", tk.END, values=row)
@@ -303,6 +378,65 @@ class WorldInfoUI(tk.Tk):
                 )
             self._create_world_tabs()
             self._update_dashboard()
+
+    def _save_worlds(self, worlds: list[dict], file: Path) -> None:
+        if Workbook is None or load_workbook is None:
+            return
+        headers = [
+            "爬取日期",
+            "世界名稱",
+            "世界ID",
+            "發布日期",
+            "最後更新",
+            "瀏覽人次",
+            "大小",
+            "收藏次數",
+            "熱度",
+            "人氣",
+            "實驗室到發布",
+            "瀏覽蒐藏比",
+            "距離上次更新",
+            "已發布",
+            "人次發布比",
+        ]
+        if file.exists():
+            wb = load_workbook(file)
+            ws = wb.active
+        else:
+            wb = Workbook()
+            ws = wb.active
+            ws.append(headers)
+        for w in worlds:
+            ws.append(record_row(w))
+        wb.save(file)
+
+    def _search_fixed(self, keywords: str, out_file: Path) -> None:
+        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        blacklist = {k.strip() for k in self.settings.get("blacklist", "").split(",") if k.strip()}
+        all_worlds: list[dict] = []
+        for kw in kw_list:
+            if kw in blacklist:
+                continue
+            try:
+                worlds = fetch_worlds(keyword=kw, limit=50, headers=self.headers)
+            except Exception as e:  # pragma: no cover - runtime only
+                messagebox.showerror("Error", str(e))
+                return
+            all_worlds.extend(worlds)
+        if not all_worlds:
+            return
+        update_history(all_worlds)
+        self.history = load_history()
+        self._update_history_options()
+        self._save_worlds(all_worlds, out_file)
+
+    def _search_personal(self) -> None:
+        self._load_auth_headers()
+        self._search_fixed(self.settings.get("personal_keywords", ""), PERSONAL_FILE)
+
+    def _search_taiwan(self) -> None:
+        self._load_auth_headers()
+        self._search_fixed(self.settings.get("taiwan_keywords", ""), TAIWAN_FILE)
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
@@ -351,6 +485,14 @@ class WorldInfoUI(tk.Tk):
             update_history(self.user_data)
             self.history = load_history()
             self._update_history_options()
+
+            player_name = self.user_data[0].get("authorName", user_id) if self.user_data else user_id
+            file_path = BASE / "scraper" / f"{player_name}.xlsx"
+            self._save_worlds(self.user_data, file_path)
+            self.settings["personal_file"] = file_path.name
+            self.settings["player_id"] = user_id
+            self.var_playerid_set.set(user_id)
+            self._save_settings()
 
             for item in self.user_tree.get_children():
                 self.user_tree.delete(item)
@@ -707,8 +849,8 @@ class WorldInfoUI(tk.Tk):
             if wid:
                 unique[wid] = w
         for w in unique.values():
-            row = record_row(w)
-            self.dash_tree.insert("", tk.END, values=row[1:])
+            row = [w.get(col, "") for col in METRIC_COLS]
+            self.dash_tree.insert("", tk.END, values=row)
 
         for frame, _, _ in getattr(self, "chart_frames", []):
             frame.destroy()
