@@ -22,8 +22,8 @@ class WorldReviewTab(ttk.Frame):
     def __init__(self, master: ttk.Frame) -> None:
         super().__init__(master)
         self.pack(fill=tk.BOTH, expand=True)
-        self.worlds = self._load_json(RAW_FILE)
-        self.reviews = self._load_json(REVIEW_FILE, default={})
+        self.worlds = self._load_json(RAW_FILE) or []
+        self.reviews = self._load_json(REVIEW_FILE) or {}
         self.index = 0
         self._build_widgets()
         self._show_world()
@@ -52,6 +52,11 @@ class WorldReviewTab(ttk.Frame):
             json.dump(self.reviews, f, ensure_ascii=False, indent=2)
 
     def _show_world(self):
+        if not self.worlds:
+            self.label_name.config(text="無資料")
+            self.text_desc.delete("1.0", tk.END)
+            self.status_label.config(text="")
+            return
         if self.index >= len(self.worlds):
             self.label_name.config(text="")
             self.text_desc.delete("1.0", tk.END)
