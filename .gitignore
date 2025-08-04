@@ -5,3 +5,5 @@ track_results/data/
 world_info/scraper/*.json
 world_info/__pycache__/
 world_info/docs/approved_export.json
+world_info/blacklist_taiwan.txt
+world_info/blacklist_taiwan.xlsx
