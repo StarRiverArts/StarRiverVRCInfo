@@ -17,13 +17,32 @@ ANALYTICS_DIR = BASE.parent / "analytics"
 
 COLUMNS = ["date", "total_worlds", "new_worlds_today"]
 
-def update_daily_stats(source_name: str, worlds: List[dict]) -> None:
-    """Update daily world statistics for the given ``source_name``."""
+def update_daily_stats(source_name: str, worlds: List[dict],
+                       file_path: Path | str | None = None) -> None:
+    """Update daily world statistics for ``source_name``.
+
+    Parameters
+    ----------
+    source_name:
+        Identifier for the world source, used when ``file_path`` is not
+        provided.
+    worlds:
+        List of world dictionaries to summarise.
+    file_path:
+        Optional path to the stats workbook.  If omitted, the file will be
+        created inside ``ANALYTICS_DIR`` using ``source_name``.
+    """
     if Workbook is None or load_workbook is None:
         return
 
     ANALYTICS_DIR.mkdir(exist_ok=True)
-    file_path = ANALYTICS_DIR / f"daily_stats_{source_name}.xlsx"
+    if file_path is None:
+        file_path = ANALYTICS_DIR / f"daily_stats_{source_name}.xlsx"
+    else:
+        file_path = Path(file_path)
+        if not file_path.is_absolute():
+            file_path = ANALYTICS_DIR / file_path
+        file_path.parent.mkdir(parents=True, exist_ok=True)
 
     stats = _calculate_stats(worlds)
     wb, ws = _load_or_create_workbook(file_path)

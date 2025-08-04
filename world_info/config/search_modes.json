@@ -1,0 +1,4 @@
+{
+  "taiwan": {"type": "keyword", "keywords": ["台灣", "Taiwan"], "stats": "analytics/daily_stats_taiwan.xlsx"},
+  "starriver": {"type": "user", "user_id": "StarRiverArts", "stats": "analytics/daily_stats_starriver.xlsx"}
+}
