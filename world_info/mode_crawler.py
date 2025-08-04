@@ -41,6 +41,26 @@ METRIC_COLS = [
 ]
 
 
+def _load_taiwan_blacklist() -> set[str]:
+    """Return a set of world IDs from the Taiwan blacklist if present."""
+    txt_file = BASE / "blacklist_taiwan.txt"
+    xlsx_file = BASE / "blacklist_taiwan.xlsx"
+    if txt_file.exists():
+        with open(txt_file, "r", encoding="utf-8") as f:
+            return {line.strip() for line in f if line.strip()}
+    if xlsx_file.exists() and load_workbook is not None:
+        wb = load_workbook(xlsx_file)
+        ws = wb.active
+        ids = {
+            str(row[0].value).strip()
+            for row in ws.iter_rows(min_row=1, max_col=1)
+            if row[0].value
+        }
+        wb.close()
+        return ids
+    return set()
+
+
 def _save_worlds(worlds: List[dict], file_path: Path) -> None:
     """Append ``worlds`` to the Excel sheet at ``file_path``."""
     if Workbook is None or load_workbook is None:
@@ -70,6 +90,14 @@ def _run_mode(name: str, cfg: Dict[str, object]) -> None:
             worlds = get_user_worlds(user_id, limit=50)
     else:
         return
+    if name.lower() == "taiwan":
+        blacklist = _load_taiwan_blacklist()
+        if blacklist:
+            worlds = [
+                w
+                for w in worlds
+                if (w.get("id") or w.get("worldId")) not in blacklist
+            ]
     if not worlds:
         return
     update_history(worlds)
