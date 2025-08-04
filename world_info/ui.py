@@ -38,6 +38,8 @@ except Exception:  # pragma: no cover - optional
     load_workbook = None  # type: ignore
     Workbook = None  # type: ignore
 
+from analytics import update_daily_stats
+
 BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
 USER_FILE = BASE / "scraper" / "user_worlds.json"
@@ -410,7 +412,7 @@ class WorldInfoUI(tk.Tk):
             ws.append(record_row(w))
         wb.save(file)
 
-    def _search_fixed(self, keywords: str, out_file: Path) -> None:
+    def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None) -> None:
         kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
         blacklist = {k.strip() for k in self.settings.get("blacklist", "").split(",") if k.strip()}
         all_worlds: list[dict] = []
@@ -429,14 +431,24 @@ class WorldInfoUI(tk.Tk):
         self.history = load_history()
         self._update_history_options()
         self._save_worlds(all_worlds, out_file)
+        if source_name:
+            update_daily_stats(source_name, all_worlds)
 
     def _search_personal(self) -> None:
         self._load_auth_headers()
-        self._search_fixed(self.settings.get("personal_keywords", ""), PERSONAL_FILE)
+        self._search_fixed(
+            self.settings.get("personal_keywords", ""),
+            PERSONAL_FILE,
+            "starriver",
+        )
 
     def _search_taiwan(self) -> None:
         self._load_auth_headers()
-        self._search_fixed(self.settings.get("taiwan_keywords", ""), TAIWAN_FILE)
+        self._search_fixed(
+            self.settings.get("taiwan_keywords", ""),
+            TAIWAN_FILE,
+            "taiwan",
+        )
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
