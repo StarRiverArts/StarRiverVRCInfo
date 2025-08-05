@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import datetime as dt
 from pathlib import Path
+import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -321,44 +322,32 @@ class WorldInfoUI(tk.Tk):
             wb = load_workbook(file_path)
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
-                self.user_tree.insert("", tk.END, values=row)
-                if len(row) == 15:
-                    (
-                        fetched,
-                        name,
-                        wid,
-                        pub,
-                        upd,
-                        visits,
-                        size,
-                        fav,
-                        heat,
-                        pop,
-                        labs_to_pub,
-                        vf,
-                        since_upd,
-                        released,
-                        vpp,
-                    ) = row
-                else:
+                if len(row) >= 15:
+                    row = row[:15]
+                elif len(row) >= 14:
                     # backward compatibility with old files without fetch date
-                    fetched = ""
-                    (
-                        name,
-                        wid,
-                        pub,
-                        upd,
-                        visits,
-                        size,
-                        fav,
-                        heat,
-                        pop,
-                        labs_to_pub,
-                        vf,
-                        since_upd,
-                        released,
-                        vpp,
-                    ) = row
+                    row = ("",) + row[:14]
+                else:
+                    # skip rows that don't have enough columns
+                    continue
+                self.user_tree.insert("", tk.END, values=row)
+                (
+                    fetched,
+                    name,
+                    wid,
+                    pub,
+                    upd,
+                    visits,
+                    size,
+                    fav,
+                    heat,
+                    pop,
+                    labs_to_pub,
+                    vf,
+                    since_upd,
+                    released,
+                    vpp,
+                ) = row
                 self.user_data.append(
                     {
                         "爬取日期": fetched,
@@ -890,10 +879,10 @@ class WorldInfoUI(tk.Tk):
 def main() -> None:  # pragma: no cover - simple runtime entry
     try:
         app = WorldInfoUI()
-    except tk.TclError as e:  # pragma: no cover - runtime only
-        print("Failed to launch Tkinter UI:", e)
-        return
-    app.mainloop()
+        app.mainloop()
+    except Exception:  # pragma: no cover - runtime only
+        traceback.print_exc()
+        input("Press Enter to exit...")
 
 
 if __name__ == "__main__":
