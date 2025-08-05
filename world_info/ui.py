@@ -157,8 +157,13 @@ class WorldInfoUI(tk.Tk):
     # ------------------------------------------------------------------
     # Data tab widgets
     def _build_data_tab(self) -> None:
-        self.text_data = tk.Text(self.tab_data, wrap="word")
-        self.text_data.pack(fill=tk.BOTH, expand=True)
+        frame = ttk.Frame(self.tab_data)
+        frame.pack(fill=tk.BOTH, expand=True)
+        self.text_data = tk.Text(frame, wrap="word")
+        vsb = ttk.Scrollbar(frame, orient="vertical", command=self.text_data.yview)
+        self.text_data.configure(yscrollcommand=vsb.set)
+        self.text_data.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
         ttk.Button(self.tab_data, text="Open Filter", command=lambda: self.nb.select(self.tab_filter)).pack(pady=4)
 
     # Filter tab widgets
@@ -239,16 +244,36 @@ class WorldInfoUI(tk.Tk):
     def _build_dashboard_tab(self) -> None:
         """Create the dashboard view with a summary table and charts."""
         f = self.tab_dashboard
-        self.dash_tree = ttk.Treeview(f, show="headings")
+        tree_frame = ttk.Frame(f)
+        tree_frame.pack(fill=tk.X)
+        self.dash_tree = ttk.Treeview(tree_frame, show="headings")
         self.dash_tree["columns"] = list(range(len(METRIC_COLS)))
         for idx, col in enumerate(METRIC_COLS):
             self.dash_tree.heading(str(idx), text=col)
             self.dash_tree.column(str(idx), width=80, anchor="center")
-        self.dash_tree.pack(fill=tk.X)
+        self.dash_tree.pack(side="left", fill=tk.X, expand=True)
+        dash_vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=self.dash_tree.yview)
+        dash_vsb.pack(side="right", fill=tk.Y)
+        self.dash_tree.configure(yscrollcommand=dash_vsb.set)
 
-        self.chart_container = ttk.Frame(f)
-        self.chart_container.pack(fill=tk.BOTH, expand=True)
-        self.chart_container.bind("<Configure>", self._arrange_dashboard_charts)
+        self.chart_canvas = tk.Canvas(f)
+        chart_vsb = ttk.Scrollbar(f, orient="vertical", command=self.chart_canvas.yview)
+        self.chart_canvas.configure(yscrollcommand=chart_vsb.set)
+        self.chart_canvas.pack(side="left", fill=tk.BOTH, expand=True)
+        chart_vsb.pack(side="right", fill=tk.Y)
+        self.chart_container = ttk.Frame(self.chart_canvas)
+        self.chart_window = self.chart_canvas.create_window((0, 0), window=self.chart_container, anchor="nw")
+        self.chart_container.bind(
+            "<Configure>",
+            lambda e: self.chart_canvas.configure(scrollregion=self.chart_canvas.bbox("all")),
+        )
+        self.chart_canvas.bind(
+            "<Configure>",
+            lambda e: (
+                self.chart_canvas.itemconfigure(self.chart_window, width=e.width),
+                self._arrange_dashboard_charts(e),
+            ),
+        )
         self.chart_frames: list[tuple[tk.Frame, tk.Canvas, dict]] = []
 
     def _build_history_tab(self) -> None:
@@ -1039,7 +1064,7 @@ class WorldInfoUI(tk.Tk):
     def _arrange_dashboard_charts(self, event=None) -> None:
         if not hasattr(self, "chart_frames"):
             return
-        width = self.chart_container.winfo_width() if event is None else event.width
+        width = self.chart_canvas.winfo_width() if event is None else event.width
         cols = max(1, width // 260)
         for idx, (frm, _c, _w) in enumerate(self.chart_frames):
             frm.grid(row=idx // cols, column=idx % cols, padx=4, pady=4, sticky="nsew")
