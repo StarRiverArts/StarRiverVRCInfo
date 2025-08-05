@@ -209,13 +209,19 @@ class WorldInfoUI(tk.Tk):
         self.tab_user_list = ttk.Frame(self.detail_nb)
         self.detail_nb.add(self.tab_user_list, text="所有世界")
 
-        self.user_tree = ttk.Treeview(self.tab_user_list, show="headings")
+        control = ttk.Frame(self.tab_user_list)
+        control.pack(fill=tk.X)
+        ttk.Button(control, text="Reload", command=self._load_local_tables).pack(side="left")
+
+        tree_frame = ttk.Frame(self.tab_user_list)
+        tree_frame.pack(fill=tk.BOTH, expand=True)
+        self.user_tree = ttk.Treeview(tree_frame, show="headings")
         columns = ["爬取日期"] + METRIC_COLS
         self.user_tree["columns"] = list(range(len(columns)))
         for idx, col in enumerate(columns):
             self.user_tree.heading(str(idx), text=col)
             self.user_tree.column(str(idx), width=80, anchor="center")
-        vsb = ttk.Scrollbar(self.tab_user_list, orient="vertical", command=self.user_tree.yview)
+        vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=self.user_tree.yview)
         self.user_tree.configure(yscrollcommand=vsb.set)
         self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
         vsb.pack(side="right", fill=tk.Y)
@@ -315,6 +321,12 @@ class WorldInfoUI(tk.Tk):
         """Load existing personal Excel file and populate the user world list."""
         if load_workbook is None:
             return
+
+        # clear previous content so the method can be reused for reloading
+        for item in self.user_tree.get_children():
+            self.user_tree.delete(item)
+        self.user_data.clear()
+
         file_name = self.settings.get("personal_file", PERSONAL_FILE.name)
         file_path = BASE / "scraper" / file_name
         if file_path.exists():
@@ -435,12 +447,31 @@ class WorldInfoUI(tk.Tk):
             update_daily_stats(source_name, all_worlds)
 
     def _search_personal(self) -> None:
+        """Fetch worlds for the configured player ID and refresh the table."""
         self._load_auth_headers()
-        self._search_fixed(
-            self.settings.get("personal_keywords", ""),
-            PERSONAL_FILE,
-            "starriver",
-        )
+        user_id = self.settings.get("player_id", "").strip()
+        if not user_id:
+            messagebox.showerror("Error", "Player ID required")
+            return
+        try:
+            worlds = fetch_worlds(user_id=user_id, limit=50, headers=self.headers)
+        except Exception as e:  # pragma: no cover - runtime only
+            messagebox.showerror("Error", str(e))
+            return
+
+        fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
+        for w in worlds:
+            w["爬取日期"] = fetch_date
+
+        self._save_worlds(worlds, PERSONAL_FILE)
+        update_history(worlds)
+        self.history = load_history()
+        self._update_history_options()
+        update_daily_stats("starriver", worlds)
+
+        # reload the table so manual edits remain and new data is visible
+        self._load_local_tables()
+        self.nb.select(self.tab_user)
 
     def _search_taiwan(self) -> None:
         self._load_auth_headers()
@@ -590,19 +621,37 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits = {
-            "visits": 5000,
-            "favorites": 5000,
-            "heat": 10,
-            "popularity": 10,
+        # use the max of visits/favorites for a shared Y scale
+        max_vis = max((d.get("visits", 0) or 0) for d in data)
+        max_fav = max((d.get("favorites", 0) or 0) for d in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
         }
+        for key in ("heat", "popularity"):
+            max_val = max((d.get(key, 0) or 0) for d in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
-            points = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
-            for a, b in zip(points, points[1:]):
+            pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
+            for a, b in zip(pts, pts[1:]):
                 self.canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
-        # axes
+        # axes with ticks
         self.canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.canvas.create_line(pad, pad, pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            self.canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            self.canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            self.canvas.create_line(pad - 5, y, pad, y)
+            self.canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+        # title
+        self.canvas.create_text(width / 2, pad / 2, text=label, font=("TkDefaultFont", 12, "bold"))
 
     def _on_select_user_world(self, event=None) -> None:
         item = self.user_tree.focus()
@@ -635,14 +684,45 @@ class WorldInfoUI(tk.Tk):
             y = height - pad - min(val, max_val) / max_val * scale_y
             return x, y
 
-        colors = {"visits": "blue", "favorites": "green", "heat": "red", "popularity": "purple"}
-        limits = {"visits": 5000, "favorites": 5000, "heat": 10, "popularity": 10}
+        colors = {
+            "visits": "blue",
+            "favorites": "green",
+            "heat": "red",
+            "popularity": "purple",
+        }
+        max_vis = max((d.get("visits", 0) or 0) for d in data)
+        max_fav = max((d.get("favorites", 0) or 0) for d in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
+        }
+        for key in ("heat", "popularity"):
+            max_val = max((d.get(key, 0) or 0) for d in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
             pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
             for a, b in zip(pts, pts[1:]):
                 self.user_canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
+
+        # axes with ticks
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            self.user_canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            self.user_canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            self.user_canvas.create_line(pad - 5, y, pad, y)
+            self.user_canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+
+        # title with world name
+        name = data[0].get("name", world_id)
+        self.user_canvas.create_text(width / 2, pad / 2, text=name, font=("TkDefaultFont", 12, "bold"))
 
     def _load_history_rows(self, world_id: str) -> list[dict]:
         """Return history rows for a world ID."""
@@ -690,7 +770,16 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits = {"visits": 10000, "favorites": 10000, "heat": 10, "popularity": 10}
+        max_vis = max((rec.get("visits", 0) or 0) for rec in data)
+        max_fav = max((rec.get("favorites", 0) or 0) for rec in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
+        }
+        for key in ("heat", "popularity"):
+            max_val = max((rec.get(key, 0) or 0) for rec in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
 
         for key, color in colors.items():
             pts = []
@@ -712,9 +801,24 @@ class WorldInfoUI(tk.Tk):
             x = x_at(t)
             canvas.create_line(x, pad, x, height - pad, fill="gray", dash=(2, 2))
 
+        # axes with ticks and title
         canvas.create_line(pad, height - pad, width - pad, height - pad)
         canvas.create_line(pad, pad, pad, height - pad)
         canvas.create_line(width - pad, pad, width - pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks based on visits/favorites
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            canvas.create_line(pad - 5, y, pad, y)
+            canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+
+        name = world.get("name") or world.get("世界名稱") or world_id
+        canvas.create_text(width / 2, pad / 2, text=name, font=("TkDefaultFont", 12, "bold"))
 
     def _create_world_tabs(self) -> None:
         """Create sub-tabs for each fetched user world with history."""
@@ -742,8 +846,8 @@ class WorldInfoUI(tk.Tk):
             for idx, col in enumerate(METRIC_COLS):
                 dash_tree.heading(str(idx), text=col)
                 dash_tree.column(str(idx), width=80, anchor="center")
-            row = record_row(w)
-            dash_tree.insert("", tk.END, values=row[1:])  # exclude fetch date
+            row = [w.get(col, "") for col in METRIC_COLS]
+            dash_tree.insert("", tk.END, values=row)
             dash_tree.pack(fill=tk.X, expand=True)
 
             # section 1: latest fetched info
