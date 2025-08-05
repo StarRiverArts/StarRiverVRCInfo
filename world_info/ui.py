@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import datetime as dt
 from pathlib import Path
+import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -221,8 +222,12 @@ class WorldInfoUI(tk.Tk):
         vsb.pack(side="right", fill=tk.Y)
         self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
 
-        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
+        self.current_world_id: str | None = None
+        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white")
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
+        self.user_canvas.bind(
+            "<Configure>", lambda e: self._draw_user_chart(self.current_world_id)
+        )
         ttk.Label(self.tab_user_list, text=LEGEND_TEXT).pack()
 
     def _build_dashboard_tab(self) -> None:
@@ -321,44 +326,32 @@ class WorldInfoUI(tk.Tk):
             wb = load_workbook(file_path)
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
-                self.user_tree.insert("", tk.END, values=row)
-                if len(row) == 15:
-                    (
-                        fetched,
-                        name,
-                        wid,
-                        pub,
-                        upd,
-                        visits,
-                        size,
-                        fav,
-                        heat,
-                        pop,
-                        labs_to_pub,
-                        vf,
-                        since_upd,
-                        released,
-                        vpp,
-                    ) = row
-                else:
+                if len(row) >= 15:
+                    row = row[:15]
+                elif len(row) >= 14:
                     # backward compatibility with old files without fetch date
-                    fetched = ""
-                    (
-                        name,
-                        wid,
-                        pub,
-                        upd,
-                        visits,
-                        size,
-                        fav,
-                        heat,
-                        pop,
-                        labs_to_pub,
-                        vf,
-                        since_upd,
-                        released,
-                        vpp,
-                    ) = row
+                    row = ("",) + row[:14]
+                else:
+                    # skip rows that don't have enough columns
+                    continue
+                self.user_tree.insert("", tk.END, values=row)
+                (
+                    fetched,
+                    name,
+                    wid,
+                    pub,
+                    upd,
+                    visits,
+                    size,
+                    fav,
+                    heat,
+                    pop,
+                    labs_to_pub,
+                    vf,
+                    since_upd,
+                    released,
+                    vpp,
+                ) = row
                 self.user_data.append(
                     {
                         "爬取日期": fetched,
@@ -378,8 +371,26 @@ class WorldInfoUI(tk.Tk):
                         "人次發布比": vpp,
                     }
                 )
+                ts = _parse_date(fetched)
+                if ts:
+                    rec = {
+                        "timestamp": int(ts.timestamp()),
+                        "name": name,
+                        "visits": visits,
+                        "favorites": fav,
+                        "heat": heat,
+                        "popularity": pop,
+                        "updated_at": upd,
+                        "publicationDate": pub,
+                        "labsPublicationDate": "",
+                    }
+                    recs = self.history.setdefault(wid, [])
+                    if not any(r.get("timestamp") == rec["timestamp"] for r in recs):
+                        recs.append(rec)
+                        recs.sort(key=lambda r: r.get("timestamp", 0))
             self._create_world_tabs()
             self._update_dashboard()
+            self._update_history_options()
 
     def _save_worlds(self, worlds: list[dict], file: Path) -> None:
         if Workbook is None or load_workbook is None:
@@ -433,6 +444,9 @@ class WorldInfoUI(tk.Tk):
         self._save_worlds(all_worlds, out_file)
         if source_name:
             update_daily_stats(source_name, all_worlds)
+        self.data = all_worlds
+        self._update_tag_options()
+        self._apply_filter()
 
     def _search_personal(self) -> None:
         self._load_auth_headers()
@@ -612,11 +626,14 @@ class WorldInfoUI(tk.Tk):
         if len(values) < 3:
             return
         world_id = values[2]
+        self.current_world_id = world_id
         self._draw_user_chart(world_id)
 
-    def _draw_user_chart(self, world_id: str) -> None:
-        data = self.history.get(world_id, [])
+    def _draw_user_chart(self, world_id: str | None) -> None:
         self.user_canvas.delete("all")
+        if not world_id:
+            return
+        data = self.history.get(world_id, [])
         if not data:
             return
         width = int(self.user_canvas.winfo_width() or 600)
@@ -840,10 +857,10 @@ class WorldInfoUI(tk.Tk):
             # section 3: chart
             sec3 = ttk.LabelFrame(frame, text="折線圖")
             sec3.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
-            canvas = tk.Canvas(sec3, bg="white", height=200)
+            canvas = tk.Canvas(sec3, bg="white")
             canvas.pack(fill=tk.BOTH, expand=True)
+            canvas.bind("<Configure>", lambda e, c=canvas, ww=w: self._draw_world_chart(c, ww))
             ttk.Label(sec3, text=LEGEND_TEXT).pack()
-            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
 
             name = w.get("name") or w.get("世界名稱") or w.get("id")
             self.detail_nb.add(frame, text=str(name)[:15])
@@ -869,11 +886,11 @@ class WorldInfoUI(tk.Tk):
         self.chart_frames = []
         for w in unique.values():
             frm = ttk.Frame(self.chart_container)
-            canvas = tk.Canvas(frm, bg="white", width=240, height=180)
+            canvas = tk.Canvas(frm, bg="white")
             canvas.pack(fill=tk.BOTH, expand=True)
+            canvas.bind("<Configure>", lambda e, c=canvas, ww=w: self._draw_world_chart(c, ww))
             ttk.Label(frm, text=LEGEND_TEXT).pack()
             self.chart_frames.append((frm, canvas, w))
-            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
         self._arrange_dashboard_charts()
 
     def _arrange_dashboard_charts(self, event=None) -> None:
@@ -890,10 +907,10 @@ class WorldInfoUI(tk.Tk):
 def main() -> None:  # pragma: no cover - simple runtime entry
     try:
         app = WorldInfoUI()
-    except tk.TclError as e:  # pragma: no cover - runtime only
-        print("Failed to launch Tkinter UI:", e)
-        return
-    app.mainloop()
+        app.mainloop()
+    except Exception:  # pragma: no cover - runtime only
+        traceback.print_exc()
+        input("Press Enter to exit...")
 
 
 if __name__ == "__main__":
