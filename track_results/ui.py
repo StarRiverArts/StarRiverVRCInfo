@@ -9,6 +9,7 @@ from tkinter import ttk, filedialog, messagebox
 
 
 from pathlib import Path
+import traceback
 
 
 WORLD_BASE = Path(__file__).resolve().parent.parent / "world_info"
@@ -22,8 +23,8 @@ class WorldReviewTab(ttk.Frame):
     def __init__(self, master: ttk.Frame) -> None:
         super().__init__(master)
         self.pack(fill=tk.BOTH, expand=True)
-        self.worlds = self._load_json(RAW_FILE)
-        self.reviews = self._load_json(REVIEW_FILE, default={})
+        self.worlds = self._load_json(RAW_FILE, [])
+        self.reviews = self._load_json(REVIEW_FILE, {})
         self.index = 0
         self._build_widgets()
         self._show_world()
@@ -37,8 +38,13 @@ class WorldReviewTab(ttk.Frame):
     def _build_widgets(self) -> None:
         self.label_name = ttk.Label(self, text="", font=("Arial", 12))
         self.label_name.pack(pady=4)
-        self.text_desc = tk.Text(self, height=8, wrap="word")
-        self.text_desc.pack(fill=tk.BOTH, expand=True, padx=5)
+        text_frame = ttk.Frame(self)
+        text_frame.pack(fill=tk.BOTH, expand=True, padx=5)
+        self.text_desc = tk.Text(text_frame, height=8, wrap="word")
+        vsb = ttk.Scrollbar(text_frame, orient="vertical", command=self.text_desc.yview)
+        self.text_desc.configure(yscrollcommand=vsb.set)
+        self.text_desc.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
         frame = ttk.Frame(self)
         frame.pack(pady=4)
         ttk.Button(frame, text="Approve", command=self._approve).grid(row=0, column=0, padx=2)
@@ -52,6 +58,11 @@ class WorldReviewTab(ttk.Frame):
             json.dump(self.reviews, f, ensure_ascii=False, indent=2)
 
     def _show_world(self):
+        if not self.worlds:
+            self.label_name.config(text="無資料")
+            self.text_desc.delete("1.0", tk.END)
+            self.status_label.config(text="")
+            return
         if self.index >= len(self.worlds):
             self.label_name.config(text="")
             self.text_desc.delete("1.0", tk.END)
@@ -170,7 +181,10 @@ class RacingUI(tk.Tk):
         ttk.Button(frame, text="Add Player", command=lambda: self._add_player(entry)).grid(row=0, column=1, padx=4)
         self.listbox = tk.Listbox(frame, height=8)
         self.listbox.grid(row=1, column=0, columnspan=2, sticky="nsew", padx=4, pady=4)
-        ttk.Button(frame, text="Randomize", command=self._randomize_bracket).grid(row=2, column=0, columnspan=2, pady=4)
+        vsb = ttk.Scrollbar(frame, orient="vertical", command=self.listbox.yview)
+        vsb.grid(row=1, column=2, sticky="ns")
+        self.listbox.configure(yscrollcommand=vsb.set)
+        ttk.Button(frame, text="Randomize", command=self._randomize_bracket).grid(row=2, column=0, columnspan=3, pady=4)
         frame.columnconfigure(0, weight=1)
         frame.rowconfigure(1, weight=1)
 
@@ -194,5 +208,9 @@ class RacingUI(tk.Tk):
 
 
 if __name__ == "__main__":
-    app = RacingUI()
-    app.mainloop()
+    try:
+        app = RacingUI()
+        app.mainloop()
+    except Exception:
+        traceback.print_exc()
+        input("Press Enter to exit...")
