@@ -15,6 +15,12 @@ See [`world_info/README.md`](world_info/README.md) for details.
 Additional background is available in
 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md) (Chinese).
 
+### Recent updates
+- Line charts on the personal dashboard and per-world tabs resize with the window.
+- Scrollbars keep long reviews, player lists and raw JSON tables accessible.
+- Extra columns in local Excel tables are ignored and missing JSON files now default to empty data.
+- UI entry points show a traceback and wait for input instead of closing on errors.
+
 Install dependencies with::
 
   pip install -r requirements.txt
