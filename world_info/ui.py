@@ -228,8 +228,12 @@ class WorldInfoUI(tk.Tk):
         vsb.pack(side="right", fill=tk.Y)
         self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
 
-        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white", height=200)
+        self.current_world_id: str | None = None
+        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white")
         self.user_canvas.pack(fill=tk.BOTH, expand=True)
+        self.user_canvas.bind(
+            "<Configure>", lambda e: self._draw_user_chart(self.current_world_id)
+        )
         ttk.Label(self.tab_user_list, text=LEGEND_TEXT).pack()
 
     def _build_dashboard_tab(self) -> None:
@@ -671,11 +675,14 @@ class WorldInfoUI(tk.Tk):
         if len(values) < 3:
             return
         world_id = values[2]
+        self.current_world_id = world_id
         self._draw_user_chart(world_id)
 
-    def _draw_user_chart(self, world_id: str) -> None:
-        data = self.history.get(world_id, [])
+    def _draw_user_chart(self, world_id: str | None) -> None:
         self.user_canvas.delete("all")
+        if not world_id:
+            return
+        data = self.history.get(world_id, [])
         if not data:
             return
         width = int(self.user_canvas.winfo_width() or 600)
@@ -993,10 +1000,10 @@ class WorldInfoUI(tk.Tk):
             # section 3: chart
             sec3 = ttk.LabelFrame(frame, text="折線圖")
             sec3.pack(fill=tk.BOTH, expand=True, padx=4, pady=2)
-            canvas = tk.Canvas(sec3, bg="white", height=200)
+            canvas = tk.Canvas(sec3, bg="white")
             canvas.pack(fill=tk.BOTH, expand=True)
+            canvas.bind("<Configure>", lambda e, c=canvas, ww=w: self._draw_world_chart(c, ww))
             ttk.Label(sec3, text=LEGEND_TEXT).pack()
-            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
 
             name = w.get("name") or w.get("世界名稱") or w.get("id")
             self.detail_nb.add(frame, text=str(name)[:15])
@@ -1022,13 +1029,11 @@ class WorldInfoUI(tk.Tk):
         self.chart_frames = []
         for w in unique.values():
             frm = ttk.Frame(self.chart_container)
-            name = w.get("世界名稱") or w.get("name") or w.get("世界ID") or w.get("id")
-            ttk.Label(frm, text=name).pack()
-            canvas = tk.Canvas(frm, bg="white", width=240, height=180)
+            canvas = tk.Canvas(frm, bg="white")
             canvas.pack(fill=tk.BOTH, expand=True)
+            canvas.bind("<Configure>", lambda e, c=canvas, ww=w: self._draw_world_chart(c, ww))
             ttk.Label(frm, text=LEGEND_TEXT).pack()
             self.chart_frames.append((frm, canvas, w))
-            self.after(100, lambda c=canvas, ww=w: self._draw_world_chart(c, ww))
         self._arrange_dashboard_charts()
 
     def _arrange_dashboard_charts(self, event=None) -> None:
