@@ -621,12 +621,10 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits = {
-            "visits": 5000,
-            "favorites": 5000,
-            "heat": 10,
-            "popularity": 10,
-        }
+        limits: dict[str, float] = {}
+        for key in colors:
+            max_val = max((d.get(key, 0) or 0) for d in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
             points = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
             for a, b in zip(points, points[1:]):
@@ -666,8 +664,16 @@ class WorldInfoUI(tk.Tk):
             y = height - pad - min(val, max_val) / max_val * scale_y
             return x, y
 
-        colors = {"visits": "blue", "favorites": "green", "heat": "red", "popularity": "purple"}
-        limits = {"visits": 5000, "favorites": 5000, "heat": 10, "popularity": 10}
+        colors = {
+            "visits": "blue",
+            "favorites": "green",
+            "heat": "red",
+            "popularity": "purple",
+        }
+        limits: dict[str, float] = {}
+        for key in colors:
+            max_val = max((d.get(key, 0) or 0) for d in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
             pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
             for a, b in zip(pts, pts[1:]):
@@ -721,7 +727,10 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits = {"visits": 10000, "favorites": 10000, "heat": 10, "popularity": 10}
+        limits: dict[str, float] = {}
+        for key in colors:
+            max_val = max((rec.get(key, 0) or 0) for rec in data)
+            limits[key] = max_val * 1.1 if max_val > 0 else 1
 
         for key, color in colors.items():
             pts = []
