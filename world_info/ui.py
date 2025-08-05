@@ -621,17 +621,37 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits: dict[str, float] = {}
-        for key in colors:
+        # use the max of visits/favorites for a shared Y scale
+        max_vis = max((d.get("visits", 0) or 0) for d in data)
+        max_fav = max((d.get("favorites", 0) or 0) for d in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
+        }
+        for key in ("heat", "popularity"):
             max_val = max((d.get(key, 0) or 0) for d in data)
             limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
-            points = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
-            for a, b in zip(points, points[1:]):
+            pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
+            for a, b in zip(pts, pts[1:]):
                 self.canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
-        # axes
+        # axes with ticks
         self.canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.canvas.create_line(pad, pad, pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            self.canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            self.canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            self.canvas.create_line(pad - 5, y, pad, y)
+            self.canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+        # title
+        self.canvas.create_text(width / 2, pad / 2, text=label, font=("TkDefaultFont", 12, "bold"))
 
     def _on_select_user_world(self, event=None) -> None:
         item = self.user_tree.focus()
@@ -670,16 +690,39 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits: dict[str, float] = {}
-        for key in colors:
+        max_vis = max((d.get("visits", 0) or 0) for d in data)
+        max_fav = max((d.get("favorites", 0) or 0) for d in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
+        }
+        for key in ("heat", "popularity"):
             max_val = max((d.get(key, 0) or 0) for d in data)
             limits[key] = max_val * 1.1 if max_val > 0 else 1
         for key, color in colors.items():
             pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
             for a, b in zip(pts, pts[1:]):
                 self.user_canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
+
+        # axes with ticks
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            self.user_canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            self.user_canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            self.user_canvas.create_line(pad - 5, y, pad, y)
+            self.user_canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+
+        # title with world name
+        name = data[0].get("name", world_id)
+        self.user_canvas.create_text(width / 2, pad / 2, text=name, font=("TkDefaultFont", 12, "bold"))
 
     def _load_history_rows(self, world_id: str) -> list[dict]:
         """Return history rows for a world ID."""
@@ -727,8 +770,14 @@ class WorldInfoUI(tk.Tk):
             "heat": "red",
             "popularity": "purple",
         }
-        limits: dict[str, float] = {}
-        for key in colors:
+        max_vis = max((rec.get("visits", 0) or 0) for rec in data)
+        max_fav = max((rec.get("favorites", 0) or 0) for rec in data)
+        vf_limit = max(max_vis, max_fav, 1)
+        limits: dict[str, float] = {
+            "visits": vf_limit,
+            "favorites": vf_limit,
+        }
+        for key in ("heat", "popularity"):
             max_val = max((rec.get(key, 0) or 0) for rec in data)
             limits[key] = max_val * 1.1 if max_val > 0 else 1
 
@@ -752,9 +801,24 @@ class WorldInfoUI(tk.Tk):
             x = x_at(t)
             canvas.create_line(x, pad, x, height - pad, fill="gray", dash=(2, 2))
 
+        # axes with ticks and title
         canvas.create_line(pad, height - pad, width - pad, height - pad)
         canvas.create_line(pad, pad, pad, height - pad)
         canvas.create_line(width - pad, pad, width - pad, height - pad)
+        for i in range(5):  # x-axis ticks
+            ts = min_t + (max_t - min_t) * i / 4
+            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            canvas.create_line(x, height - pad, x, height - pad + 5)
+            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
+            canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
+        for i in range(5):  # y-axis ticks based on visits/favorites
+            val = vf_limit * i / 4
+            y = height - pad - val / vf_limit * scale_y
+            canvas.create_line(pad - 5, y, pad, y)
+            canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
+
+        name = world.get("name") or world.get("世界名稱") or world_id
+        canvas.create_text(width / 2, pad / 2, text=name, font=("TkDefaultFont", 12, "bold"))
 
     def _create_world_tabs(self) -> None:
         """Create sub-tabs for each fetched user world with history."""
@@ -782,8 +846,8 @@ class WorldInfoUI(tk.Tk):
             for idx, col in enumerate(METRIC_COLS):
                 dash_tree.heading(str(idx), text=col)
                 dash_tree.column(str(idx), width=80, anchor="center")
-            row = record_row(w)
-            dash_tree.insert("", tk.END, values=row[1:])  # exclude fetch date
+            row = [w.get(col, "") for col in METRIC_COLS]
+            dash_tree.insert("", tk.END, values=row)
             dash_tree.pack(fill=tk.X, expand=True)
 
             # section 1: latest fetched info
