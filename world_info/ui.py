@@ -671,16 +671,33 @@ class WorldInfoUI(tk.Tk):
         width = int(self.user_canvas.winfo_width() or 600)
         height = int(self.user_canvas.winfo_height() or 200)
         pad = 40
+
         times = [d["timestamp"] for d in data]
-        min_t = min(times)
-        max_t = max(times)
+        first = data[0]
+        created = _parse_date(first.get("created_at"))
+        labs = _parse_date(first.get("labsPublicationDate"))
+        pub = _parse_date(first.get("publicationDate"))
+        update_times = sorted(
+            {int(_parse_date(d.get("updated_at")).timestamp()) for d in data if _parse_date(d.get("updated_at"))}
+        )
+
+        t_points = times + update_times
+        for t in (created, labs, pub):
+            if t:
+                t_points.append(int(t.timestamp()))
+        min_t = min(t_points)
+        max_t = max(t_points)
         if max_t == min_t:
             max_t += 1
+
         scale_x = width - 2 * pad
         scale_y = height - 2 * pad
 
-        def xy(idx, val, max_val):
-            x = pad + (times[idx] - min_t) / (max_t - min_t) * scale_x
+        def x_at(ts: int) -> float:
+            return pad + (ts - min_t) / (max_t - min_t) * scale_x
+
+        def xy(idx: int, val: float, max_val: float):
+            x = x_at(times[idx])
             y = height - pad - min(val, max_val) / max_val * scale_y
             return x, y
 
@@ -705,12 +722,27 @@ class WorldInfoUI(tk.Tk):
             for a, b in zip(pts, pts[1:]):
                 self.user_canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
 
+        # event lines
+        if labs:
+            x = x_at(int(labs.timestamp()))
+            self.user_canvas.create_line(x, pad, x, height - pad, fill="orange", dash=(4, 2))
+            self.user_canvas.create_text(x + 2, pad, text=f"實驗 {labs:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="orange")
+        if pub:
+            x = x_at(int(pub.timestamp()))
+            self.user_canvas.create_line(x, pad, x, height - pad, fill="black", dash=(4, 2))
+            self.user_canvas.create_text(x + 2, pad, text=f"發布 {pub:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="black")
+        for t in update_times:
+            x = x_at(t)
+            self.user_canvas.create_line(x, pad, x, height - pad, fill="gray", dash=(2, 2))
+            date = dt.datetime.fromtimestamp(t, dt.timezone.utc)
+            self.user_canvas.create_text(x + 2, pad, text=f"更新 {date:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="gray")
+
         # axes with ticks
         self.user_canvas.create_line(pad, height - pad, width - pad, height - pad)
         self.user_canvas.create_line(pad, pad, pad, height - pad)
         for i in range(5):  # x-axis ticks
             ts = min_t + (max_t - min_t) * i / 4
-            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            x = x_at(ts)
             self.user_canvas.create_line(x, height - pad, x, height - pad + 5)
             label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
             self.user_canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
@@ -729,7 +761,7 @@ class WorldInfoUI(tk.Tk):
         return list(self.history.get(world_id, []))
 
     def _draw_world_chart(self, canvas: tk.Canvas, world: dict) -> None:
-        world_id = world.get("id") or world.get("worldId")
+        world_id = world.get("id") or world.get("worldId") or world.get("世界ID")
         data = self.history.get(world_id, [])
         canvas.delete("all")
         if not data:
@@ -740,18 +772,19 @@ class WorldInfoUI(tk.Tk):
         pad = 40
 
         times = [d["timestamp"] for d in data]
+        created = _parse_date(world.get("created_at") or world.get("上傳日期"))
         labs = _parse_date(world.get("labsPublicationDate"))
         pub = _parse_date(world.get("publicationDate"))
-        update_times = []
-        for d in data:
-            u = _parse_date(d.get("updated_at"))
-            if u:
-                update_times.append(int(u.timestamp()))
+        update_times = sorted(
+            {int(_parse_date(d.get("updated_at")).timestamp()) for d in data if _parse_date(d.get("updated_at"))}
+        )
 
-        extra = [t for t in [labs, pub] if t]
-        t_extra = [int(t.timestamp()) for t in extra] + update_times
-        min_t = min([min(times)] + t_extra) if t_extra else min(times)
-        max_t = max([max(times)] + t_extra) if t_extra else max(times)
+        t_points = times + update_times
+        for t in (created, labs, pub):
+            if t:
+                t_points.append(int(t.timestamp()))
+        min_t = min(t_points)
+        max_t = max(t_points)
         if max_t == min_t:
             max_t += 1
 
@@ -794,12 +827,16 @@ class WorldInfoUI(tk.Tk):
         if labs:
             x = x_at(int(labs.timestamp()))
             canvas.create_line(x, pad, x, height - pad, fill="orange", dash=(4, 2))
+            canvas.create_text(x + 2, pad, text=f"實驗 {labs:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="orange")
         if pub:
             x = x_at(int(pub.timestamp()))
             canvas.create_line(x, pad, x, height - pad, fill="black", dash=(4, 2))
+            canvas.create_text(x + 2, pad, text=f"發布 {pub:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="black")
         for t in update_times:
             x = x_at(t)
             canvas.create_line(x, pad, x, height - pad, fill="gray", dash=(2, 2))
+            date = dt.datetime.fromtimestamp(t, dt.timezone.utc)
+            canvas.create_text(x + 2, pad, text=f"更新 {date:%m/%d}", anchor="nw", font=("TkDefaultFont", 8), fill="gray")
 
         # axes with ticks and title
         canvas.create_line(pad, height - pad, width - pad, height - pad)
@@ -807,7 +844,7 @@ class WorldInfoUI(tk.Tk):
         canvas.create_line(width - pad, pad, width - pad, height - pad)
         for i in range(5):  # x-axis ticks
             ts = min_t + (max_t - min_t) * i / 4
-            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
+            x = x_at(ts)
             canvas.create_line(x, height - pad, x, height - pad + 5)
             label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
             canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
@@ -898,7 +935,9 @@ class WorldInfoUI(tk.Tk):
             for c, h in zip(cols, headers):
                 hist_tree.heading(c, text=h)
                 hist_tree.column(c, width=80, anchor="center")
-            rows = self._load_history_rows(w.get("id") or w.get("worldId"))
+            rows = self._load_history_rows(
+                w.get("id") or w.get("worldId") or w.get("世界ID")
+            )
             for r in rows:
                 ts = r["timestamp"]
                 ts_dt = dt.datetime.fromtimestamp(ts, dt.timezone.utc)
@@ -973,6 +1012,8 @@ class WorldInfoUI(tk.Tk):
         self.chart_frames = []
         for w in unique.values():
             frm = ttk.Frame(self.chart_container)
+            name = w.get("世界名稱") or w.get("name") or w.get("世界ID") or w.get("id")
+            ttk.Label(frm, text=name).pack()
             canvas = tk.Canvas(frm, bg="white", width=240, height=180)
             canvas.pack(fill=tk.BOTH, expand=True)
             ttk.Label(frm, text=LEGEND_TEXT).pack()
