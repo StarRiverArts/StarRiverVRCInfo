@@ -379,8 +379,26 @@ class WorldInfoUI(tk.Tk):
                         "人次發布比": vpp,
                     }
                 )
+                ts = _parse_date(fetched)
+                if ts:
+                    rec = {
+                        "timestamp": int(ts.timestamp()),
+                        "name": name,
+                        "visits": visits,
+                        "favorites": fav,
+                        "heat": heat,
+                        "popularity": pop,
+                        "updated_at": upd,
+                        "publicationDate": pub,
+                        "labsPublicationDate": "",
+                    }
+                    recs = self.history.setdefault(wid, [])
+                    if not any(r.get("timestamp") == rec["timestamp"] for r in recs):
+                        recs.append(rec)
+                        recs.sort(key=lambda r: r.get("timestamp", 0))
             self._create_world_tabs()
             self._update_dashboard()
+            self._update_history_options()
 
     def _save_worlds(self, worlds: list[dict], file: Path) -> None:
         if Workbook is None or load_workbook is None:
@@ -434,6 +452,9 @@ class WorldInfoUI(tk.Tk):
         self._save_worlds(all_worlds, out_file)
         if source_name:
             update_daily_stats(source_name, all_worlds)
+        self.data = all_worlds
+        self._update_tag_options()
+        self._apply_filter()
 
     def _search_personal(self) -> None:
         """Fetch worlds for the configured player ID and refresh the table."""
