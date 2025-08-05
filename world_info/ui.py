@@ -334,7 +334,8 @@ class WorldInfoUI(tk.Tk):
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
                 self.user_tree.insert("", tk.END, values=row)
-                if len(row) == 15:
+                if len(row) >= 15:
+                    row = row[:15]
                     (
                         fetched,
                         name,
@@ -352,8 +353,9 @@ class WorldInfoUI(tk.Tk):
                         released,
                         vpp,
                     ) = row
-                else:
+                elif len(row) >= 14:
                     # backward compatibility with old files without fetch date
+                    row = row[:14]
                     fetched = ""
                     (
                         name,
@@ -371,6 +373,9 @@ class WorldInfoUI(tk.Tk):
                         released,
                         vpp,
                     ) = row
+                else:
+                    # skip rows that don't have enough columns
+                    continue
                 self.user_data.append(
                     {
                         "爬取日期": fetched,

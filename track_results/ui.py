@@ -22,8 +22,8 @@ class WorldReviewTab(ttk.Frame):
     def __init__(self, master: ttk.Frame) -> None:
         super().__init__(master)
         self.pack(fill=tk.BOTH, expand=True)
-        self.worlds = self._load_json(RAW_FILE) or []
-        self.reviews = self._load_json(REVIEW_FILE) or {}
+        self.worlds = self._load_json(RAW_FILE, [])
+        self.reviews = self._load_json(REVIEW_FILE, {})
         self.index = 0
         self._build_widgets()
         self._show_world()
