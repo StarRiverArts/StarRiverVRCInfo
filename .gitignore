@@ -1,6 +1,4 @@
 track_results/__pycache__/
-track_results/report/
-track_results/data/
 
 world_info/scraper/*.json
 world_info/__pycache__/
