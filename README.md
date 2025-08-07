@@ -1,31 +1,41 @@
-# VRChat WorldInfo by StarRiver
+# VRChat 工具集
 
-This repository contains two separate toolsets:
+VRChat 工具集是一個互動式工具組，包含賽道成績 (Track Results) 與世界資訊 (World Info) 兩部分。它能從 Google 試算表與 VRChat API 取得資料，產生排行榜、歷史紀錄並匯出 JSON 或靜態網站。介面採用 Tkinter，方便在桌面環境操作審核流程。
 
-## Track Results
-Utilities that download racing records from a Google Spreadsheet and
-build text or HTML leaderboards. See [`track_results/README.md`](track_results/README.md)
-for full usage instructions.
+本專案由星河 StarRiver 與 Codex AI 協作開發。
 
-## World Info
-A workflow for collecting VRChat world information and approving entries.
-It exports a JSON file for use on a website or inside Unity and includes a
-simple Tkinter interface for reviewing worlds.
-See [`world_info/README.md`](world_info/README.md) for details.
-Additional background is available in
-[`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md) (Chinese).
+## 功能簡介
+- **Track Results**：下載賽車紀錄並建立文字或 HTML 排行榜。詳見 [`track_results/README.md`](track_results/README.md)。
+- **World Info**：收集世界資訊、維護歷史資料並提供圖形審核介面。詳見 [`world_info/README.md`](world_info/README.md)。
 
-### Recent updates
-- Line charts on the personal dashboard and per-world tabs resize with the window.
-- Scrollbars keep long reviews, player lists and raw JSON tables accessible.
-- Extra columns in local Excel tables are ignored and missing JSON files now default to empty data.
-- UI entry points show a traceback and wait for input instead of closing on errors.
+## 資料來源
+- Google 試算表
+- VRChat 官方 API
 
-Install dependencies with::
+## CREDIT
+星河 StarRiver、Codex AI
 
-  pip install -r requirements.txt
+## 版本歷史
+1.3.2: 2025-08-06  
+- 同步最新世界與賽道資料
 
-If creator-world scraping is required, run ``playwright install`` after installing the packages.
+1.3.1: 2025-08-05  
+- 更新資料檔  
+- 文件加入近期 UI 改進說明
 
-For Traditional Chinese instructions, read
-[`README.zh_TW.md`](README.zh_TW.md).
+1.3.0: 2025-08-05  
+- 新增長內容捲軸  
+- 儀表板圖表支援視窗大小調整  
+- 啟動錯誤顯示 traceback 以利除錯
+
+## 快速開始
+安裝相依套件：
+```bash
+pip install -r requirements.txt
+```
+若需爬取作者世界資料，請於安裝後執行：
+```bash
+playwright install
+```
+
+更多繁體中文說明請參見 [`README.zh_TW.md`](README.zh_TW.md)。

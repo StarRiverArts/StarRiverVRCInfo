@@ -99,6 +99,7 @@ class WorldInfoUI(tk.Tk):
         self.tab_user = ttk.Frame(self.nb)
         self.tab_history = ttk.Frame(self.nb)
         self.tab_settings = ttk.Frame(self.nb)
+        self.tab_about = ttk.Frame(self.nb)
 
         self.nb.add(self.tab_entry, text="入口")
         self.nb.add(self.tab_data, text="資料")
@@ -107,6 +108,7 @@ class WorldInfoUI(tk.Tk):
         self.nb.add(self.tab_user, text="個人世界")
         self.nb.add(self.tab_history, text="歷史記錄")
         self.nb.add(self.tab_settings, text="設定")
+        self.nb.add(self.tab_about, text="關於")
 
         self._build_entry_tab()
         self._build_data_tab()
@@ -115,6 +117,7 @@ class WorldInfoUI(tk.Tk):
         self._build_user_tab()
         self._build_history_tab()
         self._build_settings_tab()
+        self._build_about_tab()
         self._load_local_tables()
 
     # ------------------------------------------------------------------
@@ -346,6 +349,20 @@ class WorldInfoUI(tk.Tk):
         player_id = self.settings.get("player_id", "")
         self.var_userid.set(player_id)
         self.var_playerid_set.set(player_id)
+
+    def _build_about_tab(self) -> None:
+        frame = self.tab_about
+        text = tk.Text(frame, wrap="word")
+        vsb = ttk.Scrollbar(frame, orient="vertical", command=text.yview)
+        text.configure(yscrollcommand=vsb.set)
+        text.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
+        try:
+            readme = Path(__file__).resolve().parent.parent / "README.md"
+            text.insert("1.0", readme.read_text(encoding="utf-8"))
+        except Exception as e:
+            text.insert("1.0", f"無法讀取 README: {e}")
+        text.configure(state=tk.DISABLED)
 
     def _load_local_tables(self) -> None:
         """Load existing personal Excel file and populate the user world list."""

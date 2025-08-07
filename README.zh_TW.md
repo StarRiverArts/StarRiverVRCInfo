@@ -6,15 +6,23 @@
 用於從 Google 試算表下載賽車紀錄並產生文字或 HTML 形式的排行榜。詳盡使用方式請參考 [`track_results/README.zh_TW.md`](track_results/README.zh_TW.md)。
 
 ## 世界資料（World Info）
-用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，並附帶簡易的 Tkinter 圖形審核介面。詳細流程請參考 [`world_info/README.zh_TW.md`](world_info/README.zh_TW.md)。
-更完整的架構與流程說明請見
-[`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
+用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，並附帶簡易的 Tkinter 圖形審核介面。詳細流程請參考 [`world_info/README.zh_TW.md`](world_info/README.zh_TW.md)。更完整的架構與流程說明請見 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
 
-### 最新更新
-- 個人儀表板與各世界頁籤的折線圖會隨視窗大小縮放。
-- 介面新增捲軸，長篇審核內容、玩家列表與原始 JSON 表格都能完整檢視。
-- 匯入的 Excel 資料會自動忽略多餘欄位，缺少的 JSON 檔則以空資料處理。
-- UI 入口點會顯示錯誤追蹤並暫停，避免視窗立即關閉。
+## CREDIT
+星河 StarRiver、Codex AI
+
+## 版本歷史
+1.3.2: 2025-08-06  
+- 同步最新世界與賽道資料
+
+1.3.1: 2025-08-05  
+- 更新資料檔  
+- 文件加入近期 UI 改進說明
+
+1.3.0: 2025-08-05  
+- 新增長內容捲軸  
+- 儀表板圖表支援視窗大小調整  
+- UI 入口點顯示錯誤追蹤並暫停
 
 安裝相依套件：
 
@@ -78,4 +86,3 @@ world_info/
 
 - 本倉庫的 `track_results` 腳本須能連線到 Google 服務方可正常運作。
 - `world_info` 相關檔案會產生 JSON 於本地端，預設不會提交到版本控制。
-
