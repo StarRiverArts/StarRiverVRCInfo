@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as dt
 from pathlib import Path
 from typing import List
+import logging
 
 try:
     from openpyxl import Workbook, load_workbook  # type: ignore
@@ -33,6 +34,7 @@ def update_daily_stats(source_name: str, worlds: List[dict],
         created inside ``ANALYTICS_DIR`` using ``source_name``.
     """
     if Workbook is None or load_workbook is None:
+        logging.warning("openpyxl not available; skipping statistics update")
         return
 
     ANALYTICS_DIR.mkdir(exist_ok=True)
@@ -44,19 +46,20 @@ def update_daily_stats(source_name: str, worlds: List[dict],
             file_path = ANALYTICS_DIR / file_path
         file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    stats = _calculate_stats(worlds)
+    stats = _calculate_stats(worlds, tzinfo=dt.timezone.utc)
     wb, ws = _load_or_create_workbook(file_path)
     _write_row(ws, stats)
     wb.save(file_path)
 
-def _calculate_stats(worlds: List[dict]) -> dict:
-    today = dt.datetime.now(dt.timezone.utc)
+def _calculate_stats(worlds: List[dict],
+                     tzinfo: dt.tzinfo = dt.timezone.utc) -> dict:
+    today = dt.datetime.now(tzinfo)
     today_str = today.strftime("%Y/%m/%d")
     today_date = today.date()
     new_today = 0
     for w in worlds:
         pub = _parse_date(w.get("publicationDate"))
-        if pub and pub.date() == today_date:
+        if pub and pub.astimezone(tzinfo).date() == today_date:
             new_today += 1
     return {
         "date": today_str,
