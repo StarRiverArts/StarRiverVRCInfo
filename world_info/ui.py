@@ -23,8 +23,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 from scraper.scraper import (
-    fetch_worlds,
-    _load_headers,
     load_history,
     update_history,
     record_row,
@@ -51,14 +49,21 @@ from .tabs import (
     SettingsTab,
     AboutTab,
 )
+from .actions import (
+    BASE,
+    RAW_FILE,
+    USER_FILE,
+    PERSONAL_FILE,
+    TAIWAN_FILE,
+    load_auth_headers,
+    search_keyword,
+    search_user,
+    search_fixed,
+    save_worlds,
+)
 
-BASE = Path(__file__).resolve().parent
-RAW_FILE = BASE / "scraper" / "raw_worlds.json"
-USER_FILE = BASE / "scraper" / "user_worlds.json"
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
-PERSONAL_FILE = BASE / "scraper" / "StarRiverArts.xlsx"
-TAIWAN_FILE = BASE / "scraper" / "taiwan_worlds.xlsx"
 
 class WorldInfoUI(tk.Tk):
     def __init__(self) -> None:
@@ -207,56 +212,20 @@ class WorldInfoUI(tk.Tk):
             self._update_dashboard()
             self._update_history_options()
 
-    def _save_worlds(self, worlds: list[dict], file: Path) -> None:
-        if Workbook is None or load_workbook is None:
-            return
-        headers = [
-            "爬取日期",
-            "世界名稱",
-            "世界ID",
-            "發布日期",
-            "最後更新",
-            "瀏覽人次",
-            "大小",
-            "收藏次數",
-            "熱度",
-            "人氣",
-            "實驗室到發布",
-            "瀏覽蒐藏比",
-            "距離上次更新",
-            "已發布",
-            "人次發布比",
-        ]
-        if file.exists():
-            wb = load_workbook(file)
-            ws = wb.active
-        else:
-            wb = Workbook()
-            ws = wb.active
-            ws.append(headers)
-        for w in worlds:
-            ws.append(record_row(w))
-        wb.save(file)
 
     def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None) -> None:
-        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
         blacklist = {k.strip() for k in self.settings.get("blacklist", "").split(",") if k.strip()}
-        all_worlds: list[dict] = []
-        for kw in kw_list:
-            if kw in blacklist:
-                continue
-            try:
-                worlds = fetch_worlds(keyword=kw, limit=50, headers=self.headers)
-            except Exception as e:  # pragma: no cover - runtime only
-                messagebox.showerror("Error", str(e))
-                return
-            all_worlds.extend(worlds)
+        try:
+            all_worlds = search_fixed(keywords, self.headers, blacklist)
+        except Exception as e:  # pragma: no cover - runtime only
+            messagebox.showerror("Error", str(e))
+            return
         if not all_worlds:
             return
         update_history(all_worlds)
         self.history = load_history()
         self._update_history_options()
-        self._save_worlds(all_worlds, out_file)
+        save_worlds(all_worlds, out_file)
         if source_name:
             update_daily_stats(source_name, all_worlds)
         self.data = all_worlds
@@ -271,7 +240,7 @@ class WorldInfoUI(tk.Tk):
             messagebox.showerror("Error", "Player ID required")
             return
         try:
-            worlds = fetch_worlds(user_id=user_id, limit=50, headers=self.headers)
+            worlds = search_user(user_id, self.headers)
         except Exception as e:  # pragma: no cover - runtime only
             messagebox.showerror("Error", str(e))
             return
@@ -280,7 +249,7 @@ class WorldInfoUI(tk.Tk):
         for w in worlds:
             w["爬取日期"] = fetch_date
 
-        self._save_worlds(worlds, PERSONAL_FILE)
+        save_worlds(worlds, PERSONAL_FILE)
         update_history(worlds)
         self.history = load_history()
         self._update_history_options()
@@ -303,7 +272,7 @@ class WorldInfoUI(tk.Tk):
         cookie = self.var_cookie.get() or None
         user = self.var_user.get() or None
         pw = self.var_pass.get() or None
-        self.headers = _load_headers(cookie, user, pw)
+        self.headers = load_auth_headers(cookie, user, pw)
 
     def _on_search(self) -> None:
         self._load_auth_headers()
@@ -312,7 +281,7 @@ class WorldInfoUI(tk.Tk):
             messagebox.showerror("Error", "Keyword required")
             return
         try:
-            self.data = fetch_worlds(keyword=keyword, limit=50, headers=self.headers)
+            self.data = search_keyword(keyword, self.headers)
             with open(RAW_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
             update_history(self.data)
@@ -334,9 +303,7 @@ class WorldInfoUI(tk.Tk):
             messagebox.showerror("Error", "User ID required")
             return
         try:
-            self.user_data = fetch_worlds(
-                user_id=user_id, limit=50, headers=self.headers
-            )
+            self.user_data = search_user(user_id, self.headers)
             fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
             for w in self.user_data:
                 w["爬取日期"] = fetch_date
@@ -348,7 +315,7 @@ class WorldInfoUI(tk.Tk):
 
             player_name = self.user_data[0].get("authorName", user_id) if self.user_data else user_id
             file_path = BASE / "scraper" / f"{player_name}.xlsx"
-            self._save_worlds(self.user_data, file_path)
+            save_worlds(self.user_data, file_path)
             self.settings["personal_file"] = file_path.name
             self.settings["player_id"] = user_id
             self.var_playerid_set.set(user_id)
