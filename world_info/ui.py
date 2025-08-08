@@ -40,6 +40,17 @@ except Exception:  # pragma: no cover - optional
     Workbook = None  # type: ignore
 
 from analytics import update_daily_stats
+from .constants import METRIC_COLS, LEGEND_TEXT
+from .tabs import (
+    EntryTab,
+    DataTab,
+    FilterTab,
+    ListTab,
+    UserTab,
+    HistoryTab,
+    SettingsTab,
+    AboutTab,
+)
 
 BASE = Path(__file__).resolve().parent
 RAW_FILE = BASE / "scraper" / "raw_worlds.json"
@@ -48,27 +59,6 @@ USER_FILE = BASE / "scraper" / "user_worlds.json"
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
 PERSONAL_FILE = BASE / "scraper" / "StarRiverArts.xlsx"
 TAIWAN_FILE = BASE / "scraper" / "taiwan_worlds.xlsx"
-
-# Column headers for metrics tables
-METRIC_COLS = [
-    "世界名稱",
-    "世界ID",
-    "發布日期",
-    "最後更新",
-    "瀏覽人次",
-    "大小",
-    "收藏次數",
-    "熱度",
-    "人氣",
-    "實驗室到發布",
-    "瀏覽蒐藏比",
-    "距離上次更新",
-    "已發布",
-    "人次發布比",
-]
-
-# Legend for line charts
-LEGEND_TEXT = "藍:人次 綠:收藏 紅:熱度 紫:熱門度 橘:實驗室 黑:公開 灰:更新"
 
 class WorldInfoUI(tk.Tk):
     def __init__(self) -> None:
@@ -83,241 +73,26 @@ class WorldInfoUI(tk.Tk):
         self.history: dict[str, list[dict]] = load_history()
 
         self.settings = self._load_settings()
-        self._build_tabs()
-        self._apply_settings()
 
-    # ------------------------------------------------------------------
-    # UI construction
-    def _build_tabs(self) -> None:
         self.nb = ttk.Notebook(self)
         self.nb.pack(fill=tk.BOTH, expand=True)
 
-        self.tab_entry = ttk.Frame(self.nb)
-        self.tab_data = ttk.Frame(self.nb)
-        self.tab_filter = ttk.Frame(self.nb)
-        self.tab_list = ttk.Frame(self.nb)
-        self.tab_user = ttk.Frame(self.nb)
-        self.tab_history = ttk.Frame(self.nb)
-        self.tab_settings = ttk.Frame(self.nb)
-        self.tab_about = ttk.Frame(self.nb)
+        self.tab_entry = EntryTab(self.nb, self)
+        self.tab_filter = FilterTab(self.nb, self)
+        self.tab_data = DataTab(self.nb, self)
+        self.tab_list = ListTab(self.nb, self)
+        self.tab_user = UserTab(self.nb, self)
+        self.tab_history = HistoryTab(self.nb, self)
+        self.tab_settings = SettingsTab(self.nb, self)
+        self.tab_about = AboutTab(self.nb, self)
 
-        self.nb.add(self.tab_entry, text="入口")
-        self.nb.add(self.tab_data, text="資料")
-        self.nb.add(self.tab_filter, text="篩選")
-        self.nb.add(self.tab_list, text="世界列表")
-        self.nb.add(self.tab_user, text="個人世界")
-        self.nb.add(self.tab_history, text="歷史記錄")
-        self.nb.add(self.tab_settings, text="設定")
-        self.nb.add(self.tab_about, text="關於")
-
-        self._build_entry_tab()
-        self._build_data_tab()
-        self._build_filter_tab()
-        self._build_list_tab()
-        self._build_user_tab()
-        self._build_history_tab()
-        self._build_settings_tab()
-        self._build_about_tab()
         self._load_local_tables()
+        self._apply_settings()
 
-    # ------------------------------------------------------------------
-    # Entry tab widgets
-    def _build_entry_tab(self) -> None:
-        f = self.tab_entry
-        row = 0
-        ttk.Label(f, text="Cookie").grid(row=row, column=0, sticky="e")
-        self.var_cookie = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_cookie, width=60).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
 
-        ttk.Label(f, text="Username").grid(row=row, column=0, sticky="e")
-        self.var_user = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_user).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
 
-        ttk.Label(f, text="Password").grid(row=row, column=0, sticky="e")
-        self.var_pass = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_pass, show="*").grid(row=row, column=1, padx=4, pady=2)
-        row += 1
 
-        ttk.Label(f, text="Search Keyword").grid(row=row, column=0, sticky="e")
-        self.var_keyword = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_keyword).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
 
-        ttk.Label(f, text="User ID").grid(row=row, column=0, sticky="e")
-        self.var_userid = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_userid).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        btn_frame = ttk.Frame(f)
-        btn_frame.grid(row=row, column=0, columnspan=2, pady=4)
-        ttk.Button(btn_frame, text="Search", command=self._on_search).grid(row=0, column=0, padx=2)
-        ttk.Button(btn_frame, text="User Worlds", command=self._on_user).grid(row=0, column=1, padx=2)
-        ttk.Button(btn_frame, text="Personal Search", command=self._search_personal).grid(row=0, column=2, padx=2)
-        ttk.Button(btn_frame, text="Taiwan Search", command=self._search_taiwan).grid(row=0, column=3, padx=2)
-
-    # ------------------------------------------------------------------
-    # Data tab widgets
-    def _build_data_tab(self) -> None:
-        frame = ttk.Frame(self.tab_data)
-        frame.pack(fill=tk.BOTH, expand=True)
-        self.text_data = tk.Text(frame, wrap="word")
-        vsb = ttk.Scrollbar(frame, orient="vertical", command=self.text_data.yview)
-        self.text_data.configure(yscrollcommand=vsb.set)
-        self.text_data.pack(side="left", fill=tk.BOTH, expand=True)
-        vsb.pack(side="right", fill=tk.Y)
-        ttk.Button(self.tab_data, text="Open Filter", command=lambda: self.nb.select(self.tab_filter)).pack(pady=4)
-
-    # Filter tab widgets
-    def _build_filter_tab(self) -> None:
-        f = self.tab_filter
-        ttk.Label(f, text="Tag").grid(row=0, column=0, sticky="e")
-        self.var_tag = tk.StringVar(value="all")
-        self.box_tag = ttk.Combobox(f, textvariable=self.var_tag, values=["all"])
-        self.box_tag.grid(row=0, column=1, padx=4, pady=2)
-
-        ttk.Label(f, text="Sort").grid(row=1, column=0, sticky="e")
-        self.var_sort = tk.StringVar(value="popular")
-        ttk.Combobox(f, textvariable=self.var_sort, values=["latest", "popular"]).grid(row=1, column=1, padx=4, pady=2)
-
-        ttk.Button(f, text="Apply", command=self._apply_filter).grid(row=2, column=0, columnspan=2, pady=4)
-
-    # World list tab
-    def _build_list_tab(self) -> None:
-        columns = ("name", "visits", "id")
-        self.tree = ttk.Treeview(self.tab_list, columns=columns, show="headings")
-        self.tree.heading("name", text="Name")
-        self.tree.heading("visits", text="Visits")
-        self.tree.heading("id", text="World ID")
-        self.tree.column("name", width=250)
-        self.tree.column("visits", width=80, anchor="e")
-        self.tree.column("id", width=200)
-        vsb = ttk.Scrollbar(self.tab_list, orient="vertical", command=self.tree.yview)
-        self.tree.configure(yscrollcommand=vsb.set)
-        self.tree.pack(side="left", fill=tk.BOTH, expand=True)
-        vsb.pack(side="right", fill=tk.Y)
-
-    # User worlds tab
-    def _build_user_tab(self) -> None:
-        f = self.tab_user
-        self.user_nb = ttk.Notebook(f)
-        self.user_nb.pack(fill=tk.BOTH, expand=True)
-
-        # dashboard and detail notebooks
-        self.tab_dashboard = ttk.Frame(self.user_nb)
-        self.tab_detail = ttk.Frame(self.user_nb)
-        self.user_nb.add(self.tab_dashboard, text="儀表板")
-        self.user_nb.add(self.tab_detail, text="詳細列表")
-
-        self._build_dashboard_tab()
-
-        self.detail_nb = ttk.Notebook(self.tab_detail)
-        self.detail_nb.pack(fill=tk.BOTH, expand=True)
-
-        self.tab_user_list = ttk.Frame(self.detail_nb)
-        self.detail_nb.add(self.tab_user_list, text="所有世界")
-
-        control = ttk.Frame(self.tab_user_list)
-        control.pack(fill=tk.X)
-        ttk.Button(control, text="Reload", command=self._load_local_tables).pack(side="left")
-
-        tree_frame = ttk.Frame(self.tab_user_list)
-        tree_frame.pack(fill=tk.BOTH, expand=True)
-        self.user_tree = ttk.Treeview(tree_frame, show="headings")
-        columns = ["爬取日期"] + METRIC_COLS
-        self.user_tree["columns"] = list(range(len(columns)))
-        for idx, col in enumerate(columns):
-            self.user_tree.heading(str(idx), text=col)
-            self.user_tree.column(str(idx), width=80, anchor="center")
-        vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=self.user_tree.yview)
-        self.user_tree.configure(yscrollcommand=vsb.set)
-        self.user_tree.pack(side="left", fill=tk.BOTH, expand=True)
-        vsb.pack(side="right", fill=tk.Y)
-        self.user_tree.bind("<<TreeviewSelect>>", self._on_select_user_world)
-
-        self.current_world_id: str | None = None
-        self.user_canvas = tk.Canvas(self.tab_user_list, bg="white")
-        self.user_canvas.pack(fill=tk.BOTH, expand=True)
-        self.user_canvas.bind(
-            "<Configure>", lambda e: self._draw_user_chart(self.current_world_id)
-        )
-        ttk.Label(self.tab_user_list, text=LEGEND_TEXT).pack()
-
-    def _build_dashboard_tab(self) -> None:
-        """Create the dashboard view with a summary table and charts."""
-        f = self.tab_dashboard
-        tree_frame = ttk.Frame(f)
-        tree_frame.pack(fill=tk.X)
-        self.dash_tree = ttk.Treeview(tree_frame, show="headings")
-        self.dash_tree["columns"] = list(range(len(METRIC_COLS)))
-        for idx, col in enumerate(METRIC_COLS):
-            self.dash_tree.heading(str(idx), text=col)
-            self.dash_tree.column(str(idx), width=80, anchor="center")
-        self.dash_tree.pack(side="left", fill=tk.X, expand=True)
-        dash_vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=self.dash_tree.yview)
-        dash_vsb.pack(side="right", fill=tk.Y)
-        self.dash_tree.configure(yscrollcommand=dash_vsb.set)
-
-        self.chart_canvas = tk.Canvas(f)
-        chart_vsb = ttk.Scrollbar(f, orient="vertical", command=self.chart_canvas.yview)
-        self.chart_canvas.configure(yscrollcommand=chart_vsb.set)
-        self.chart_canvas.pack(side="left", fill=tk.BOTH, expand=True)
-        chart_vsb.pack(side="right", fill=tk.Y)
-        self.chart_container = ttk.Frame(self.chart_canvas)
-        self.chart_window = self.chart_canvas.create_window((0, 0), window=self.chart_container, anchor="nw")
-        self.chart_container.bind(
-            "<Configure>",
-            lambda e: self.chart_canvas.configure(scrollregion=self.chart_canvas.bbox("all")),
-        )
-        self.chart_canvas.bind(
-            "<Configure>",
-            lambda e: (
-                self.chart_canvas.itemconfigure(self.chart_window, width=e.width),
-                self._arrange_dashboard_charts(e),
-            ),
-        )
-        self.chart_frames: list[tuple[tk.Frame, tk.Canvas, dict]] = []
-
-    def _build_history_tab(self) -> None:
-        f = self.tab_history
-        self.var_hist_world = tk.StringVar()
-        self.box_hist_world = ttk.Combobox(f, textvariable=self.var_hist_world, values=list(self.history.keys()))
-        self.box_hist_world.pack(fill=tk.X, pady=2)
-        self.box_hist_world.bind("<<ComboboxSelected>>", self._draw_history)
-        self.canvas = tk.Canvas(f, bg="white")
-        self.canvas.pack(fill=tk.BOTH, expand=True)
-        self._update_history_options()
-
-    def _build_settings_tab(self) -> None:
-        f = self.tab_settings
-        row = 0
-        ttk.Label(f, text="Cookie").grid(row=row, column=0, sticky="e")
-        self.var_set_cookie = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_set_cookie, width=60).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        ttk.Label(f, text="個人關鍵字").grid(row=row, column=0, sticky="e")
-        self.var_personal_kw = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_personal_kw, width=40).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        ttk.Label(f, text="台灣關鍵字").grid(row=row, column=0, sticky="e")
-        self.var_taiwan_kw = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_taiwan_kw, width=40).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        ttk.Label(f, text="黑名單").grid(row=row, column=0, sticky="e")
-        self.var_blacklist = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_blacklist, width=40).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        ttk.Label(f, text="玩家ID").grid(row=row, column=0, sticky="e")
-        self.var_playerid_set = tk.StringVar()
-        tk.Entry(f, textvariable=self.var_playerid_set).grid(row=row, column=1, padx=4, pady=2)
-        row += 1
-
-        ttk.Button(f, text="Save", command=self._save_settings).grid(row=row, column=0, columnspan=2, pady=4)
 
     def _load_settings(self) -> dict:
         if SETTINGS_FILE.exists():
@@ -349,20 +124,6 @@ class WorldInfoUI(tk.Tk):
         player_id = self.settings.get("player_id", "")
         self.var_userid.set(player_id)
         self.var_playerid_set.set(player_id)
-
-    def _build_about_tab(self) -> None:
-        frame = self.tab_about
-        text = tk.Text(frame, wrap="word")
-        vsb = ttk.Scrollbar(frame, orient="vertical", command=text.yview)
-        text.configure(yscrollcommand=vsb.set)
-        text.pack(side="left", fill=tk.BOTH, expand=True)
-        vsb.pack(side="right", fill=tk.Y)
-        try:
-            readme = Path(__file__).resolve().parent.parent / "README.md"
-            text.insert("1.0", readme.read_text(encoding="utf-8"))
-        except Exception as e:
-            text.insert("1.0", f"無法讀取 README: {e}")
-        text.configure(state=tk.DISABLED)
 
     def _load_local_tables(self) -> None:
         """Load existing personal Excel file and populate the user world list."""
@@ -527,7 +288,7 @@ class WorldInfoUI(tk.Tk):
 
         # reload the table so manual edits remain and new data is visible
         self._load_local_tables()
-        self.nb.select(self.tab_user)
+        self.nb.select(self.tab_user.frame)
 
     def _search_taiwan(self) -> None:
         self._load_auth_headers()
@@ -560,7 +321,7 @@ class WorldInfoUI(tk.Tk):
             self.text_data.delete("1.0", tk.END)
             self.text_data.insert(tk.END, json.dumps(self.data, ensure_ascii=False, indent=2))
             self._update_tag_options()
-            self.nb.select(self.tab_data)
+            self.nb.select(self.tab_data.frame)
         except RuntimeError as e:  # pragma: no cover - runtime only
             messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
@@ -600,7 +361,7 @@ class WorldInfoUI(tk.Tk):
                 self.user_tree.insert("", tk.END, values=row)
             self._create_world_tabs()
             self._update_dashboard()
-            self.nb.select(self.tab_user)
+            self.nb.select(self.tab_user.frame)
         except RuntimeError as e:  # pragma: no cover - runtime only
             messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
@@ -631,7 +392,7 @@ class WorldInfoUI(tk.Tk):
             visits = w.get("visits") or w.get("瀏覽人次")
             world_id = w.get("id") or w.get("世界ID")
             self.tree.insert("", tk.END, values=(name, visits, world_id))
-        self.nb.select(self.tab_list)
+        self.nb.select(self.tab_list.frame)
 
     def _update_history_options(self) -> None:
         self.hist_map: dict[str, str] = {}
