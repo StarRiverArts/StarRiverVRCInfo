@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import csv
 import io
+import time
 import urllib.parse
 import urllib.request
 from typing import List
@@ -20,7 +21,12 @@ SHEET_NAME = "歷史紀錄"
 """Worksheet name with the historical records."""
 
 
-def fetch_sheet(sheet_id: str = SHEET_ID, sheet_name: str = SHEET_NAME) -> List[List[str]]:
+def fetch_sheet(
+    sheet_id: str = SHEET_ID,
+    sheet_name: str = SHEET_NAME,
+    timeout: float | None = None,
+    retries: int = 3,
+) -> List[List[str]] | str:
     """Return the worksheet contents as a list of rows.
 
     Parameters
@@ -29,6 +35,10 @@ def fetch_sheet(sheet_id: str = SHEET_ID, sheet_name: str = SHEET_NAME) -> List[
         The spreadsheet identifier.
     sheet_name:
         The specific worksheet name to download.
+    timeout:
+        Seconds to wait for a response before raising a timeout error.
+    retries:
+        Maximum number of attempts before giving up.
     """
 
     sheet_name_encoded = urllib.parse.quote(sheet_name)
@@ -39,12 +49,21 @@ def fetch_sheet(sheet_id: str = SHEET_ID, sheet_name: str = SHEET_NAME) -> List[
 
     print(f"Fetching data from: {url}")
 
-    try:
-        with urllib.request.urlopen(url) as response:
-            csv_data = response.read().decode("utf-8")
-    except Exception as e:  # pragma: no cover - network errors are environment specific
-        print("Failed to fetch data:", e)
-        raise
+    last_exc: Exception | None = None
+    for attempt in range(1, retries + 1):
+        try:
+            with urllib.request.urlopen(url, timeout=timeout) as response:
+                csv_data = response.read().decode("utf-8")
+            break
+        except Exception as e:  # pragma: no cover - network errors are environment specific
+            print(f"Attempt {attempt} failed: {e}")
+            last_exc = e
+            if attempt == retries:
+                return f"Failed to fetch data after {retries} attempts: {e}"
+            time.sleep(attempt)
+    else:
+        # Should not reach here since loop either breaks or returns
+        return "Failed to fetch data: unknown error"
 
     reader = csv.reader(io.StringIO(csv_data))
     return list(reader)
