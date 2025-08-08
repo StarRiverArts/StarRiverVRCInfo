@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import csv
 import os
 from typing import Dict, List, Tuple
@@ -20,8 +21,12 @@ def save_rows(rows: List[List[str]], path: str) -> None:
         writer.writerows(rows)
 
 
-def parse_leaderboards(rows: List[List[str]]) -> List[str]:
-    """Compute various leaderboards from the data."""
+def parse_leaderboards(rows: List[List[str]], output_csv: bool = False) -> List[str]:
+    """Compute various leaderboards from the data.
+
+    If ``output_csv`` is True, write CSV summaries for each leaderboard under
+    ``DATA_DIR``.
+    """
     if not rows:
         return ["No data"]
 
@@ -79,38 +84,124 @@ def parse_leaderboards(rows: List[List[str]]) -> List[str]:
     lines: List[str] = []
 
     lines.append("Fastest driver per track:")
-    for track, (driver, t) in fastest_by_track.items():
+    for track, (driver, t) in sorted(
+        fastest_by_track.items(), key=lambda item: item[1][1]
+    ):
         lines.append(f"{track}: {driver} {t}")
 
     lines.append("")
     lines.append("Fastest per vehicle on each track:")
-    for track, vehicles in fastest_by_track_vehicle.items():
+    for track in sorted(fastest_by_track_vehicle):
         lines.append(f"{track}:")
-        for vehicle, (driver, t) in vehicles.items():
+        vehicles = fastest_by_track_vehicle[track]
+        for vehicle, (driver, t) in sorted(
+            vehicles.items(), key=lambda item: item[1][1]
+        ):
             lines.append(f"  {vehicle}: {driver} {t}")
 
     lines.append("")
     lines.append("Driver career best:")
-    for driver, t in driver_best.items():
+    for driver, t in sorted(driver_best.items(), key=lambda item: item[1]):
         lines.append(f"{driver}: {t}")
 
     lines.append("")
     lines.append("Vehicle best per track:")
-    for vehicle, tracks in vehicle_track_best.items():
+    for vehicle in sorted(vehicle_track_best):
         lines.append(f"{vehicle}:")
-        for track, (driver, t) in tracks.items():
+        tracks = vehicle_track_best[vehicle]
+        for track, (driver, t) in sorted(
+            tracks.items(), key=lambda item: item[1][1]
+        ):
             lines.append(f"  {track}: {driver} {t}")
 
     if championship_rows:
         lines.append("")
         lines.append("Championship entries:")
+        championship_rows.sort(key=lambda r: float(r[idx_time]))
         for row in championship_rows:
             lines.append(", ".join(row))
+
+    if output_csv:
+        os.makedirs(DATA_DIR, exist_ok=True)
+
+        with open(
+            os.path.join(DATA_DIR, "fastest_by_track.csv"),
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as fh:
+            writer = csv.writer(fh)
+            writer.writerow(["track", "driver", "time"])
+            for track, (driver, t) in sorted(
+                fastest_by_track.items(), key=lambda item: item[1][1]
+            ):
+                writer.writerow([track, driver, t])
+
+        with open(
+            os.path.join(DATA_DIR, "fastest_by_track_vehicle.csv"),
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as fh:
+            writer = csv.writer(fh)
+            writer.writerow(["track", "vehicle", "driver", "time"])
+            for track in sorted(fastest_by_track_vehicle):
+                for vehicle, (driver, t) in sorted(
+                    fastest_by_track_vehicle[track].items(),
+                    key=lambda item: item[1][1],
+                ):
+                    writer.writerow([track, vehicle, driver, t])
+
+        with open(
+            os.path.join(DATA_DIR, "driver_best.csv"),
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as fh:
+            writer = csv.writer(fh)
+            writer.writerow(["driver", "time"])
+            for driver, t in sorted(driver_best.items(), key=lambda item: item[1]):
+                writer.writerow([driver, t])
+
+        with open(
+            os.path.join(DATA_DIR, "vehicle_track_best.csv"),
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as fh:
+            writer = csv.writer(fh)
+            writer.writerow(["vehicle", "track", "driver", "time"])
+            for vehicle in sorted(vehicle_track_best):
+                for track, (driver, t) in sorted(
+                    vehicle_track_best[vehicle].items(),
+                    key=lambda item: item[1][1],
+                ):
+                    writer.writerow([vehicle, track, driver, t])
+
+        if championship_rows:
+            with open(
+                os.path.join(DATA_DIR, "championship_entries.csv"),
+                "w",
+                newline="",
+                encoding="utf-8",
+            ) as fh:
+                writer = csv.writer(fh)
+                writer.writerow(header)
+                for row in championship_rows:
+                    writer.writerow(row)
 
     return lines
 
 
-def main() -> None:
+def main(argv: List[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Build racing leaderboards")
+    parser.add_argument(
+        "--output-csv",
+        action="store_true",
+        help="also write leaderboard CSV files to data/",
+    )
+    args = parser.parse_args(argv)
+
     try:
         rows = fetch_sheet()
     except Exception:
@@ -119,7 +210,7 @@ def main() -> None:
     if rows:
         save_rows(rows, RAW_FILE)
 
-    report_lines = parse_leaderboards(rows)
+    report_lines = parse_leaderboards(rows, output_csv=args.output_csv)
 
     os.makedirs(os.path.dirname(REPORT_FILE), exist_ok=True)
     with open(REPORT_FILE, "w", encoding="utf-8") as fh:

@@ -27,8 +27,10 @@ python3 generate_summary.py
 `build_leaderboards.py` 整合下載與分析流程，先將原始 CSV 存到 `data/history.csv`，再於 `data/leaderboard.txt` 產生排行榜。內容包含每條賽道最快車手、各車種最佳紀錄、車手生涯最佳等，若標記為錦標賽則另行列出。
 
 ```bash
-python3 build_leaderboards.py
+python3 build_leaderboards.py [--output-csv]
 ```
+
+加上 `--output-csv` 參數會在 `data/` 目錄下輸出對應的 CSV 檔。
 
 ## prefab/TextDisplay.cs
 

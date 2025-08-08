@@ -40,8 +40,11 @@ marked as belonging to a championship, it will be listed separately.
 Run it with:
 
 ```bash
-python3 build_leaderboards.py
+python3 build_leaderboards.py [--output-csv]
 ```
+
+Use `--output-csv` to additionally write each leaderboard as a CSV file under
+`data/`.
 
 ## prefab/TextDisplay.cs
 
