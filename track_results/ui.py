@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import random
 import json
+import csv
+import re
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
-
 from pathlib import Path
 import traceback
+
+from fetch_sheet import fetch_sheet
 
 
 WORLD_BASE = Path(__file__).resolve().parent.parent / "world_info"
@@ -111,6 +114,7 @@ class RacingUI(tk.Tk):
 
         self.sheet_url_var = tk.StringVar()
         self.local_path_var = tk.StringVar()
+        self.rows: list[list[str]] = []
 
         notebook = ttk.Notebook(self)
         notebook.pack(fill=tk.BOTH, expand=True)
@@ -129,6 +133,8 @@ class RacingUI(tk.Tk):
         frame_track_driver = ttk.Frame(notebook)
         notebook.add(frame_track_driver, text="Track Fastest")
         ttk.Label(frame_track_driver, text="Fastest driver per track").pack(padx=10, pady=10)
+        self.track_fastest_text = tk.Text(frame_track_driver, height=8)
+        self.track_fastest_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         # Tab 3: Track Fastest (Vehicle)
         frame_track_vehicle = ttk.Frame(notebook)
@@ -144,6 +150,8 @@ class RacingUI(tk.Tk):
         frame_driver = ttk.Frame(notebook)
         notebook.add(frame_driver, text="Driver Career")
         ttk.Label(frame_driver, text="Driver best per track").pack(padx=10, pady=10)
+        self.driver_career_text = tk.Text(frame_driver, height=8)
+        self.driver_career_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         # Tab 6: Championship
         frame_champ = ttk.Frame(notebook)
@@ -170,9 +178,92 @@ class RacingUI(tk.Tk):
             self.local_path_var.set(path)
 
     def _load_data(self) -> None:
-        url = self.sheet_url_var.get()
-        path = self.local_path_var.get()
-        messagebox.showinfo("Load", f"Pretend loading from\nURL: {url}\nFile: {path}")
+        url = self.sheet_url_var.get().strip()
+        path = self.local_path_var.get().strip()
+
+        rows: list[list[str]] = []
+
+        try:
+            if url:
+                match = re.search(r"/d/([A-Za-z0-9-_]+)", url)
+                if not match:
+                    raise ValueError("Invalid Google Sheet URL")
+                sheet_id = match.group(1)
+                rows = fetch_sheet(sheet_id=sheet_id)
+            elif path:
+                with open(path, newline="", encoding="utf-8") as fh:
+                    rows = list(csv.reader(fh))
+            else:
+                messagebox.showerror("Load", "Please provide a Sheet URL or local CSV file")
+                return
+        except Exception as exc:  # pragma: no cover - UI feedback only
+            messagebox.showerror("Load", f"Failed to load data: {exc}")
+            return
+
+        if not rows:
+            messagebox.showwarning("Load", "No data loaded")
+            return
+
+        self.rows = rows
+        self._update_track_fastest()
+        self._update_driver_career()
+        messagebox.showinfo("Load", "Data loaded successfully")
+
+    def _update_track_fastest(self) -> None:
+        if not self.rows:
+            return
+        header, *data = self.rows
+        try:
+            idx_track = header.index("賽道")
+            idx_driver = header.index("車手")
+            idx_time = header.index("時間")
+        except ValueError:
+            messagebox.showerror("Load", "Required columns missing")
+            return
+
+        fastest: dict[str, tuple[str, float]] = {}
+        for row in data:
+            if len(row) <= max(idx_track, idx_driver, idx_time):
+                continue
+            try:
+                t = float(row[idx_time])
+            except ValueError:
+                continue
+            track = row[idx_track]
+            driver = row[idx_driver]
+            if track not in fastest or t < fastest[track][1]:
+                fastest[track] = (driver, t)
+
+        lines = [f"{track}: {driver} {t}" for track, (driver, t) in sorted(fastest.items())]
+        self.track_fastest_text.delete("1.0", tk.END)
+        self.track_fastest_text.insert(tk.END, "\n".join(lines))
+
+    def _update_driver_career(self) -> None:
+        if not self.rows:
+            return
+        header, *data = self.rows
+        try:
+            idx_driver = header.index("車手")
+            idx_time = header.index("時間")
+        except ValueError:
+            messagebox.showerror("Load", "Required columns missing")
+            return
+
+        best: dict[str, float] = {}
+        for row in data:
+            if len(row) <= max(idx_driver, idx_time):
+                continue
+            try:
+                t = float(row[idx_time])
+            except ValueError:
+                continue
+            driver = row[idx_driver]
+            if driver not in best or t < best[driver]:
+                best[driver] = t
+
+        lines = [f"{driver}: {t}" for driver, t in sorted(best.items())]
+        self.driver_career_text.delete("1.0", tk.END)
+        self.driver_career_text.insert(tk.END, "\n".join(lines))
 
     def _build_championship_tab(self, frame: ttk.Frame) -> None:
         self.champ_players: list[str] = []
