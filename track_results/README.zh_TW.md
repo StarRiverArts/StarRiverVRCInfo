@@ -14,7 +14,7 @@ python3 fetch_sheet.py
 
 ## generate_summary.py
 
-`generate_summary.py` 會根據試算表建立簡易文字報告，輸出在 `report/summary.txt`。
+`generate_summary.py` 會根據試算表建立簡易文字報告，輸出在 `report/summary.txt`，內容包含總筆數、依時間排序的各賽道最快成績以及每位車手的最佳時間。
 
 ```bash
 python3 generate_summary.py
