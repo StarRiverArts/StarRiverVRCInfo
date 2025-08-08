@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import List, Dict
 
@@ -11,6 +12,9 @@ from scraper.scraper import (
     update_history,
     record_row,
 )
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 try:
     from openpyxl import Workbook, load_workbook  # type: ignore
@@ -78,18 +82,33 @@ def _save_worlds(worlds: List[dict], file_path: Path) -> None:
     wb.save(file_path)
 
 
-def _run_mode(name: str, cfg: Dict[str, object]) -> None:
+def _run_mode(name: str, cfg: Dict[str, object]) -> int:
+    logger.info("Starting mode %s", name)
     mode_type = cfg.get("type")
     worlds: List[dict] = []
+
+    def _fetch(func, *args, **kwargs):
+        for attempt in range(1, 4):
+            try:
+                return func(*args, **kwargs)
+            except Exception as exc:  # pragma: no cover - network errors
+                logger.error(
+                    "%s attempt %d failed: %s", func.__name__, attempt, exc
+                )
+        return []
+
     if mode_type == "keyword":
         for kw in cfg.get("keywords", []):
-            worlds.extend(search_worlds(str(kw), limit=50))
+            worlds.extend(_fetch(search_worlds, str(kw), limit=50))
     elif mode_type == "user":
         user_id = str(cfg.get("user_id", ""))
         if user_id:
-            worlds = get_user_worlds(user_id, limit=50)
+            worlds = _fetch(get_user_worlds, user_id, limit=50)
+        else:
+            logger.error("Mode %s missing user_id", name)
     else:
-        return
+        logger.error("Mode %s has unknown type %s", name, mode_type)
+
     if name.lower() == "taiwan":
         blacklist = _load_taiwan_blacklist()
         if blacklist:
@@ -98,17 +117,22 @@ def _run_mode(name: str, cfg: Dict[str, object]) -> None:
                 for w in worlds
                 if (w.get("id") or w.get("worldId")) not in blacklist
             ]
-    if not worlds:
-        return
-    update_history(worlds)
-    sheet_file = ANALYTICS_DIR / f"{name}WorldSheet.xlsx"
-    _save_worlds(worlds, sheet_file)
-    stats_path = cfg.get("stats")
-    if stats_path:
-        stats_path = Path(str(stats_path))
-        if not stats_path.is_absolute():
-            stats_path = BASE.parent / stats_path
-    update_daily_stats(name, worlds, stats_path)
+
+    if worlds:
+        update_history(worlds)
+        sheet_file = ANALYTICS_DIR / f"{name}WorldSheet.xlsx"
+        _save_worlds(worlds, sheet_file)
+        stats_path = cfg.get("stats")
+        if stats_path:
+            stats_path = Path(str(stats_path))
+            if not stats_path.is_absolute():
+                stats_path = BASE.parent / stats_path
+        update_daily_stats(name, worlds, stats_path)
+    else:
+        logger.error("No worlds fetched for mode %s", name)
+
+    logger.info("Finished mode %s with %d worlds", name, len(worlds))
+    return len(worlds)
 
 
 def main() -> None:
@@ -116,9 +140,11 @@ def main() -> None:
         raise SystemExit(f"Config file not found: {CONFIG_FILE}")
     with open(CONFIG_FILE, "r", encoding="utf-8") as f:
         modes = json.load(f)
+    total = 0
     for name, cfg in modes.items():
         if isinstance(cfg, dict):
-            _run_mode(name, cfg)
+            total += _run_mode(name, cfg)
+    print(f"總共抓取世界數量：{total}")
 
 
 if __name__ == "__main__":
