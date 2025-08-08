@@ -36,7 +36,9 @@ python3 build_leaderboards.py
 
 ## build_site.py
 
-`build_site.py` 讀取排行榜文字後建立靜態的 `site/index.html`，可透過 GitHub Pages 部署讓玩家瀏覽最新成績。
+`build_site.py` 讀取排行榜文字後，透過 `templates/index.html` 的 Jinja2 模板產生靜態的
+`site/index.html`，可透過 GitHub Pages 部署讓玩家瀏覽最新成績。若要自訂樣式，可編輯該模板或
+替換成自己的檔案。
 
 ```bash
 python3 build_site.py
@@ -47,4 +49,5 @@ python3 build_site.py
 ## ui.py
 
 `ui.py` 提供簡易的圖形介面，讓你輸入 Google 試算表連結或本地檔案路徑並瀏覽各式排行榜。介面含有多個分頁，可手動輸入成績、查看依賽道或車輛的最速紀錄、統計車手生涯最佳，以及簡易的錦標賽規劃工具。最後一個分頁整合了 VRChat 世界審查工具，可直接在同一視窗核可或拒絕世界資料。
+
 
