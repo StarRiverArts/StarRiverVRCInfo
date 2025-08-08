@@ -38,29 +38,65 @@ except Exception:  # pragma: no cover - optional
     Workbook = None  # type: ignore
 
 from analytics import update_daily_stats
-from .constants import METRIC_COLS, LEGEND_TEXT
-from .tabs import (
-    EntryTab,
-    DataTab,
-    FilterTab,
-    ListTab,
-    UserTab,
-    HistoryTab,
-    SettingsTab,
-    AboutTab,
-)
-from .actions import (
-    BASE,
-    RAW_FILE,
-    USER_FILE,
-    PERSONAL_FILE,
-    TAIWAN_FILE,
-    load_auth_headers,
-    search_keyword,
-    search_user,
-    search_fixed,
-    save_worlds,
-)
+
+# Support running both as a module (``python -m world_info.ui``) and as a
+# stand-alone script.  When executed directly, ``__package__`` is ``None`` and
+# the relative imports below would otherwise fail, causing the console window to
+# close immediately on error.  Instead, adjust ``sys.path`` and import the
+# modules via the package name so that any further relative imports still work.
+if __package__:
+    from .constants import METRIC_COLS, LEGEND_TEXT
+    from .tabs import (
+        EntryTab,
+        DataTab,
+        FilterTab,
+        ListTab,
+        UserTab,
+        HistoryTab,
+        SettingsTab,
+        AboutTab,
+    )
+    from .actions import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        PERSONAL_FILE,
+        TAIWAN_FILE,
+        load_auth_headers,
+        search_keyword,
+        search_user,
+        search_fixed,
+        save_worlds,
+    )
+else:  # pragma: no cover - direct script execution
+    import sys
+    from pathlib import Path
+
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+    from world_info.constants import METRIC_COLS, LEGEND_TEXT
+    from world_info.tabs import (
+        EntryTab,
+        DataTab,
+        FilterTab,
+        ListTab,
+        UserTab,
+        HistoryTab,
+        SettingsTab,
+        AboutTab,
+    )
+    from world_info.actions import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        PERSONAL_FILE,
+        TAIWAN_FILE,
+        load_auth_headers,
+        search_keyword,
+        search_user,
+        search_fixed,
+        save_worlds,
+    )
 
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
