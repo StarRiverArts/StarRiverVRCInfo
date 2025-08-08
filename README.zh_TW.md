@@ -3,7 +3,7 @@
 本專案包含兩個獨立的工具集：
 
 ## 賽道成績（Track Results）
-用於從 Google 試算表下載賽車紀錄並產生文字或 HTML 形式的排行榜。詳盡使用方式請參考 [`track_results/README.zh_TW.md`](track_results/README.zh_TW.md)。
+用於從 Google 試算表下載賽車紀錄並產生文字或 HTML 形式的排行榜，也可輸出包含總筆數、各賽道最快與車手最佳時間的統計摘要。詳盡使用方式請參考 [`track_results/README.zh_TW.md`](track_results/README.zh_TW.md)。
 
 ## 世界資料（World Info）
 用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，並附帶簡易的 Tkinter 圖形審核介面。詳細流程請參考 [`world_info/README.zh_TW.md`](world_info/README.zh_TW.md)。更完整的架構與流程說明請見 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
@@ -53,7 +53,7 @@ VRChat WorldInfo by StarRiver/
 ```
 track_results/
 ├─ fetch_sheet.py       # 下載試算表中的「歷史紀錄」工作表
-├─ generate_summary.py  # 產生統計摘要報告
+├─ generate_summary.py  # 產生統計摘要報告，列出賽道與車手最佳成績
 ├─ build_leaderboards.py# 建立綜合排行榜文字檔
 ├─ build_site.py        # 產生可放到 GitHub Pages 的網站
 ├─ prefab/TextDisplay.cs# Unity 組件，用來載入並顯示文字檔

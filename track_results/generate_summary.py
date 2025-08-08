@@ -17,9 +17,11 @@ def summarise(rows: List[List[str]]) -> List[str]:
     header, *data = rows
     summary = [f"Total entries: {len(data)}"]
 
-    if "賽道" in header and "時間" in header:
-        track_idx = header.index("賽道")
-        time_idx = header.index("時間")
+    track_idx = header.index("賽道") if "賽道" in header else None
+    driver_idx = header.index("車手") if "車手" in header else None
+    time_idx = header.index("時間") if "時間" in header else None
+
+    if track_idx is not None and time_idx is not None:
         best_by_track: dict[str, float] = {}
         for row in data:
             if len(row) <= max(track_idx, time_idx):
@@ -31,9 +33,30 @@ def summarise(rows: List[List[str]]) -> List[str]:
                 continue
             if track not in best_by_track or t < best_by_track[track]:
                 best_by_track[track] = t
-        summary.append("Fastest per track:")
-        for track, t in best_by_track.items():
-            summary.append(f"{track}: {t}")
+        if best_by_track:
+            summary.append("")
+            summary.append("Fastest per track (sorted):")
+            for track, t in sorted(best_by_track.items(), key=lambda item: item[1]):
+                summary.append(f"{track}: {t}")
+
+    if driver_idx is not None and time_idx is not None:
+        best_by_driver: dict[str, float] = {}
+        for row in data:
+            if len(row) <= max(driver_idx, time_idx):
+                continue
+            driver = row[driver_idx]
+            try:
+                t = float(row[time_idx])
+            except ValueError:
+                continue
+            if driver not in best_by_driver or t < best_by_driver[driver]:
+                best_by_driver[driver] = t
+        if best_by_driver:
+            summary.append("")
+            summary.append("Best time per driver:")
+            for driver, t in sorted(best_by_driver.items(), key=lambda item: item[1]):
+                summary.append(f"{driver}: {t}")
+
     return summary
 
 

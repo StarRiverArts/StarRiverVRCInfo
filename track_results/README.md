@@ -20,7 +20,8 @@ If the environment blocks outbound network requests the script will fail with a
 ## generate_summary.py
 
 `generate_summary.py` builds a small text report from the spreadsheet data.
-The file `report/summary.txt` will be created containing a list of statistics.
+The generated `report/summary.txt` lists the total entry count, fastest time per
+track sorted by time and each driver's best lap.
 
 ```bash
 python3 generate_summary.py
