@@ -1,27 +1,13 @@
 from __future__ import annotations
 
 import os
+from jinja2 import Environment, FileSystemLoader
 
 LEADERBOARD_FILE = os.path.join("data", "leaderboard.txt")
 OUTPUT_DIR = "site"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "index.html")
-
-
-HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang=\"en\">
-<head>
-    <meta charset=\"UTF-8\">
-    <title>VR Racing Club Leaderboard</title>
-    <style>
-        body {{font-family: sans-serif; padding: 20px;}}
-        pre {{background: #f4f4f4; padding: 10px; white-space: pre-wrap;}}
-    </style>
-</head>
-<body>
-<h1>VR Racing Club Leaderboard</h1>
-<pre>{content}</pre>
-</body>
-</html>"""
+TEMPLATE_DIR = "templates"
+TEMPLATE_FILE = "index.html"
 
 
 def build_page() -> None:
@@ -31,11 +17,16 @@ def build_page() -> None:
     else:
         content = "No leaderboard data available."
 
+    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    template = env.get_template(TEMPLATE_FILE)
+    rendered = template.render(content=content)
+
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as fh:
-        fh.write(HTML_TEMPLATE.format(content=content))
+        fh.write(rendered)
     print(f"Page written to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
     build_page()
+

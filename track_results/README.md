@@ -51,9 +51,10 @@ the `url` and `targetText` fields in the Inspector.
 
 ## build_site.py
 
-`build_site.py` reads the generated leaderboard text and creates a static
-`site/index.html` page. This page can be served via GitHub Pages so players can
-browse the latest results.
+`build_site.py` reads the generated leaderboard text and renders a static
+`site/index.html` page using the Jinja2 template located at `templates/index.html`.
+Customize the look of the leaderboard by editing that template or swapping in
+your own.
 
 ```bash
 python3 build_site.py
@@ -72,3 +73,4 @@ world data directly inside the same window.
 
 For Traditional Chinese instructions, see
 [`README.zh_TW.md`](README.zh_TW.md).
+
