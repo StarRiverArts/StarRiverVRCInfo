@@ -103,6 +103,7 @@ except Exception:  # pragma: no cover - optional
     load_workbook = None  # type: ignore
     Workbook = None  # type: ignore
 
+
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
 
