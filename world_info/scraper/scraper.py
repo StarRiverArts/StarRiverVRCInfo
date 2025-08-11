@@ -19,6 +19,11 @@ from typing import Dict, List, Optional
 import time
 
 try:
+    from world_info.constants import METRIC_COLS
+except ModuleNotFoundError:  # pragma: no cover - package path
+    from constants import METRIC_COLS
+
+try:
     from openpyxl import Workbook, load_workbook  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     Workbook = None  # type: ignore
@@ -191,23 +196,7 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
 
 def _append_history_table(row: List[object]) -> None:
     """Append a metrics row to ``history_table.xlsx``."""
-    headers = [
-        "爬取日期",
-        "世界名稱",
-        "世界ID",
-        "發布日期",
-        "最後更新",
-        "瀏覽人次",
-        "大小",
-        "收藏次數",
-        "熱度",
-        "人氣",
-        "實驗室到發布",
-        "瀏覽蒐藏比",
-        "距離上次更新",
-        "已發布",
-        "人次發布比",
-    ]
+    headers = ["爬取日期"] + METRIC_COLS
     if Workbook is None or load_workbook is None:
         raise RuntimeError("openpyxl is required to write Excel logs")
     if HISTORY_TABLE.exists():
@@ -223,23 +212,7 @@ def _append_history_table(row: List[object]) -> None:
 
 def _append_excel_row(row: List[object]) -> None:
     """Append a metrics row to ``worlds.xlsx``."""
-    headers = [
-        "爬取日期",
-        "世界名稱",
-        "世界ID",
-        "發布日期",
-        "最後更新",
-        "瀏覽人次",
-        "大小",
-        "收藏次數",
-        "熱度",
-        "人氣",
-        "實驗室到發布",
-        "瀏覽蒐藏比",
-        "距離上次更新",
-        "已發布",
-        "人次發布比",
-    ]
+    headers = ["爬取日期"] + METRIC_COLS
     if Workbook is None or load_workbook is None:
         raise RuntimeError("openpyxl is required to write Excel logs")
     if EXCEL_FILE.exists():
