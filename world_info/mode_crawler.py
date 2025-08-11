@@ -12,6 +12,10 @@ from scraper.scraper import (
     update_history,
     record_row,
 )
+try:
+    from world_info.constants import METRIC_COLS
+except ModuleNotFoundError:  # pragma: no cover - package path
+    from constants import METRIC_COLS
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,26 +29,6 @@ except Exception:  # pragma: no cover - optional dependency
 BASE = Path(__file__).resolve().parent
 CONFIG_FILE = BASE / "config" / "search_modes.json"
 ANALYTICS_DIR = BASE.parent / "analytics"
-
-# Columns used when saving results to Excel
-METRIC_COLS = [
-    "爬取日期",
-    "世界名稱",
-    "世界ID",
-    "發布日期",
-    "最後更新",
-    "瀏覽人次",
-    "大小",
-    "收藏次數",
-    "熱度",
-    "人氣",
-    "實驗室到發布",
-    "瀏覽蒐藏比",
-    "距離上次更新",
-    "已發布",
-    "人次發布比",
-]
-
 
 def _load_taiwan_blacklist() -> set[str]:
     """Return a set of world IDs from the Taiwan blacklist if present."""
@@ -77,7 +61,7 @@ def _save_worlds(worlds: List[dict], file_path: Path) -> None:
         file_path.parent.mkdir(parents=True, exist_ok=True)
         wb = Workbook()
         ws = wb.active
-        ws.append(METRIC_COLS)
+        ws.append(["爬取日期"] + METRIC_COLS)
     for w in worlds:
         ws.append(record_row(w))
     wb.save(file_path)
