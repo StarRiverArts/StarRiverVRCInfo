@@ -61,15 +61,20 @@ class UserTab:
         f = self.app.tab_dashboard
         tree_frame = ttk.Frame(f)
         tree_frame.pack(fill=tk.X)
+        columns = ["爬取日期"] + METRIC_COLS
         self.app.dash_tree = ttk.Treeview(tree_frame, show="headings")
-        self.app.dash_tree["columns"] = list(range(len(METRIC_COLS)))
-        for idx, col in enumerate(METRIC_COLS):
-            self.app.dash_tree.heading(str(idx), text=col)
+        self.app.dash_tree["columns"] = list(range(len(columns)))
+        for idx, col in enumerate(columns):
+            self.app.dash_tree.heading(
+                str(idx), text=col, command=lambda c=str(idx): self.app._sort_tree(self.app.dash_tree, c)
+            )
             self.app.dash_tree.column(str(idx), width=80, anchor="center")
         self.app.dash_tree.pack(side="left", fill=tk.X, expand=True)
         dash_vsb = ttk.Scrollbar(tree_frame, orient="vertical", command=self.app.dash_tree.yview)
+        dash_hsb = ttk.Scrollbar(tree_frame, orient="horizontal", command=self.app.dash_tree.xview)
+        self.app.dash_tree.configure(yscrollcommand=dash_vsb.set, xscrollcommand=dash_hsb.set)
         dash_vsb.pack(side="right", fill=tk.Y)
-        self.app.dash_tree.configure(yscrollcommand=dash_vsb.set)
+        dash_hsb.pack(side="bottom", fill=tk.X)
 
         self.app.chart_canvas = tk.Canvas(f)
         chart_vsb = ttk.Scrollbar(f, orient="vertical", command=self.app.chart_canvas.yview)
