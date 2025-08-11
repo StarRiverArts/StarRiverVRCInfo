@@ -290,12 +290,20 @@ class WorldInfoUI(tk.Tk):
         fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
         for w in worlds:
             w["爬取日期"] = fetch_date
+        # remove already recorded worlds so repeated searches don't duplicate rows
+        existing_ids = {w.get("世界ID") for w in self.user_data if w.get("世界ID")}
+        worlds = [w for w in worlds if w.get("id") not in existing_ids]
 
-        save_worlds(worlds, PERSONAL_FILE)
-        update_history(worlds)
-        self.history = load_history()
-        self._update_history_options()
-        update_daily_stats("starriver", worlds)
+        # clear current rows before inserting the refreshed data
+        for item in self.user_tree.get_children():
+            self.user_tree.delete(item)
+
+        if worlds:
+            save_worlds(worlds, PERSONAL_FILE)
+            update_history(worlds)
+            self.history = load_history()
+            self._update_history_options()
+            update_daily_stats("starriver", worlds)
 
         # reload the table so manual edits remain and new data is visible
         self._load_local_tables()
