@@ -129,6 +129,8 @@ def _parse_date(value: Optional[str]) -> Optional[dt.datetime]:
         # allow plain dates like "2025/7/12" for manual edits
         if isinstance(value, (int, float)):
             return dt.datetime.fromtimestamp(float(value), dt.timezone.utc)
+        if isinstance(value, str) and value.isdigit():
+            return dt.datetime.fromtimestamp(float(value), dt.timezone.utc)
         if value.endswith("Z"):
             value = value[:-1] + "+00:00"
         if "T" in value:
