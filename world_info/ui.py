@@ -21,46 +21,87 @@ from pathlib import Path
 import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
+# Support running both as a module (``python -m world_info.ui``) and as a
+# stand-alone script. When executed directly, ``__package__`` is ``None`` and
+# relative imports would fail, causing the console window to close immediately
+# on error. Adjust ``sys.path`` first so that subsequent imports work in both
+# contexts and any errors remain visible.
+if __package__ is None or __package__ == "":
+    import sys
 
-from scraper.scraper import (
-    load_history,
-    update_history,
-    record_row,
-    _parse_date,
-    EXCEL_FILE,
-    HISTORY_TABLE,
-)
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+    from world_info.scraper.scraper import (
+        load_history,
+        update_history,
+        record_row,
+        _parse_date,
+        EXCEL_FILE,
+        HISTORY_TABLE,
+    )
+    from world_info.analytics import update_daily_stats
+    from world_info.constants import METRIC_COLS, LEGEND_TEXT
+    from world_info.tabs import (
+        EntryTab,
+        DataTab,
+        FilterTab,
+        ListTab,
+        UserTab,
+        HistoryTab,
+        SettingsTab,
+        AboutTab,
+    )
+    from world_info.actions import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        PERSONAL_FILE,
+        TAIWAN_FILE,
+        load_auth_headers,
+        search_keyword,
+        search_user,
+        search_fixed,
+        save_worlds,
+    )
+else:
+    from .scraper.scraper import (
+        load_history,
+        update_history,
+        record_row,
+        _parse_date,
+        EXCEL_FILE,
+        HISTORY_TABLE,
+    )
+    from .analytics import update_daily_stats
+    from .constants import METRIC_COLS, LEGEND_TEXT
+    from .tabs import (
+        EntryTab,
+        DataTab,
+        FilterTab,
+        ListTab,
+        UserTab,
+        HistoryTab,
+        SettingsTab,
+        AboutTab,
+    )
+    from .actions import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        PERSONAL_FILE,
+        TAIWAN_FILE,
+        load_auth_headers,
+        search_keyword,
+        search_user,
+        search_fixed,
+        save_worlds,
+    )
 
 try:
     from openpyxl import load_workbook, Workbook  # type: ignore
 except Exception:  # pragma: no cover - optional
     load_workbook = None  # type: ignore
     Workbook = None  # type: ignore
-
-from analytics import update_daily_stats
-from .constants import METRIC_COLS, LEGEND_TEXT
-from .tabs import (
-    EntryTab,
-    DataTab,
-    FilterTab,
-    ListTab,
-    UserTab,
-    HistoryTab,
-    SettingsTab,
-    AboutTab,
-)
-from .actions import (
-    BASE,
-    RAW_FILE,
-    USER_FILE,
-    PERSONAL_FILE,
-    TAIWAN_FILE,
-    load_auth_headers,
-    search_keyword,
-    search_user,
-    search_fixed,
-    save_worlds,
-)
 
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
@@ -169,7 +210,7 @@ class WorldInfoUI(tk.Tk):
                     labs_to_pub,
                     vf,
                     since_upd,
-                    released,
+                    since_pub,
                     vpp,
                 ) = row
                 self.user_data.append(
@@ -187,7 +228,7 @@ class WorldInfoUI(tk.Tk):
                         "實驗室到發布": labs_to_pub,
                         "瀏覽蒐藏比": vf,
                         "距離上次更新": since_upd,
-                        "已發布": released,
+                        "已發布": since_pub,
                         "人次發布比": vpp,
                     }
                 )
@@ -355,10 +396,8 @@ class WorldInfoUI(tk.Tk):
         for item in self.tree.get_children():
             self.tree.delete(item)
         for w in self.filtered:
-            name = w.get("name") or w.get("世界名稱")
-            visits = w.get("visits") or w.get("瀏覽人次")
-            world_id = w.get("id") or w.get("世界ID")
-            self.tree.insert("", tk.END, values=(name, visits, world_id))
+            row = record_row(w)
+            self.tree.insert("", tk.END, values=row)
         self.nb.select(self.tab_list.frame)
 
     def _update_history_options(self) -> None:
@@ -382,6 +421,11 @@ class WorldInfoUI(tk.Tk):
         data = self.history.get(world_id, [])
         self.canvas.delete("all")
         if not data:
+            self.canvas.create_text(
+                int(self.canvas.winfo_width() or 300) / 2,
+                int(self.canvas.winfo_height() or 150) / 2,
+                text="No history",
+            )
             return
         width = int(self.canvas.winfo_width() or 600)
         height = int(self.canvas.winfo_height() or 300)
@@ -791,7 +835,7 @@ class WorldInfoUI(tk.Tk):
             if wid:
                 unique[wid] = w
         for w in unique.values():
-            row = [w.get(col, "") for col in METRIC_COLS]
+            row = [w.get("爬取日期", "")] + [w.get(col, "") for col in METRIC_COLS]
             self.dash_tree.insert("", tk.END, values=row)
 
         for frame, _, _ in getattr(self, "chart_frames", []):
@@ -815,6 +859,22 @@ class WorldInfoUI(tk.Tk):
             frm.grid(row=idx // cols, column=idx % cols, padx=4, pady=4, sticky="nsew")
         for c in range(cols):
             self.chart_container.columnconfigure(c, weight=1)
+
+    def _sort_tree(self, tree: ttk.Treeview, col: str, reverse: bool = False) -> None:
+        """Sort a ``ttk.Treeview`` by the given column."""
+        data = [(tree.set(k, col), k) for k in tree.get_children("")]
+
+        def convert(val: str):
+            try:
+                val = val.replace("%", "").replace("天", "")
+                return float(val)
+            except Exception:
+                return val
+
+        data.sort(key=lambda t: convert(t[0]), reverse=reverse)
+        for idx, (_val, k) in enumerate(data):
+            tree.move(k, "", idx)
+        tree.heading(col, command=lambda: self._sort_tree(tree, col, not reverse))
 
 
 def main() -> None:  # pragma: no cover - simple runtime entry

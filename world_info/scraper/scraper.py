@@ -90,10 +90,13 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
     days_labs_to_pub = (pub - labs).days if pub and labs else ""
     visits = world.get("visits") or 0
     favs = world.get("favorites") or 0
-    ratio_vf = round(visits / favs, 2) if favs else ""
+    ratio_vf = f"{round(favs / visits * 100, 2)}%" if visits else ""
     since_update = (ts_now - updated).days if updated else ""
     since_pub = (ts_now - pub).days if pub else 0
     visits_per_day = round(visits / since_pub, 2) if since_pub > 0 else ""
+    labs_to_pub_str = f"{days_labs_to_pub}天" if days_labs_to_pub != "" else ""
+    since_update_str = f"{since_update}天" if since_update != "" else ""
+    since_pub_str = f"{since_pub}天" if since_pub else ""
 
     return [
         fetch_date,
@@ -106,10 +109,10 @@ def record_row(world: dict, now: Optional[int] = None) -> List[object]:
         favs,
         world.get("heat"),
         world.get("popularity"),
-        days_labs_to_pub,
+        labs_to_pub_str,
         ratio_vf,
-        since_update,
-        world.get("releaseStatus"),
+        since_update_str,
+        since_pub_str,
         visits_per_day,
     ]
 
