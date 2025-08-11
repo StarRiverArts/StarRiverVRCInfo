@@ -21,59 +21,25 @@ from pathlib import Path
 import traceback
 import tkinter as tk
 from tkinter import ttk, messagebox
-
-from scraper.scraper import (
-    load_history,
-    update_history,
-    record_row,
-    _parse_date,
-    EXCEL_FILE,
-    HISTORY_TABLE,
-)
-
-try:
-    from openpyxl import load_workbook, Workbook  # type: ignore
-except Exception:  # pragma: no cover - optional
-    load_workbook = None  # type: ignore
-    Workbook = None  # type: ignore
-
-from analytics import update_daily_stats
-
 # Support running both as a module (``python -m world_info.ui``) and as a
-# stand-alone script.  When executed directly, ``__package__`` is ``None`` and
-# the relative imports below would otherwise fail, causing the console window to
-# close immediately on error.  Instead, adjust ``sys.path`` and import the
-# modules via the package name so that any further relative imports still work.
-if __package__:
-    from .constants import METRIC_COLS, LEGEND_TEXT
-    from .tabs import (
-        EntryTab,
-        DataTab,
-        FilterTab,
-        ListTab,
-        UserTab,
-        HistoryTab,
-        SettingsTab,
-        AboutTab,
-    )
-    from .actions import (
-        BASE,
-        RAW_FILE,
-        USER_FILE,
-        PERSONAL_FILE,
-        TAIWAN_FILE,
-        load_auth_headers,
-        search_keyword,
-        search_user,
-        search_fixed,
-        save_worlds,
-    )
-else:  # pragma: no cover - direct script execution
+# stand-alone script. When executed directly, ``__package__`` is ``None`` and
+# relative imports would fail, causing the console window to close immediately
+# on error. Adjust ``sys.path`` first so that subsequent imports work in both
+# contexts and any errors remain visible.
+if __package__ is None or __package__ == "":
     import sys
-    from pathlib import Path
 
     sys.path.append(str(Path(__file__).resolve().parent.parent))
 
+    from world_info.scraper.scraper import (
+        load_history,
+        update_history,
+        record_row,
+        _parse_date,
+        EXCEL_FILE,
+        HISTORY_TABLE,
+    )
+    from world_info.analytics import update_daily_stats
     from world_info.constants import METRIC_COLS, LEGEND_TEXT
     from world_info.tabs import (
         EntryTab,
@@ -97,6 +63,46 @@ else:  # pragma: no cover - direct script execution
         search_fixed,
         save_worlds,
     )
+else:
+    from .scraper.scraper import (
+        load_history,
+        update_history,
+        record_row,
+        _parse_date,
+        EXCEL_FILE,
+        HISTORY_TABLE,
+    )
+    from .analytics import update_daily_stats
+    from .constants import METRIC_COLS, LEGEND_TEXT
+    from .tabs import (
+        EntryTab,
+        DataTab,
+        FilterTab,
+        ListTab,
+        UserTab,
+        HistoryTab,
+        SettingsTab,
+        AboutTab,
+    )
+    from .actions import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        PERSONAL_FILE,
+        TAIWAN_FILE,
+        load_auth_headers,
+        search_keyword,
+        search_user,
+        search_fixed,
+        save_worlds,
+    )
+
+try:
+    from openpyxl import load_workbook, Workbook  # type: ignore
+except Exception:  # pragma: no cover - optional
+    load_workbook = None  # type: ignore
+    Workbook = None  # type: ignore
+
 
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
