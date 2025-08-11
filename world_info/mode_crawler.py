@@ -28,6 +28,7 @@ ANALYTICS_DIR = BASE.parent / "analytics"
 
 # Columns used when saving results to Excel
 METRIC_COLS = [
+    "爬取日期",
     "世界名稱",
     "世界ID",
     "發布日期",
