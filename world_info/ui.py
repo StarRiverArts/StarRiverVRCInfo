@@ -19,6 +19,7 @@ import json
 import datetime as dt
 from pathlib import Path
 import traceback
+import re
 import tkinter as tk
 from tkinter import ttk, messagebox
 # Support running both as a module (``python -m world_info.ui``) and as a
@@ -307,7 +308,8 @@ class WorldInfoUI(tk.Tk):
             update_history(worlds)
             self.history = load_history()
             self._update_history_options()
-            update_daily_stats("starriver", worlds)
+            source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
+            update_daily_stats(source_name, worlds)
 
         # reload the table so manual edits remain and new data is visible
         self._load_local_tables()
