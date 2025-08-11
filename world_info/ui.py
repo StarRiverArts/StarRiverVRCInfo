@@ -293,8 +293,16 @@ class WorldInfoUI(tk.Tk):
         for w in worlds:
             w["爬取日期"] = fetch_date
         # remove already recorded worlds so repeated searches don't duplicate rows
-        existing_ids = {w.get("世界ID") for w in self.user_data if w.get("世界ID")}
-        worlds = [w for w in worlds if w.get("id") not in existing_ids]
+        existing_ids = {
+            w.get("id") or w.get("世界ID")
+            for w in self.user_data
+            if w.get("id") or w.get("世界ID")
+        }
+        worlds = [
+            w
+            for w in worlds
+            if (w.get("id") or w.get("世界ID")) not in existing_ids
+        ]
 
         # clear current rows before inserting the refreshed data
         for item in self.user_tree.get_children():
