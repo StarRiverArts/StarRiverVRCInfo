@@ -10,12 +10,15 @@ def test_search_personal_no_duplicates(monkeypatch):
     from world_info import ui as ui_module
 
     saved_worlds: list[dict] = []
+    saved_files: list[Path] = []
+    loaded_files: list[Path] = []
 
     def fake_search_user(user_id, headers):
         return [{"id": "w1", "name": "World"}]
 
     def fake_save_worlds(worlds, file):
         saved_worlds.extend(worlds)
+        saved_files.append(file)
 
     def fake_update_history(worlds):
         pass
@@ -27,6 +30,11 @@ def test_search_personal_no_duplicates(monkeypatch):
         pass
 
     def fake_load_local_tables(self):
+        # record which file path was requested
+        path = ui_module.BASE / "scraper" / self.settings.get(
+            "personal_file", ui_module.PERSONAL_FILE.name
+        )
+        loaded_files.append(path)
         # intentionally do not clear tree here to ensure _search_personal does
         self.user_data = [{"世界ID": w["id"]} for w in saved_worlds]
         for w in saved_worlds:
@@ -53,7 +61,7 @@ def test_search_personal_no_duplicates(monkeypatch):
 
     ui = types.SimpleNamespace()
     ui._load_auth_headers = lambda: None
-    ui.settings = {"player_id": "user123"}
+    ui.settings = {"player_id": "user123", "personal_file": "custom.xlsx"}
     ui.headers = {}
     ui.user_tree = MockTree()
     ui.user_data = []
@@ -65,6 +73,9 @@ def test_search_personal_no_duplicates(monkeypatch):
 
     ui_module.WorldInfoUI._search_personal(ui)
     assert len(ui.user_tree.get_children()) == 1
+    expected = ui_module.BASE / "scraper" / "custom.xlsx"
+    assert saved_files == [expected]
+    assert loaded_files == [expected]
 
     ui_module.WorldInfoUI._search_personal(ui)
     assert len(ui.user_tree.get_children()) == 1

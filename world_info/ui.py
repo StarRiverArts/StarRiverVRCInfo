@@ -182,8 +182,9 @@ class WorldInfoUI(tk.Tk):
             self.user_tree.delete(item)
         self.user_data.clear()
 
-        file_name = self.settings.get("personal_file", PERSONAL_FILE.name)
-        file_path = BASE / "scraper" / file_name
+        file_path = BASE / "scraper" / self.settings.get(
+            "personal_file", PERSONAL_FILE.name
+        )
         if file_path.exists():
             wb = load_workbook(file_path)
             ws = wb.active
@@ -299,7 +300,10 @@ class WorldInfoUI(tk.Tk):
             self.user_tree.delete(item)
 
         if worlds:
-            save_worlds(worlds, PERSONAL_FILE)
+            file_path = BASE / "scraper" / self.settings.get(
+                "personal_file", PERSONAL_FILE.name
+            )
+            save_worlds(worlds, file_path)
             update_history(worlds)
             self.history = load_history()
             self._update_history_options()
