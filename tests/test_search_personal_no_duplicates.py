@@ -32,7 +32,7 @@ def test_search_personal_no_duplicates(monkeypatch):
     def fake_load_local_tables(self):
         # record which file path was requested
         path = ui_module.BASE / "scraper" / self.settings.get(
-            "personal_file", ui_module.PERSONAL_FILE.name
+            "personal_file", ui_module.STAR_RIVER_FILE.name
         )
         loaded_files.append(path)
         # intentionally do not clear tree here to ensure _search_personal does
@@ -109,7 +109,7 @@ def test_search_personal_no_duplicates_raw_data(monkeypatch):
 
     def fake_load_local_tables(self):
         path = ui_module.BASE / "scraper" / self.settings.get(
-            "personal_file", ui_module.PERSONAL_FILE.name
+            "personal_file", ui_module.STAR_RIVER_FILE.name
         )
         loaded_files.append(path)
         self.user_data = list(saved_worlds)

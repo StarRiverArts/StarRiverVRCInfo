@@ -16,6 +16,7 @@ installed and ``playwright install`` executed beforehand.
 from __future__ import annotations
 
 import json
+import logging
 import datetime as dt
 from pathlib import Path
 import traceback
@@ -41,7 +42,15 @@ if __package__ is None or __package__ == "":
         HISTORY_TABLE,
     )
     from world_info.analytics import update_daily_stats
-    from world_info.constants import METRIC_COLS, LEGEND_TEXT
+    from world_info.constants import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        STAR_RIVER_FILE,
+        TAIWAN_FILE,
+        METRIC_COLS,
+        LEGEND_TEXT,
+    )
     from world_info.tabs import (
         EntryTab,
         DataTab,
@@ -51,13 +60,9 @@ if __package__ is None or __package__ == "":
         HistoryTab,
         SettingsTab,
         AboutTab,
+        LogTab,
     )
     from world_info.actions import (
-        BASE,
-        RAW_FILE,
-        USER_FILE,
-        PERSONAL_FILE,
-        TAIWAN_FILE,
         load_auth_headers,
         search_keyword,
         search_user,
@@ -74,7 +79,15 @@ else:
         HISTORY_TABLE,
     )
     from .analytics import update_daily_stats
-    from .constants import METRIC_COLS, LEGEND_TEXT
+    from .constants import (
+        BASE,
+        RAW_FILE,
+        USER_FILE,
+        STAR_RIVER_FILE,
+        TAIWAN_FILE,
+        METRIC_COLS,
+        LEGEND_TEXT,
+    )
     from .tabs import (
         EntryTab,
         DataTab,
@@ -84,13 +97,9 @@ else:
         HistoryTab,
         SettingsTab,
         AboutTab,
+        LogTab,
     )
     from .actions import (
-        BASE,
-        RAW_FILE,
-        USER_FILE,
-        PERSONAL_FILE,
-        TAIWAN_FILE,
         load_auth_headers,
         search_keyword,
         search_user,
@@ -103,6 +112,8 @@ try:
 except Exception:  # pragma: no cover - optional
     load_workbook = None  # type: ignore
     Workbook = None  # type: ignore
+
+logger = logging.getLogger(__name__)
 
 
 # configuration and extra spreadsheets
@@ -133,6 +144,11 @@ class WorldInfoUI(tk.Tk):
         self.tab_history = HistoryTab(self.nb, self)
         self.tab_settings = SettingsTab(self.nb, self)
         self.tab_about = AboutTab(self.nb, self)
+        self.tab_log = LogTab(self.nb, self)
+
+        handler = self.tab_log.handler
+        logging.getLogger().addHandler(handler)
+        logging.getLogger().setLevel(logging.INFO)
 
         self._load_local_tables()
         self._apply_settings()
@@ -158,7 +174,7 @@ class WorldInfoUI(tk.Tk):
         self.settings["blacklist"] = self.var_blacklist.get()
         self.settings["player_id"] = self.var_playerid_set.get()
         if "personal_file" not in self.settings:
-            self.settings["personal_file"] = PERSONAL_FILE.name
+            self.settings["personal_file"] = STAR_RIVER_FILE.name
         with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
             json.dump(self.settings, f, ensure_ascii=False, indent=2)
         self._apply_settings()
@@ -184,7 +200,7 @@ class WorldInfoUI(tk.Tk):
         self.user_data.clear()
 
         file_path = BASE / "scraper" / self.settings.get(
-            "personal_file", PERSONAL_FILE.name
+            "personal_file", STAR_RIVER_FILE.name
         )
         if file_path.exists():
             wb = load_workbook(file_path)
@@ -259,12 +275,15 @@ class WorldInfoUI(tk.Tk):
 
     def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None) -> None:
         blacklist = {k.strip() for k in self.settings.get("blacklist", "").split(",") if k.strip()}
+        logger.info("Searching keywords %s", keywords)
         try:
             all_worlds = search_fixed(keywords, self.headers, blacklist)
         except Exception as e:  # pragma: no cover - runtime only
+            logger.error("Keyword search failed: %s", e)
             messagebox.showerror("Error", str(e))
             return
         if not all_worlds:
+            logger.warning("No worlds found for %s", keywords)
             return
         update_history(all_worlds)
         self.history = load_history()
@@ -282,10 +301,12 @@ class WorldInfoUI(tk.Tk):
         user_id = self.settings.get("player_id", "").strip()
         if not user_id:
             messagebox.showerror("Error", "Player ID required")
+            logger.error("Player ID required for personal search")
             return
         try:
             worlds = search_user(user_id, self.headers)
         except Exception as e:  # pragma: no cover - runtime only
+            logger.error("Personal search failed: %s", e)
             messagebox.showerror("Error", str(e))
             return
 
@@ -309,8 +330,9 @@ class WorldInfoUI(tk.Tk):
             self.user_tree.delete(item)
 
         if worlds:
+            logger.info("Found %d new worlds for %s", len(worlds), user_id)
             file_path = BASE / "scraper" / self.settings.get(
-                "personal_file", PERSONAL_FILE.name
+                "personal_file", STAR_RIVER_FILE.name
             )
             save_worlds(worlds, file_path)
             update_history(worlds)
@@ -318,6 +340,8 @@ class WorldInfoUI(tk.Tk):
             self._update_history_options()
             source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
             update_daily_stats(source_name, worlds)
+        else:
+            logger.info("No new worlds for %s", user_id)
 
         # reload the table so manual edits remain and new data is visible
         self._load_local_tables()
@@ -345,6 +369,7 @@ class WorldInfoUI(tk.Tk):
             messagebox.showerror("Error", "Keyword required")
             return
         try:
+            logger.info("Searching keyword %s", keyword)
             self.data = search_keyword(keyword, self.headers)
             with open(RAW_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
@@ -355,9 +380,12 @@ class WorldInfoUI(tk.Tk):
             self.text_data.insert(tk.END, json.dumps(self.data, ensure_ascii=False, indent=2))
             self._update_tag_options()
             self.nb.select(self.tab_data.frame)
+            logger.info("Keyword search complete: %s", keyword)
         except RuntimeError as e:  # pragma: no cover - runtime only
+            logger.error("HTTP error during keyword search: %s", e)
             messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
+            logger.error("Keyword search failed: %s", e)
             messagebox.showerror("Error", str(e))
 
     def _on_user(self) -> None:
@@ -365,8 +393,10 @@ class WorldInfoUI(tk.Tk):
         user_id = self.var_userid.get().strip()
         if not user_id:
             messagebox.showerror("Error", "User ID required")
+            logger.error("User ID required for search")
             return
         try:
+            logger.info("Searching user %s", user_id)
             self.user_data = search_user(user_id, self.headers)
             fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
             for w in self.user_data:
@@ -393,9 +423,12 @@ class WorldInfoUI(tk.Tk):
             self._create_world_tabs()
             self._update_dashboard()
             self.nb.select(self.tab_user.frame)
+            logger.info("User search complete: %s", user_id)
         except RuntimeError as e:  # pragma: no cover - runtime only
+            logger.error("HTTP error during user search: %s", e)
             messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
+            logger.error("User search failed: %s", e)
             messagebox.showerror("Error", str(e))
 
     def _update_tag_options(self) -> None:
