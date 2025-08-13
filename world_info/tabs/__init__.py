@@ -6,6 +6,7 @@ from .user import UserTab
 from .history import HistoryTab
 from .settings import SettingsTab
 from .about import AboutTab
+from .log import LogTab
 
 __all__ = [
     "EntryTab",
@@ -16,4 +17,5 @@ __all__ = [
     "HistoryTab",
     "SettingsTab",
     "AboutTab",
+    "LogTab",
 ]

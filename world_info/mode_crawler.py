@@ -13,9 +13,9 @@ from scraper.scraper import (
     record_row,
 )
 try:
-    from world_info.constants import METRIC_COLS
+    from world_info.constants import BASE, METRIC_COLS
 except ModuleNotFoundError:  # pragma: no cover - package path
-    from constants import METRIC_COLS
+    from constants import BASE, METRIC_COLS
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -26,7 +26,6 @@ except Exception:  # pragma: no cover - optional dependency
     Workbook = None  # type: ignore
     load_workbook = None  # type: ignore
 
-BASE = Path(__file__).resolve().parent
 CONFIG_FILE = BASE / "config" / "search_modes.json"
 ANALYTICS_DIR = BASE.parent / "analytics"
 
