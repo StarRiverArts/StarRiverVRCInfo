@@ -38,7 +38,6 @@ if __package__ is None or __package__ == "":
         update_history,
         record_row,
         _parse_date,
-        EXCEL_FILE,
         HISTORY_TABLE,
     )
     from world_info.analytics import update_daily_stats
@@ -75,7 +74,6 @@ else:
         update_history,
         record_row,
         _parse_date,
-        EXCEL_FILE,
         HISTORY_TABLE,
     )
     from .analytics import update_daily_stats
@@ -173,8 +171,6 @@ class WorldInfoUI(tk.Tk):
         self.settings["taiwan_keywords"] = self.var_taiwan_kw.get()
         self.settings["blacklist"] = self.var_blacklist.get()
         self.settings["player_id"] = self.var_playerid_set.get()
-        if "personal_file" not in self.settings:
-            self.settings["personal_file"] = STAR_RIVER_FILE.name
         with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
             json.dump(self.settings, f, ensure_ascii=False, indent=2)
         self._apply_settings()
@@ -199,9 +195,7 @@ class WorldInfoUI(tk.Tk):
             self.user_tree.delete(item)
         self.user_data.clear()
 
-        file_path = BASE / "scraper" / self.settings.get(
-            "personal_file", STAR_RIVER_FILE.name
-        )
+        file_path = STAR_RIVER_FILE
         if file_path.exists():
             wb = load_workbook(file_path)
             ws = wb.active
@@ -270,7 +264,17 @@ class WorldInfoUI(tk.Tk):
                         recs.sort(key=lambda r: r.get("timestamp", 0))
             self._create_world_tabs()
             self._update_dashboard()
-            self._update_history_options()
+            self._refresh_history_table()
+
+        # populate world list tab from fixed keyword spreadsheet
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        if TAIWAN_FILE.exists():
+            wb = load_workbook(TAIWAN_FILE)
+            ws = wb.active
+            for row in ws.iter_rows(min_row=2, values_only=True):
+                if len(row) >= 15:
+                    self.tree.insert("", tk.END, values=row[:15])
 
 
     def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None) -> None:
@@ -287,7 +291,7 @@ class WorldInfoUI(tk.Tk):
             return
         update_history(all_worlds)
         self.history = load_history()
-        self._update_history_options()
+        self._refresh_history_table()
         save_worlds(all_worlds, out_file)
         if source_name:
             update_daily_stats(source_name, all_worlds)
@@ -331,13 +335,11 @@ class WorldInfoUI(tk.Tk):
 
         if worlds:
             logger.info("Found %d new worlds for %s", len(worlds), user_id)
-            file_path = BASE / "scraper" / self.settings.get(
-                "personal_file", STAR_RIVER_FILE.name
-            )
+            file_path = STAR_RIVER_FILE
             save_worlds(worlds, file_path)
             update_history(worlds)
             self.history = load_history()
-            self._update_history_options()
+            self._refresh_history_table()
             source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
             update_daily_stats(source_name, worlds)
         else:
@@ -375,7 +377,7 @@ class WorldInfoUI(tk.Tk):
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
             update_history(self.data)
             self.history = load_history()
-            self._update_history_options()
+            self._refresh_history_table()
             self.text_data.delete("1.0", tk.END)
             self.text_data.insert(tk.END, json.dumps(self.data, ensure_ascii=False, indent=2))
             self._update_tag_options()
@@ -405,12 +407,9 @@ class WorldInfoUI(tk.Tk):
                 json.dump(self.user_data, f, ensure_ascii=False, indent=2)
             update_history(self.user_data)
             self.history = load_history()
-            self._update_history_options()
+            self._refresh_history_table()
 
-            player_name = self.user_data[0].get("authorName", user_id) if self.user_data else user_id
-            file_path = BASE / "scraper" / f"{player_name}.xlsx"
-            save_worlds(self.user_data, file_path)
-            self.settings["personal_file"] = file_path.name
+            save_worlds(self.user_data, STAR_RIVER_FILE)
             self.settings["player_id"] = user_id
             self.var_playerid_set.set(user_id)
             self._save_settings()
@@ -455,87 +454,18 @@ class WorldInfoUI(tk.Tk):
             row = record_row(w)
             self.tree.insert("", tk.END, values=row)
         self.nb.select(self.tab_list.frame)
-
-    def _update_history_options(self) -> None:
-        self.hist_map: dict[str, str] = {}
-        values = []
-        for wid, recs in self.history.items():
-            name = ""
-            if isinstance(recs, list) and recs:
-                name = recs[0].get("name", "")
-            label = f"{name} ({wid})" if name else wid
-            values.append(label)
-            self.hist_map[label] = wid
-        self.box_hist_world["values"] = values
-        if values:
-            self.var_hist_world.set(values[0])
-            self._draw_history()
-
-    def _draw_history(self, event=None) -> None:
-        label = self.var_hist_world.get()
-        world_id = getattr(self, "hist_map", {}).get(label, label)
-        data = self.history.get(world_id, [])
-        self.canvas.delete("all")
-        if not data:
-            self.canvas.create_text(
-                int(self.canvas.winfo_width() or 300) / 2,
-                int(self.canvas.winfo_height() or 150) / 2,
-                text="No history",
-            )
+        
+    def _refresh_history_table(self) -> None:
+        if not hasattr(self, "hist_tree"):
             return
-        width = int(self.canvas.winfo_width() or 600)
-        height = int(self.canvas.winfo_height() or 300)
-        pad = 40
-        times = [d["timestamp"] for d in data]
-        min_t = min(times)
-        max_t = max(times)
-        if max_t == min_t:
-            max_t += 1
-        scale_x = width - 2 * pad
-        scale_y = height - 2 * pad
-
-        def xy(idx, val, max_val):
-            x = pad + (times[idx] - min_t) / (max_t - min_t) * scale_x
-            y = height - pad - min(val, max_val) / max_val * scale_y
-            return x, y
-
-        colors = {
-            "visits": "blue",
-            "favorites": "green",
-            "heat": "red",
-            "popularity": "purple",
-        }
-        # use the max of visits/favorites for a shared Y scale
-        max_vis = max((d.get("visits", 0) or 0) for d in data)
-        max_fav = max((d.get("favorites", 0) or 0) for d in data)
-        vf_limit = max(max_vis, max_fav, 1)
-        limits: dict[str, float] = {
-            "visits": vf_limit,
-            "favorites": vf_limit,
-        }
-        for key in ("heat", "popularity"):
-            max_val = max((d.get(key, 0) or 0) for d in data)
-            limits[key] = max_val * 1.1 if max_val > 0 else 1
-        for key, color in colors.items():
-            pts = [xy(i, d.get(key, 0), limits[key]) for i, d in enumerate(data)]
-            for a, b in zip(pts, pts[1:]):
-                self.canvas.create_line(a[0], a[1], b[0], b[1], fill=color)
-        # axes with ticks
-        self.canvas.create_line(pad, height - pad, width - pad, height - pad)
-        self.canvas.create_line(pad, pad, pad, height - pad)
-        for i in range(5):  # x-axis ticks
-            ts = min_t + (max_t - min_t) * i / 4
-            x = pad + (ts - min_t) / (max_t - min_t) * scale_x
-            self.canvas.create_line(x, height - pad, x, height - pad + 5)
-            label = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).strftime("%m/%d")
-            self.canvas.create_text(x, height - pad + 15, text=label, anchor="n", font=("TkDefaultFont", 8))
-        for i in range(5):  # y-axis ticks
-            val = vf_limit * i / 4
-            y = height - pad - val / vf_limit * scale_y
-            self.canvas.create_line(pad - 5, y, pad, y)
-            self.canvas.create_text(pad - 8, y, text=str(int(val)), anchor="e", font=("TkDefaultFont", 8))
-        # title
-        self.canvas.create_text(width / 2, pad / 2, text=label, font=("TkDefaultFont", 12, "bold"))
+        for item in self.hist_tree.get_children():
+            self.hist_tree.delete(item)
+        for wid, recs in self.history.items():
+            if not recs:
+                continue
+            latest = recs[-1]
+            row = record_row({**latest, "id": wid}, latest.get("timestamp"))
+            self.hist_tree.insert("", tk.END, values=row)
 
     def _on_select_user_world(self, event=None) -> None:
         item = self.user_tree.focus()
