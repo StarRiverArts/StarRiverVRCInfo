@@ -44,7 +44,6 @@ BASE = Path(__file__).parent
 HEADERS_FILE = BASE / "headers.json"
 HISTORY_FILE = BASE / "history.json"
 HISTORY_TABLE = BASE / "history_table.xlsx"
-EXCEL_FILE = BASE / "worlds.xlsx"
 
 
 def _load_headers(cookie: Optional[str] = None,
@@ -189,7 +188,6 @@ def update_history(worlds: List[dict], threshold: int = 3600) -> Dict[str, List[
         recs.append(rec)
         row = record_row(w, now)
         _append_history_table(row)
-        _append_excel_row(row)
         appended = True
     if appended:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
@@ -212,20 +210,6 @@ def _append_history_table(row: List[object]) -> None:
     wb.save(HISTORY_TABLE)
 
 
-def _append_excel_row(row: List[object]) -> None:
-    """Append a metrics row to ``worlds.xlsx``."""
-    headers = ["爬取日期"] + METRIC_COLS
-    if Workbook is None or load_workbook is None:
-        raise RuntimeError("openpyxl is required to write Excel logs")
-    if EXCEL_FILE.exists():
-        wb = load_workbook(EXCEL_FILE)
-        ws = wb.active
-    else:
-        wb = Workbook()
-        ws = wb.active
-        ws.append(headers)
-    ws.append(row)
-    wb.save(EXCEL_FILE)
 
 def _fetch_paginated(base_url: str, limit: int, delay: float,
                      headers: Optional[Dict[str, str]] = None) -> List[dict]:

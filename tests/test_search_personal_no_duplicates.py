@@ -1,4 +1,5 @@
 import types
+import types
 import sys
 from pathlib import Path
 
@@ -31,9 +32,7 @@ def test_search_personal_no_duplicates(monkeypatch):
 
     def fake_load_local_tables(self):
         # record which file path was requested
-        path = ui_module.BASE / "scraper" / self.settings.get(
-            "personal_file", ui_module.PERSONAL_FILE.name
-        )
+        path = ui_module.STAR_RIVER_FILE
         loaded_files.append(path)
         # intentionally do not clear tree here to ensure _search_personal does
         self.user_data = [{"世界ID": w["id"]} for w in saved_worlds]
@@ -61,19 +60,19 @@ def test_search_personal_no_duplicates(monkeypatch):
 
     ui = types.SimpleNamespace()
     ui._load_auth_headers = lambda: None
-    ui.settings = {"player_id": "user123", "personal_file": "custom.xlsx"}
+    ui.settings = {"player_id": "user123"}
     ui.headers = {}
     ui.user_tree = MockTree()
     ui.user_data = []
     ui.history = {}
-    ui._update_history_options = lambda: None
+    ui._refresh_history_table = lambda: None
     ui.nb = types.SimpleNamespace(select=lambda frame: None)
     ui.tab_user = types.SimpleNamespace(frame=object())
     ui._load_local_tables = lambda: fake_load_local_tables(ui)
 
     ui_module.WorldInfoUI._search_personal(ui)
     assert len(ui.user_tree.get_children()) == 1
-    expected = ui_module.BASE / "scraper" / "custom.xlsx"
+    expected = ui_module.STAR_RIVER_FILE
     assert saved_files == [expected]
     assert loaded_files == [expected]
 
@@ -108,9 +107,7 @@ def test_search_personal_no_duplicates_raw_data(monkeypatch):
         pass
 
     def fake_load_local_tables(self):
-        path = ui_module.BASE / "scraper" / self.settings.get(
-            "personal_file", ui_module.PERSONAL_FILE.name
-        )
+        path = ui_module.STAR_RIVER_FILE
         loaded_files.append(path)
         self.user_data = list(saved_worlds)
         for w in saved_worlds:
@@ -137,19 +134,19 @@ def test_search_personal_no_duplicates_raw_data(monkeypatch):
 
     ui = types.SimpleNamespace()
     ui._load_auth_headers = lambda: None
-    ui.settings = {"player_id": "user123", "personal_file": "custom.xlsx"}
+    ui.settings = {"player_id": "user123"}
     ui.headers = {}
     ui.user_tree = MockTree()
     ui.user_data = []
     ui.history = {}
-    ui._update_history_options = lambda: None
+    ui._refresh_history_table = lambda: None
     ui.nb = types.SimpleNamespace(select=lambda frame: None)
     ui.tab_user = types.SimpleNamespace(frame=object())
     ui._load_local_tables = lambda: fake_load_local_tables(ui)
 
     ui_module.WorldInfoUI._search_personal(ui)
     assert len(ui.user_tree.get_children()) == 1
-    expected = ui_module.BASE / "scraper" / "custom.xlsx"
+    expected = ui_module.STAR_RIVER_FILE
     assert saved_files == [expected]
     assert loaded_files == [expected]
 

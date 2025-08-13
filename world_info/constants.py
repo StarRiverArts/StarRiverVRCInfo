@@ -1,3 +1,12 @@
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+SCRAPER_DIR = BASE / "scraper"
+RAW_FILE = SCRAPER_DIR / "raw_worlds.json"
+USER_FILE = SCRAPER_DIR / "user_worlds.json"
+STAR_RIVER_FILE = SCRAPER_DIR / "StarRiverArts.xlsx"
+TAIWAN_FILE = SCRAPER_DIR / "TaiwanWorlds.xlsx"
+
 METRIC_COLS = [
     "世界名稱",
     "世界ID",

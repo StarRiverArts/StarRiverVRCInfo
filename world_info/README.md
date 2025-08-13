@@ -40,8 +40,9 @@ Run the tools in order:
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
    an interface that lets you log in, fetch worlds and apply filters. The world
    list tab now shows results in a sortable table. A new "History" tab tracks
-   visits, favorites and heat over time with a simple line chart. Each fetch
-   also appends a row to ``scraper/history_table.xlsx`` and ``scraper/worlds.xlsx``
+   visits, favorites and heat over time with a simple line chart. A "Log" tab
+   displays execution messages and errors. Each fetch
+   also appends a row to ``scraper/history_table.xlsx`` and ``scraper/TaiwanWorlds.xlsx``
    with additional metrics like visit/favorite ratio, days since last update and
    the fetch date (``YYYY/MM/DD``) so you know when the data was retrieved.
    These Excel files require the ``openpyxl`` package and can be edited directly

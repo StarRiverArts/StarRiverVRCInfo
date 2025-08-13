@@ -45,8 +45,9 @@ playwright install
    結果會輸出到 `raw_worlds.json`。
 2. `python3 scraper/review_tool.py`（可選）或執行 `python3 ui.py`，
    透過圖形介面登入並搜尋、篩選世界。世界列表頁以表格方式呈現資料，
-   並新增「歷史記錄」分頁，可追蹤瀏覽人數、收藏數與熱度變化折線圖。
-   每次抓取資料也會在 `scraper/history_table.xlsx` 與 `scraper/worlds.xlsx`
+   並新增「歷史記錄」分頁，可追蹤瀏覽人數、收藏數與熱度變化折線圖，
+   以及「Log」分頁顯示執行訊息與錯誤。
+   每次抓取資料也會在 `scraper/history_table.xlsx` 與 `scraper/TaiwanWorlds.xlsx`
    追加一行，記錄瀏覽收藏比、距離上次更新，以及資料爬取日期（`YYYY/MM/DD`）。
    這些 Excel 檔需安裝 `openpyxl` 套件後才能正確寫入，可直接以試算表軟體開啟編輯。
 3. `python3 scraper/exporter.py`

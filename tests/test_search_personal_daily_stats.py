@@ -46,12 +46,12 @@ def test_search_personal_daily_stats_per_player(monkeypatch):
     def make_ui(player_id: str):
         ui = types.SimpleNamespace()
         ui._load_auth_headers = lambda: None
-        ui.settings = {"player_id": player_id, "personal_file": "custom.xlsx"}
+        ui.settings = {"player_id": player_id}
         ui.headers = {}
         ui.user_tree = MockTree()
         ui.user_data = []
         ui.history = {}
-        ui._update_history_options = lambda: None
+        ui._refresh_history_table = lambda: None
         ui.nb = types.SimpleNamespace(select=lambda frame: None)
         ui.tab_user = types.SimpleNamespace(frame=object())
         ui._load_local_tables = lambda: None

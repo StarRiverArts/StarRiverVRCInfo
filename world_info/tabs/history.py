@@ -3,6 +3,8 @@ from __future__ import annotations
 import tkinter as tk
 from tkinter import ttk
 
+from ..constants import METRIC_COLS
+
 
 class HistoryTab:
     def __init__(self, nb: ttk.Notebook, app) -> None:
@@ -12,13 +14,16 @@ class HistoryTab:
         self._build()
 
     def _build(self) -> None:
-        f = self.frame
-        self.app.var_hist_world = tk.StringVar()
-        self.app.box_hist_world = ttk.Combobox(
-            f, textvariable=self.app.var_hist_world, values=list(self.app.history.keys())
-        )
-        self.app.box_hist_world.pack(fill=tk.X, pady=2)
-        self.app.box_hist_world.bind("<<ComboboxSelected>>", self.app._draw_history)
-        self.app.canvas = tk.Canvas(f, bg="white")
-        self.app.canvas.pack(fill=tk.BOTH, expand=True)
-        self.app._update_history_options()
+        columns = ["爬取日期"] + METRIC_COLS
+        self.app.hist_tree = ttk.Treeview(self.frame, show="headings")
+        self.app.hist_tree["columns"] = list(range(len(columns)))
+        for idx, col in enumerate(columns):
+            self.app.hist_tree.heading(str(idx), text=col)
+            self.app.hist_tree.column(str(idx), width=80, anchor="center")
+        vsb = ttk.Scrollbar(self.frame, orient="vertical", command=self.app.hist_tree.yview)
+        hsb = ttk.Scrollbar(self.frame, orient="horizontal", command=self.app.hist_tree.xview)
+        self.app.hist_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+        self.app.hist_tree.pack(side="left", fill=tk.BOTH, expand=True)
+        vsb.pack(side="right", fill=tk.Y)
+        hsb.pack(side="bottom", fill=tk.X)
+        self.app._refresh_history_table()
