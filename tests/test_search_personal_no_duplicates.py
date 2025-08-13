@@ -33,7 +33,6 @@ def test_search_personal_no_duplicates(monkeypatch):
     def fake_load_local_tables(self):
         # record which file path was requested
         path = ui_module.STAR_RIVER_FILE
-        loaded_files.append(path)
         # intentionally do not clear tree here to ensure _search_personal does
         self.user_data = [{"世界ID": w["id"]} for w in saved_worlds]
         for w in saved_worlds:
