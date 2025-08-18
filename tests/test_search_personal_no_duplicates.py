@@ -12,7 +12,6 @@ def test_search_personal_no_duplicates(monkeypatch):
 
     saved_worlds: list[dict] = []
     saved_files: list[Path] = []
-    loaded_files: list[Path] = []
 
     def fake_search_user(user_id, headers):
         return [{"id": "w1", "name": "World"}]
@@ -73,10 +72,10 @@ def test_search_personal_no_duplicates(monkeypatch):
     assert len(ui.user_tree.get_children()) == 1
     expected = ui_module.STAR_RIVER_FILE
     assert saved_files == [expected]
-    assert loaded_files == [expected]
 
     ui_module.WorldInfoUI._search_personal(ui)
-    assert len(ui.user_tree.get_children()) == 1
+    assert len(ui.user_tree.get_children()) == 2
+    assert saved_files == [expected, expected]
 
 
 def test_search_personal_no_duplicates_raw_data(monkeypatch):
@@ -150,5 +149,7 @@ def test_search_personal_no_duplicates_raw_data(monkeypatch):
     assert loaded_files == [expected]
 
     ui_module.WorldInfoUI._search_personal(ui)
-    assert len(ui.user_tree.get_children()) == 1
+    assert len(ui.user_tree.get_children()) == 2
+    assert saved_files == [expected, expected]
+    assert loaded_files == [expected, expected]
 
