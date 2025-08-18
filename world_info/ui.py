@@ -317,33 +317,32 @@ class WorldInfoUI(tk.Tk):
         fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
         for w in worlds:
             w["爬取日期"] = fetch_date
-        # remove already recorded worlds so repeated searches don't duplicate rows
-        existing_ids = {
-            w.get("id") or w.get("世界ID")
-            for w in self.user_data
-            if w.get("id") or w.get("世界ID")
-        }
-        worlds = [
-            w
-            for w in worlds
-            if (w.get("id") or w.get("世界ID")) not in existing_ids
-        ]
-
         # clear current rows before inserting the refreshed data
         for item in self.user_tree.get_children():
             self.user_tree.delete(item)
 
-        if worlds:
-            logger.info("Found %d new worlds for %s", len(worlds), user_id)
-            file_path = STAR_RIVER_FILE
-            save_worlds(worlds, file_path)
-            update_history(worlds)
-            self.history = load_history()
-            self._refresh_history_table()
-            source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
-            update_daily_stats(source_name, worlds)
-        else:
-            logger.info("No new worlds for %s", user_id)
+        # log duplicate count if any existing worlds were fetched again
+        duplicate_count = sum(
+            1
+            for w in worlds
+            if any(
+                (w.get("id") or w.get("世界ID"))
+                == (u.get("id") or u.get("世界ID"))
+                for u in self.user_data
+                if u.get("id") or u.get("世界ID")
+            )
+        )
+
+        logger.info("Fetched %d worlds for %s", len(worlds), user_id)
+        if duplicate_count:
+            logger.info("Detected %d duplicate worlds for %s", duplicate_count, user_id)
+        file_path = STAR_RIVER_FILE
+        save_worlds(worlds, file_path)
+        update_history(worlds)
+        self.history = load_history()
+        self._refresh_history_table()
+        source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
+        update_daily_stats(source_name, worlds)
 
         # reload the table so manual edits remain and new data is visible
         self._load_local_tables()
