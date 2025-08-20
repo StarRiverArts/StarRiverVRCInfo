@@ -16,7 +16,8 @@ world_info/
 │  ├─ index.html          # page listing approved worlds with filters
 │  └─ approved_export.json
 └─ unity_prefab_generator/
-   └─ GenerateWorldCards.cs
+   ├─ GenerateWorldCards.cs       # editor script that builds a VRChat-ready prefab
+   └─ WorldCardTemplate.prefab    # template card referenced by the generator
 ```
 
 Install the required Python packages with::
@@ -67,7 +68,10 @@ is missing, the UI will still run but the creator-world feature will be
 disabled.
 
 Copy `scraper/approved_export.json` into `docs/` to update the website or load
-it inside Unity using the `GenerateWorldCards` editor script.
+it inside Unity.  The `unity_prefab_generator/GenerateWorldCards.cs` script
+instantiates `WorldCardTemplate.prefab` for each world and saves the result as
+`GeneratedWorldCards.prefab`, which can be dropped into a VRChat scene as a
+scrollable screen.
 
 For a Traditional Chinese version of these instructions, see
 [`README.zh_TW.md`](README.zh_TW.md).
