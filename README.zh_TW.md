@@ -6,7 +6,7 @@
 用於從 Google 試算表下載賽車紀錄並產生文字或 HTML 形式的排行榜，也可輸出包含總筆數、各賽道最快與車手最佳時間的統計摘要。詳盡使用方式請參考 [`track_results/README.zh_TW.md`](track_results/README.zh_TW.md)。
 
 ## 世界資料（World Info）
-用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，並附帶簡易的 Tkinter 圖形審核介面。詳細流程請參考 [`world_info/README.zh_TW.md`](world_info/README.zh_TW.md)。更完整的架構與流程說明請見 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
+用於收集 VRChat 世界資訊、人工審核並匯出可在網站或 Unity 中使用的 JSON 檔案，附帶簡易的 Tkinter 圖形審核介面。支援定期上傳個人世界統計到雲端，並能利用 Unity 產生可在 VRChat 內顯示的 UI Prefab。詳細流程請參考 [`world_info/README.zh_TW.md`](world_info/README.zh_TW.md)，更完整的架構與流程說明請見 [`world_info/complete_guide.zh_TW.md`](world_info/complete_guide.zh_TW.md)。
 
 ## CREDIT
 星河 StarRiver、Codex AI

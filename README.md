@@ -6,7 +6,7 @@ VRChat 工具集是一個互動式工具組，包含賽道成績 (Track Results)
 
 ## 功能簡介
 - **Track Results**：下載賽車紀錄並建立文字或 HTML 排行榜，並可產生包含總筆數、各賽道最快與車手最佳時間的統計摘要。詳見 [`track_results/README.md`](track_results/README.md)。
-- **World Info**：收集世界資訊、維護歷史資料並提供圖形審核介面；執行爬蟲時會顯示各模式進度並於結束後輸出抓取的世界總數。詳見 [`world_info/README.md`](world_info/README.md)。
+- **World Info**：收集世界資訊、維護歷史資料並提供圖形審核介面；可定期上傳個人世界統計到雲端，並透過 Unity 產生可在 VRChat 中使用的 UI Prefab。詳見 [`world_info/README.md`](world_info/README.md)。
 
 ## 資料來源
 - Google 試算表
