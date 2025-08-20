@@ -26,7 +26,7 @@ def fetch_sheet(
     sheet_name: str = SHEET_NAME,
     timeout: float | None = None,
     retries: int = 3,
-) -> List[List[str]] | str:
+) -> List[List[str]]:
     """Return the worksheet contents as a list of rows.
 
     Parameters
@@ -59,11 +59,12 @@ def fetch_sheet(
             print(f"Attempt {attempt} failed: {e}")
             last_exc = e
             if attempt == retries:
-                return f"Failed to fetch data after {retries} attempts: {e}"
+                raise RuntimeError(
+                    f"Failed to fetch data after {retries} attempts: {e}"
+                ) from e
             time.sleep(attempt)
     else:
-        # Should not reach here since loop either breaks or returns
-        return "Failed to fetch data: unknown error"
+        raise RuntimeError("Failed to fetch data: unknown error")
 
     reader = csv.reader(io.StringIO(csv_data))
     return list(reader)

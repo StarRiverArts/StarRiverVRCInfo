@@ -291,10 +291,11 @@ class RacingUI(tk.Tk):
             messagebox.showwarning("Championship", "Need at least two players")
             return
         random.shuffle(self.champ_players)
-        bracket = " vs \n".join(
+        pairs = [
             f"{self.champ_players[i]} vs {self.champ_players[i+1]}"
             for i in range(0, len(self.champ_players) - 1, 2)
-        )
+        ]
+        bracket = "\n".join(pairs)
         messagebox.showinfo("Bracket", bracket)
 
 
