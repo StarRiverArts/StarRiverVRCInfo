@@ -9,6 +9,7 @@ world_info/
 │  ├─ scraper.py          # query the VRChat API for world info
 │  ├─ review_tool.py      # mark worlds as approved
 │  ├─ exporter.py         # create approved_export.json
+│  ├─ personal_upload.py  # upload personal stats to a cloud endpoint
 │  └─ raw_worlds.json     # generated sample data
 ├─ ui.py                  # Tkinter interface for login and world search
 ├─ docs/
@@ -48,6 +49,17 @@ Run the tools in order:
    These Excel files require the ``openpyxl`` package and can be edited directly
    in spreadsheet software.
 3. ``python3 scraper/exporter.py``
+
+To upload your own world's metrics to a remote service run::
+
+  python3 scraper/personal_upload.py
+
+Schedule periodic uploads with cron on Linux::
+
+  0 * * * * cd /path/to/VR_RacingClubTW && /usr/bin/python3 world_info/scraper/personal_upload.py >/tmp/personal_upload.log 2>&1
+
+On Windows Task Scheduler, create a task that runs ``python.exe`` with the
+script path and set a trigger for the desired interval.
 
 Fetching a creator's worlds requires the ``playwright`` package.  Install it and
 run ``playwright install`` before using the ``--user`` option.  If the package
