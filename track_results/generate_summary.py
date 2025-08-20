@@ -63,7 +63,8 @@ def summarise(rows: List[List[str]]) -> List[str]:
 def main() -> None:
     try:
         rows = fetch_sheet()
-    except Exception:
+    except RuntimeError as exc:
+        print(exc)
         rows = []
     lines = summarise(rows)
 
