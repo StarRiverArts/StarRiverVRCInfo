@@ -131,6 +131,18 @@
       "updated_at": "2025-07-13T11:38:02.242Z",
       "publicationDate": "none",
       "labsPublicationDate": "2025-07-05T03:08:08.390Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "StarRiver Space Program v0․1․1 LiftOff",
+      "created_at": "2025-06-22T14:04:42.573Z",
+      "visits": 53,
+      "favorites": 1,
+      "heat": 0,
+      "popularity": 3,
+      "updated_at": "2025-07-13T11:38:02.242Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2025-07-05T03:08:08.390Z"
     }
   ],
   "wrld_1b189721-fa5d-4c64-a24b-9a2c5b89b3b5": [
@@ -256,6 +268,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "UNFINISHED Project T SunMoonLake 日月潭 南投山道",
+      "created_at": "2025-07-03T14:47:09.888Z",
+      "visits": 3,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2025-07-06T07:24:59.566Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "UNFINISHED Project T SunMoonLake 日月潭 南投山道",
       "created_at": "2025-07-03T14:47:09.888Z",
       "visits": 3,
@@ -399,6 +423,18 @@
       "updated_at": "2025-07-03T13:07:32.404Z",
       "publicationDate": "none",
       "labsPublicationDate": "2025-06-12T14:31:34.448Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "UNFINISHED Project T WuLing 武嶺（佐久間峠） 合歡山山道",
+      "created_at": "2025-05-30T07:35:49.074Z",
+      "visits": 57,
+      "favorites": 2,
+      "heat": 0,
+      "popularity": 3,
+      "updated_at": "2025-07-03T13:07:32.404Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2025-06-12T14:31:34.448Z"
     }
   ],
   "wrld_c4d985d3-11de-4a89-9e8b-60b0342a1676": [
@@ -529,6 +565,18 @@
       "visits": 2228,
       "favorites": 111,
       "heat": 3,
+      "popularity": 5,
+      "updated_at": "2025-08-02T09:39:48.354Z",
+      "publicationDate": "2025-05-03T22:35:59.524Z",
+      "labsPublicationDate": "2025-04-21T16:21:30.108Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Project T 9 Turns Taiwan Touge CVS2 九彎十八拐",
+      "created_at": "2025-04-21T15:17:48.176Z",
+      "visits": 2566,
+      "favorites": 119,
+      "heat": 2,
       "popularity": 5,
       "updated_at": "2025-08-02T09:39:48.354Z",
       "publicationDate": "2025-05-03T22:35:59.524Z",
@@ -667,6 +715,18 @@
       "updated_at": "2025-05-27T15:40:33.056Z",
       "publicationDate": "2025-04-09T11:56:42.006Z",
       "labsPublicationDate": "2025-03-24T15:57:27.196Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Project T 9 Turns Taiwan Touge Sacc 九彎十八拐",
+      "created_at": "2025-03-23T16:50:14.087Z",
+      "visits": 787,
+      "favorites": 68,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2025-05-27T15:40:33.056Z",
+      "publicationDate": "2025-04-09T11:56:42.006Z",
+      "labsPublicationDate": "2025-03-24T15:57:27.196Z"
     }
   ],
   "wrld_6e465490-9b15-4d2b-b4fe-1ea06e09e55a": [
@@ -792,6 +852,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "日月潭外周道 Sun Moon Lake",
+      "created_at": "2025-02-04T16:08:19.451Z",
+      "visits": 79,
+      "favorites": 2,
+      "heat": 0,
+      "popularity": 3,
+      "updated_at": "2025-05-17T13:55:05.489Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2025-02-05T14:00:45.395Z"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "日月潭外周道 Sun Moon Lake",
       "created_at": "2025-02-04T16:08:19.451Z",
       "visits": 79,
@@ -935,6 +1007,18 @@
       "updated_at": "2025-08-09T16:53:49.952Z",
       "publicationDate": "none",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Formosa Test",
+      "created_at": "2025-04-19T16:19:50.146Z",
+      "visits": 70,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2025-08-09T16:53:49.952Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_16498412-b9e0-404c-9da7-114484c89ecd": [
@@ -1063,6 +1147,18 @@
       "name": "星門廣場StarGATE Exhibition",
       "created_at": "2024-06-23T05:06:34.654Z",
       "visits": 801,
+      "favorites": 15,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2025-05-08T16:46:38.069Z",
+      "publicationDate": "2024-07-22T05:06:07.749Z",
+      "labsPublicationDate": "2024-06-27T20:11:07.480Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "星門廣場StarGATE Exhibition",
+      "created_at": "2024-06-23T05:06:34.654Z",
+      "visits": 804,
       "favorites": 15,
       "heat": 0,
       "popularity": 4,
@@ -1203,6 +1299,18 @@
       "updated_at": "2025-04-10T13:03:37.715Z",
       "publicationDate": "none",
       "labsPublicationDate": "2025-04-01T03:56:06.596Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Iseri Nina's Room （Girls Band Cry）",
+      "created_at": "2025-03-12T11:59:19.956Z",
+      "visits": 166,
+      "favorites": 24,
+      "heat": 2,
+      "popularity": 3,
+      "updated_at": "2025-04-10T13:03:37.715Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2025-04-01T03:56:06.596Z"
     }
   ],
   "wrld_c0f03f3e-ca4c-48cb-8aea-14ed13c1ee03": [
@@ -1337,6 +1445,18 @@
       "updated_at": "2025-04-08T12:56:39.508Z",
       "publicationDate": "none",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Starriver's Room",
+      "created_at": "2025-02-03T15:03:28.456Z",
+      "visits": 262,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2025-04-08T12:56:39.508Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_39eab7ef-be49-4bb2-bb63-56bc30200b82": [
@@ -1462,6 +1582,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "Metro Formosa Test",
+      "created_at": "2024-10-02T07:19:07.026Z",
+      "visits": 20,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2024-11-24T13:59:30.261Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "Metro Formosa Test",
       "created_at": "2024-10-02T07:19:07.026Z",
       "visits": 20,
@@ -1605,6 +1737,18 @@
       "updated_at": "2024-09-21T10:55:45.843Z",
       "publicationDate": "2023-10-15T12:21:09.717Z",
       "labsPublicationDate": "2023-10-10T11:49:26.421Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Project ˸ Prototype v0․1․0․ Hangout and chill ǃ （Minecraft Build Project）",
+      "created_at": "2023-10-07T11:57:13.789Z",
+      "visits": 4365,
+      "favorites": 183,
+      "heat": 2,
+      "popularity": 5,
+      "updated_at": "2024-09-21T10:55:45.843Z",
+      "publicationDate": "2023-10-15T12:21:09.717Z",
+      "labsPublicationDate": "2023-10-10T11:49:26.421Z"
     }
   ],
   "wrld_b7193f7d-4616-4b3e-8236-e2f4c7da2d8d": [
@@ -1733,6 +1877,18 @@
       "name": "Taipei MRT 大坪林站 by StarRiver（未完成）",
       "created_at": "2024-07-10T15:56:19.432Z",
       "visits": 117,
+      "favorites": 2,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2024-09-15T05:18:23.226Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2024-07-11T09:42:45.254Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Taipei MRT 大坪林站 by StarRiver（未完成）",
+      "created_at": "2024-07-10T15:56:19.432Z",
+      "visits": 119,
       "favorites": 2,
       "heat": 0,
       "popularity": 4,
@@ -1873,6 +2029,18 @@
       "updated_at": "2024-07-22T19:52:03.599Z",
       "publicationDate": "2024-07-23T14:43:36.014Z",
       "labsPublicationDate": "2024-07-22T19:52:03.598Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Free Trajectory -A Landscape Recreation Experience",
+      "created_at": "2024-04-24T10:06:35.037Z",
+      "visits": 363,
+      "favorites": 3,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2024-07-22T19:52:03.599Z",
+      "publicationDate": "2024-07-23T14:43:36.014Z",
+      "labsPublicationDate": "2024-07-22T19:52:03.598Z"
     }
   ],
   "wrld_bac386e9-a543-48e7-a12d-fe9bd3521493": [
@@ -1998,6 +2166,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "Project：Hide＆Seek LAB（UNFINISHED ）",
+      "created_at": "2023-10-19T13:17:38.752Z",
+      "visits": 49,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2024-07-11T09:44:06.067Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "Project：Hide＆Seek LAB（UNFINISHED ）",
       "created_at": "2023-10-19T13:17:38.752Z",
       "visits": 49,
@@ -2141,6 +2321,18 @@
       "updated_at": "2024-07-11T08:38:23.384Z",
       "publicationDate": "2024-07-08T21:05:28.545Z",
       "labsPublicationDate": "2023-10-19T20:25:51.976Z"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Simple Green Room（Quest 3 MR）",
+      "created_at": "2023-10-18T18:48:12.714Z",
+      "visits": 711,
+      "favorites": 40,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2024-07-11T08:38:23.384Z",
+      "publicationDate": "2024-07-08T21:05:28.545Z",
+      "labsPublicationDate": "2023-10-19T20:25:51.976Z"
     }
   ],
   "wrld_7d7a9a66-df6a-4e2c-96fb-19b4dc53c430": [
@@ -2266,6 +2458,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "Ruined斷垣殘壁 （測試）",
+      "created_at": "2024-06-04T16:33:51.575Z",
+      "visits": 2,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2024-06-04T16:33:51.575Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "Ruined斷垣殘壁 （測試）",
       "created_at": "2024-06-04T16:33:51.575Z",
       "visits": 2,
@@ -2409,6 +2613,18 @@
       "updated_at": "2023-12-08T22:31:41.588Z",
       "publicationDate": "none",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
+      "name": "Project˸ Taiwan",
+      "created_at": "2023-10-28T12:23:39.215Z",
+      "visits": 11,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2023-12-08T22:31:41.588Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_86050202-0db3-4928-9891-98ce56124705": [
@@ -2465,6 +2681,18 @@
       "visits": null,
       "favorites": 35443,
       "heat": 5,
+      "popularity": 7,
+      "updated_at": "2020-01-20T19:29:18.070Z",
+      "publicationDate": "2020-01-15T13:13:33.726Z",
+      "labsPublicationDate": "2020-01-15T09:12:42.578Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "星降りの湖 - Lake of falling star -",
+      "created_at": "2019-11-03T14:27:34.490Z",
+      "visits": null,
+      "favorites": 35979,
+      "heat": 4,
       "popularity": 7,
       "updated_at": "2020-01-20T19:29:18.070Z",
       "publicationDate": "2020-01-15T13:13:33.726Z",
@@ -2529,6 +2757,18 @@
       "updated_at": "2022-04-19T00:11:54.508Z",
       "publicationDate": "2021-07-11T22:41:40.421Z",
       "labsPublicationDate": "2021-07-09T22:03:48.527Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack On Titan˸ Trost",
+      "created_at": "2021-07-05T02:11:16.507Z",
+      "visits": null,
+      "favorites": 12900,
+      "heat": 3,
+      "popularity": 7,
+      "updated_at": "2022-04-19T00:11:54.508Z",
+      "publicationDate": "2021-07-11T22:41:40.421Z",
+      "labsPublicationDate": "2021-07-09T22:03:48.527Z"
     }
   ],
   "wrld_5ed1484c-238d-4e48-82f7-37f51bfd30a3": [
@@ -2585,6 +2825,18 @@
       "visits": null,
       "favorites": 19767,
       "heat": 3,
+      "popularity": 7,
+      "updated_at": "2020-02-12T13:14:34.643Z",
+      "publicationDate": "2020-01-31T12:18:59.748Z",
+      "labsPublicationDate": "2020-01-31T09:54:58.128Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "追憶の庭園 - garden of nostalgia -",
+      "created_at": "2020-01-19T08:12:55.834Z",
+      "visits": null,
+      "favorites": 20069,
+      "heat": 4,
       "popularity": 7,
       "updated_at": "2020-02-12T13:14:34.643Z",
       "publicationDate": "2020-01-31T12:18:59.748Z",
@@ -2649,6 +2901,18 @@
       "updated_at": "2025-01-08T07:31:55.192Z",
       "publicationDate": "2020-05-19T15:36:53.059Z",
       "labsPublicationDate": "2020-05-19T08:27:58.581Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "TCT 繁中新手村 VRChat Taiwanese Tutorial",
+      "created_at": "2020-05-12T00:28:02.966Z",
+      "visits": null,
+      "favorites": 2774,
+      "heat": 3,
+      "popularity": 7,
+      "updated_at": "2025-08-13T15:23:52.609Z",
+      "publicationDate": "2020-05-19T15:36:53.059Z",
+      "labsPublicationDate": "2020-05-19T08:27:58.581Z"
     }
   ],
   "wrld_cf134681-3e83-4cb2-958d-9043a37f14a3": [
@@ -2705,6 +2969,18 @@
       "visits": null,
       "favorites": 2749,
       "heat": 3,
+      "popularity": 7,
+      "updated_at": "2022-05-23T11:38:25.949Z",
+      "publicationDate": "2021-10-29T06:07:07.935Z",
+      "labsPublicationDate": "2021-10-24T12:41:15.219Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［TW＼HK＼MY＼SG＼CNM＼O］Traditional Chinese Bar",
+      "created_at": "2021-10-13T13:09:51.176Z",
+      "visits": null,
+      "favorites": 2747,
+      "heat": 2,
       "popularity": 7,
       "updated_at": "2022-05-23T11:38:25.949Z",
       "publicationDate": "2021-10-29T06:07:07.935Z",
@@ -2769,6 +3045,18 @@
       "updated_at": "2020-02-05T16:29:14.501Z",
       "publicationDate": "2019-12-04T12:32:43.852Z",
       "labsPublicationDate": "2019-12-04T10:07:39.821Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "終末駅 - post apocalyptic station -",
+      "created_at": "2019-12-03T15:25:44.444Z",
+      "visits": null,
+      "favorites": 13201,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2020-02-05T16:29:14.501Z",
+      "publicationDate": "2019-12-04T12:32:43.852Z",
+      "labsPublicationDate": "2019-12-04T10:07:39.821Z"
     }
   ],
   "wrld_d462b114-27a4-42a1-8fb4-5d868f307b3b": [
@@ -2825,6 +3113,18 @@
       "visits": null,
       "favorites": 18999,
       "heat": 3,
+      "popularity": 7,
+      "updated_at": "2020-01-24T10:55:02.764Z",
+      "publicationDate": "2020-01-05T12:17:38.861Z",
+      "labsPublicationDate": "2020-01-05T08:37:28.470Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "花ノ島 - Island of Flora -",
+      "created_at": "2019-12-31T14:26:09.114Z",
+      "visits": null,
+      "favorites": 19615,
+      "heat": 4,
       "popularity": 7,
       "updated_at": "2020-01-24T10:55:02.764Z",
       "publicationDate": "2020-01-05T12:17:38.861Z",
@@ -2889,6 +3189,18 @@
       "updated_at": "2024-08-15T07:16:45.800Z",
       "publicationDate": "2023-09-17T17:59:03.079Z",
       "labsPublicationDate": "2023-09-15T11:55:11.592Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Taigas Avi Hub",
+      "created_at": "2023-09-15T11:55:10.897Z",
+      "visits": null,
+      "favorites": 15778,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2024-08-15T07:16:45.800Z",
+      "publicationDate": "2023-09-17T17:59:03.079Z",
+      "labsPublicationDate": "2023-09-15T11:55:11.592Z"
     }
   ],
   "wrld_be87f002-0270-4ceb-9bb4-480206147fac": [
@@ -2945,6 +3257,18 @@
       "visits": null,
       "favorites": 3844,
       "heat": 5,
+      "popularity": 7,
+      "updated_at": "2022-07-22T23:14:06.742Z",
+      "publicationDate": "2022-07-25T05:04:51.614Z",
+      "labsPublicationDate": "2022-07-22T23:14:06.900Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "School Campus Project - Attack On Titan JH",
+      "created_at": "2022-07-20T21:47:52.067Z",
+      "visits": null,
+      "favorites": 3898,
+      "heat": 4,
       "popularity": 7,
       "updated_at": "2022-07-22T23:14:06.742Z",
       "publicationDate": "2022-07-25T05:04:51.614Z",
@@ -3009,6 +3333,18 @@
       "updated_at": "2020-05-27T10:18:44.115Z",
       "publicationDate": "2020-03-06T11:22:42.986Z",
       "labsPublicationDate": "2020-03-06T09:10:17.418Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "どらいぶ島 - VR Drive Island -",
+      "created_at": "2020-02-14T11:47:19.217Z",
+      "visits": null,
+      "favorites": 13648,
+      "heat": 0,
+      "popularity": 7,
+      "updated_at": "2020-05-27T10:18:44.115Z",
+      "publicationDate": "2020-03-06T11:22:42.986Z",
+      "labsPublicationDate": "2020-03-06T09:10:17.418Z"
     }
   ],
   "wrld_b46781a3-cec0-40a2-8bd9-2619326501c7": [
@@ -3065,6 +3401,18 @@
       "visits": null,
       "favorites": 5667,
       "heat": 4,
+      "popularity": 7,
+      "updated_at": "2024-06-30T13:20:57.491Z",
+      "publicationDate": "2021-10-07T19:28:14.456Z",
+      "labsPublicationDate": "2021-10-07T04:55:38.575Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "711 Taiwan",
+      "created_at": "2021-09-24T04:17:51.888Z",
+      "visits": null,
+      "favorites": 5763,
+      "heat": 3,
       "popularity": 7,
       "updated_at": "2024-06-30T13:20:57.491Z",
       "publicationDate": "2021-10-07T19:28:14.456Z",
@@ -3129,6 +3477,18 @@
       "updated_at": "2024-03-24T02:08:11.521Z",
       "publicationDate": "2020-04-15T05:06:51.247Z",
       "labsPublicationDate": "2020-04-06T21:04:41.721Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［SYMBIOTE UPDATE］ Bryce's Avatar World",
+      "created_at": "2020-04-06T21:03:01.941Z",
+      "visits": null,
+      "favorites": 29096,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2024-03-24T02:08:11.521Z",
+      "publicationDate": "2020-04-15T05:06:51.247Z",
+      "labsPublicationDate": "2020-04-06T21:04:41.721Z"
     }
   ],
   "wrld_46b8f4e7-0f1a-4ac3-94ed-b8665a18b880": [
@@ -3186,6 +3546,18 @@
       "favorites": 20675,
       "heat": 2,
       "popularity": 6,
+      "updated_at": "2021-10-11T09:50:47.509Z",
+      "publicationDate": "2020-08-04T02:01:43.169Z",
+      "labsPublicationDate": "2020-08-03T23:05:18.050Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "天泣の社・神域 - sun shower shrine ˸ sanctuary -",
+      "created_at": "2020-07-31T12:35:19.104Z",
+      "visits": null,
+      "favorites": 20984,
+      "heat": 4,
+      "popularity": 7,
       "updated_at": "2021-10-11T09:50:47.509Z",
       "publicationDate": "2020-08-04T02:01:43.169Z",
       "labsPublicationDate": "2020-08-03T23:05:18.050Z"
@@ -3249,6 +3621,18 @@
       "updated_at": "2021-05-31T09:17:45.485Z",
       "publicationDate": "2021-06-02T10:13:13.060Z",
       "labsPublicationDate": "2021-05-31T09:17:45.797Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "黄昏の雨が上がるまで - Twilight of a World",
+      "created_at": "2021-05-31T09:17:45.485Z",
+      "visits": null,
+      "favorites": 7743,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2021-05-31T09:17:45.485Z",
+      "publicationDate": "2021-06-02T10:13:13.060Z",
+      "labsPublicationDate": "2021-05-31T09:17:45.797Z"
     }
   ],
   "wrld_ef99e035-d41a-4f10-a25a-efaa6800d26c": [
@@ -3305,6 +3689,18 @@
       "visits": null,
       "favorites": 3113,
       "heat": 0,
+      "popularity": 6,
+      "updated_at": "2020-08-24T16:34:46.565Z",
+      "publicationDate": "2020-08-11T13:22:45.347Z",
+      "labsPublicationDate": "2020-08-11T09:01:41.439Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Cafe Spotted Bellflower - カフェ 蛍の袋 -",
+      "created_at": "2020-08-08T12:01:37.784Z",
+      "visits": null,
+      "favorites": 3110,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2020-08-24T16:34:46.565Z",
       "publicationDate": "2020-08-11T13:22:45.347Z",
@@ -3369,6 +3765,18 @@
       "updated_at": "2021-09-03T21:33:03.739Z",
       "publicationDate": "2021-09-03T22:25:10.468Z",
       "labsPublicationDate": "2021-08-30T18:32:15.076Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "AOT-VRC Racing",
+      "created_at": "2021-08-30T17:43:45.759Z",
+      "visits": null,
+      "favorites": 13221,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2021-09-03T21:33:03.739Z",
+      "publicationDate": "2021-09-03T22:25:10.468Z",
+      "labsPublicationDate": "2021-08-30T18:32:15.076Z"
     }
   ],
   "wrld_c02e7709-b0f2-4957-a97d-10b1fd4ac278": [
@@ -3424,6 +3832,18 @@
       "created_at": "2020-12-12T10:00:31.137Z",
       "visits": null,
       "favorites": 10539,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2020-12-13T14:41:38.878Z",
+      "publicationDate": "2020-12-13T15:20:43.390Z",
+      "labsPublicationDate": "2020-12-13T09:17:02.550Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "星巡りの湖 - Lake of Circling star -",
+      "created_at": "2020-12-12T10:00:31.137Z",
+      "visits": null,
+      "favorites": 10747,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2020-12-13T14:41:38.878Z",
@@ -3489,6 +3909,18 @@
       "updated_at": "2024-09-29T07:27:08.202Z",
       "publicationDate": "2021-10-09T19:02:32.551Z",
       "labsPublicationDate": "2021-10-09T00:00:52.378Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Stohess ＆ ODM Gear",
+      "created_at": "2021-09-07T05:54:18.318Z",
+      "visits": null,
+      "favorites": 10966,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:27:08.202Z",
+      "publicationDate": "2021-10-09T19:02:32.551Z",
+      "labsPublicationDate": "2021-10-09T00:00:52.378Z"
     }
   ],
   "wrld_8a9f36da-02e4-4f2e-a5d9-423aeca2071c": [
@@ -3545,6 +3977,18 @@
       "visits": null,
       "favorites": 15173,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2020-04-03T01:22:24.349Z",
+      "publicationDate": "2019-10-05T16:44:22.391Z",
+      "labsPublicationDate": "2019-10-05T09:48:50.892Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Just Roller Coasterǃǃǃ - a Tiny Adventure -",
+      "created_at": "2019-10-04T12:52:22.879Z",
+      "visits": null,
+      "favorites": 15631,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2020-04-03T01:22:24.349Z",
       "publicationDate": "2019-10-05T16:44:22.391Z",
@@ -3609,6 +4053,18 @@
       "updated_at": "2024-02-04T04:25:21.318Z",
       "publicationDate": "2024-02-04T04:25:21.051Z",
       "labsPublicationDate": "2024-02-04T04:25:21.051Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Skibidi War Map2",
+      "created_at": "2023-09-19T01:31:40.845Z",
+      "visits": null,
+      "favorites": 1683,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-02-04T04:25:21.318Z",
+      "publicationDate": "2024-02-04T04:25:21.051Z",
+      "labsPublicationDate": "2024-02-04T04:25:21.051Z"
     }
   ],
   "wrld_f325f509-9d50-4c81-8a6f-6df67b3b46b7": [
@@ -3664,6 +4120,18 @@
       "created_at": "2019-10-30T13:35:25.564Z",
       "visits": null,
       "favorites": 3879,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2019-11-04T18:58:48.364Z",
+      "publicationDate": "2019-11-03T15:07:03.761Z",
+      "labsPublicationDate": "2019-11-03T11:34:05.609Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "はじまりの村 - Home village -",
+      "created_at": "2019-10-30T13:35:25.564Z",
+      "visits": null,
+      "favorites": 3878,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2019-11-04T18:58:48.364Z",
@@ -3729,6 +4197,18 @@
       "updated_at": "2024-09-29T07:26:44.716Z",
       "publicationDate": "2021-11-03T02:44:27.712Z",
       "labsPublicationDate": "2021-11-03T02:44:27.701Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Stohess District",
+      "created_at": "2021-03-23T08:31:35.694Z",
+      "visits": null,
+      "favorites": 5858,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:26:44.716Z",
+      "publicationDate": "2021-11-03T02:44:27.712Z",
+      "labsPublicationDate": "2021-11-03T02:44:27.701Z"
     }
   ],
   "wrld_66292558-d768-44e2-a7f2-1997aadaa7dd": [
@@ -3789,6 +4269,18 @@
       "updated_at": "2022-01-22T04:26:31.410Z",
       "publicationDate": "2021-12-19T07:37:16.377Z",
       "labsPublicationDate": "2021-12-18T00:16:27.199Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Ragako - AVATARS",
+      "created_at": "2021-12-18T00:16:27.095Z",
+      "visits": null,
+      "favorites": 6455,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-01-22T04:26:31.410Z",
+      "publicationDate": "2021-12-19T07:37:16.377Z",
+      "labsPublicationDate": "2021-12-18T00:16:27.199Z"
     }
   ],
   "wrld_0c893838-48d6-4174-8c98-5bd84b73ae4f": [
@@ -3844,6 +4336,18 @@
       "created_at": "2025-04-19T10:55:24.196Z",
       "visits": null,
       "favorites": 6680,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-04-26T02:51:01.630Z",
+      "publicationDate": "2025-04-19T16:45:24.568Z",
+      "labsPublicationDate": "2025-04-19T11:15:42.521Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "タイタンクラッシュ -TITAN CRASH- Ver․2․1",
+      "created_at": "2025-04-19T10:55:24.196Z",
+      "visits": null,
+      "favorites": 6733,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2025-04-26T02:51:01.630Z",
@@ -3969,6 +4473,18 @@
       "updated_at": "2021-02-05T21:10:31.121Z",
       "publicationDate": "2021-01-25T07:21:43.133Z",
       "labsPublicationDate": "2021-01-22T23:40:14.138Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "my attack on titan avatars",
+      "created_at": "2021-01-02T08:00:43.553Z",
+      "visits": null,
+      "favorites": 6694,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2021-02-05T21:10:31.121Z",
+      "publicationDate": "2021-01-25T07:21:43.133Z",
+      "labsPublicationDate": "2021-01-22T23:40:14.138Z"
     }
   ],
   "wrld_dd4f55d1-97da-4ce0-bd5c-a7da47269c13": [
@@ -4029,6 +4545,18 @@
       "updated_at": "2024-09-29T07:24:51.310Z",
       "publicationDate": "2020-11-22T23:23:07.450Z",
       "labsPublicationDate": "2020-11-21T23:53:52.769Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Realm of the Coordinate",
+      "created_at": "2020-11-06T20:22:38.080Z",
+      "visits": null,
+      "favorites": 5312,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:24:51.310Z",
+      "publicationDate": "2020-11-22T23:23:07.450Z",
+      "labsPublicationDate": "2020-11-21T23:53:52.769Z"
     }
   ],
   "wrld_19b3436c-5a90-4fc0-898f-601668dd3918": [
@@ -4084,6 +4612,18 @@
       "created_at": "2021-11-18T16:37:00.551Z",
       "visits": null,
       "favorites": 2629,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-04-07T23:30:55.507Z",
+      "publicationDate": "2022-06-29T16:18:25.946Z",
+      "labsPublicationDate": "2022-06-29T16:18:25.935Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack On Titan - On That Day",
+      "created_at": "2021-11-18T16:37:00.551Z",
+      "visits": null,
+      "favorites": 2646,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2022-04-07T23:30:55.507Z",
@@ -4149,6 +4689,18 @@
       "updated_at": "2025-07-07T06:17:20.761Z",
       "publicationDate": "2024-09-26T00:49:44.261Z",
       "labsPublicationDate": "2024-09-22T21:18:08.124Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "THE TAP",
+      "created_at": "2024-09-20T01:37:29.167Z",
+      "visits": null,
+      "favorites": 1016,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2025-07-07T06:17:20.761Z",
+      "publicationDate": "2024-09-26T00:49:44.261Z",
+      "labsPublicationDate": "2024-09-22T21:18:08.124Z"
     }
   ],
   "wrld_08343447-3f85-4c73-959c-65f6d6c3bb4f": [
@@ -4204,6 +4756,18 @@
       "created_at": "2021-01-25T01:45:48.369Z",
       "visits": null,
       "favorites": 3720,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:26:22.429Z",
+      "publicationDate": "2021-01-29T23:34:48.775Z",
+      "labsPublicationDate": "2021-01-29T20:41:19.400Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Beyond the Walls",
+      "created_at": "2021-01-25T01:45:48.369Z",
+      "visits": null,
+      "favorites": 3753,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2024-09-29T07:26:22.429Z",
@@ -4269,6 +4833,18 @@
       "updated_at": "2020-12-28T22:40:52.071Z",
       "publicationDate": "2020-12-24T15:01:09.681Z",
       "labsPublicationDate": "2020-12-23T09:33:57.071Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Winter Lakeside Lodge",
+      "created_at": "2020-12-14T15:04:07.438Z",
+      "visits": null,
+      "favorites": 1523,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2020-12-28T22:40:52.071Z",
+      "publicationDate": "2020-12-24T15:01:09.681Z",
+      "labsPublicationDate": "2020-12-23T09:33:57.071Z"
     }
   ],
   "wrld_ac1f6d13-f5d2-4f21-a351-1ae307e64126": [
@@ -4325,6 +4901,18 @@
       "visits": null,
       "favorites": 3998,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2020-03-13T11:04:10.418Z",
+      "publicationDate": "2020-03-13T13:57:19.840Z",
+      "labsPublicationDate": "2020-03-13T09:23:19.247Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "追憶の書庫 - Library of nostalgia -",
+      "created_at": "2020-03-08T14:36:27.818Z",
+      "visits": null,
+      "favorites": 3996,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2020-03-13T11:04:10.418Z",
       "publicationDate": "2020-03-13T13:57:19.840Z",
@@ -4389,6 +4977,18 @@
       "updated_at": "2024-09-29T07:27:15.272Z",
       "publicationDate": "2020-11-14T01:52:17.702Z",
       "labsPublicationDate": "2020-11-12T00:33:40.164Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ THE RUMBLING",
+      "created_at": "2020-11-11T00:44:02.390Z",
+      "visits": null,
+      "favorites": 6357,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:27:15.272Z",
+      "publicationDate": "2020-11-14T01:52:17.702Z",
+      "labsPublicationDate": "2020-11-12T00:33:40.164Z"
     }
   ],
   "wrld_86b332d3-307c-437c-bca4-94a069a12357": [
@@ -4444,6 +5044,18 @@
       "created_at": "2021-03-06T10:55:27.337Z",
       "visits": null,
       "favorites": 4252,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2021-09-04T08:43:24.181Z",
+      "publicationDate": "2021-03-08T11:39:33.079Z",
+      "labsPublicationDate": "2021-03-06T10:55:27.649Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Re˸天泣の社 - sun shower shrine -",
+      "created_at": "2021-03-06T10:55:27.337Z",
+      "visits": null,
+      "favorites": 4271,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2021-09-04T08:43:24.181Z",
@@ -4509,6 +5121,18 @@
       "updated_at": "2022-08-15T01:30:10.909Z",
       "publicationDate": "2022-08-13T18:15:00.703Z",
       "labsPublicationDate": "2022-08-13T11:17:38.772Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan ˸ The Remnants of Freedom",
+      "created_at": "2022-08-13T10:10:13.240Z",
+      "visits": null,
+      "favorites": 2842,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-08-15T01:30:10.909Z",
+      "publicationDate": "2022-08-13T18:15:00.703Z",
+      "labsPublicationDate": "2022-08-13T11:17:38.772Z"
     }
   ],
   "wrld_4dec083a-10b2-4aaa-a435-1b9970bbfb3b": [
@@ -4565,6 +5189,18 @@
       "visits": null,
       "favorites": 7251,
       "heat": 2,
+      "popularity": 6,
+      "updated_at": "2022-02-21T13:00:29.737Z",
+      "publicationDate": "2021-02-28T17:33:29.696Z",
+      "labsPublicationDate": "2020-07-09T00:06:56.730Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Tat3's Avatar Cafe",
+      "created_at": "2020-07-08T23:58:27.552Z",
+      "visits": null,
+      "favorites": 7237,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2022-02-21T13:00:29.737Z",
       "publicationDate": "2021-02-28T17:33:29.696Z",
@@ -4629,6 +5265,18 @@
       "updated_at": "2020-06-13T01:05:01.108Z",
       "publicationDate": "2020-06-09T15:36:45.729Z",
       "labsPublicationDate": "2020-06-09T13:12:26.632Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "終末駅 夕 - post apocalyptic station sunset -",
+      "created_at": "2020-05-24T09:25:10.269Z",
+      "visits": null,
+      "favorites": 1915,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2020-06-13T01:05:01.108Z",
+      "publicationDate": "2020-06-09T15:36:45.729Z",
+      "labsPublicationDate": "2020-06-09T13:12:26.632Z"
     }
   ],
   "wrld_74bf357f-69e0-4ca1-9bea-b89371b2a2f6": [
@@ -4684,6 +5332,18 @@
       "created_at": "2021-01-18T21:21:58.762Z",
       "visits": null,
       "favorites": 4571,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2021-01-18T21:21:58.762Z",
+      "publicationDate": "2021-01-31T07:38:27.244Z",
+      "labsPublicationDate": "2021-01-18T21:21:59.192Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Steave's Attack On Titan Avatar World",
+      "created_at": "2021-01-18T21:21:58.762Z",
+      "visits": null,
+      "favorites": 4566,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2021-01-18T21:21:58.762Z",
@@ -4749,6 +5409,18 @@
       "updated_at": "2024-09-29T07:25:46.160Z",
       "publicationDate": "2021-05-14T04:41:03.386Z",
       "labsPublicationDate": "2021-05-11T20:51:50.938Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Boundless Freedom",
+      "created_at": "2021-05-11T10:54:19.573Z",
+      "visits": null,
+      "favorites": 1734,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:25:46.160Z",
+      "publicationDate": "2021-05-14T04:41:03.386Z",
+      "labsPublicationDate": "2021-05-11T20:51:50.938Z"
     }
   ],
   "wrld_4959b236-2648-492a-a8f3-e522035b74de": [
@@ -4805,6 +5477,18 @@
       "visits": null,
       "favorites": 2032,
       "heat": 2,
+      "popularity": 6,
+      "updated_at": "2024-09-29T07:27:21.774Z",
+      "publicationDate": "2021-04-28T02:34:37.552Z",
+      "labsPublicationDate": "2021-04-27T02:28:54.302Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan˸ Fleeting Moonlight ＆ ODM Gear",
+      "created_at": "2021-04-27T01:58:43.136Z",
+      "visits": null,
+      "favorites": 2077,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2024-09-29T07:27:21.774Z",
       "publicationDate": "2021-04-28T02:34:37.552Z",
@@ -4869,6 +5553,18 @@
       "updated_at": "2022-09-01T18:08:12.332Z",
       "publicationDate": "2022-08-31T13:50:47.345Z",
       "labsPublicationDate": "2022-08-31T02:55:34.162Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Intro ［Half-Life˸ Alyx］",
+      "created_at": "2022-08-27T17:35:03.241Z",
+      "visits": null,
+      "favorites": 3190,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-09-01T18:08:12.332Z",
+      "publicationDate": "2022-08-31T13:50:47.345Z",
+      "labsPublicationDate": "2022-08-31T02:55:34.162Z"
     }
   ],
   "wrld_1a47d3b6-ed7b-454d-9db7-db1713b5d349": [
@@ -4925,6 +5621,18 @@
       "visits": null,
       "favorites": 1172,
       "heat": 1,
+      "popularity": 6,
+      "updated_at": "2022-02-01T22:38:11.670Z",
+      "publicationDate": "2022-01-25T18:23:58.752Z",
+      "labsPublicationDate": "2022-01-24T19:24:11.912Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack On Titan District",
+      "created_at": "2022-01-24T18:04:24.871Z",
+      "visits": null,
+      "favorites": 1170,
+      "heat": 2,
       "popularity": 6,
       "updated_at": "2022-02-01T22:38:11.670Z",
       "publicationDate": "2022-01-25T18:23:58.752Z",
@@ -4989,6 +5697,18 @@
       "updated_at": "2024-09-01T00:31:11.387Z",
       "publicationDate": "2019-05-30T02:23:20.547Z",
       "labsPublicationDate": "2019-05-21T03:23:38.474Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Indoline Praetoreum［ Day ］",
+      "created_at": "2019-04-07T05:53:56.074Z",
+      "visits": null,
+      "favorites": 853,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2024-09-01T00:31:11.387Z",
+      "publicationDate": "2019-05-30T02:23:20.547Z",
+      "labsPublicationDate": "2019-05-21T03:23:38.474Z"
     }
   ],
   "wrld_1c4b3481-ccce-44b1-8f56-07c1b6dd5cbc": [
@@ -5045,6 +5765,18 @@
       "visits": null,
       "favorites": 1479,
       "heat": 2,
+      "popularity": 6,
+      "updated_at": "2019-10-26T11:41:54.444Z",
+      "publicationDate": "2019-10-26T16:50:48.431Z",
+      "labsPublicationDate": "2019-10-26T10:08:15.680Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "水晶の入り江 - crystal cove -",
+      "created_at": "2019-10-25T10:55:12.726Z",
+      "visits": null,
+      "favorites": 1478,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2019-10-26T11:41:54.444Z",
       "publicationDate": "2019-10-26T16:50:48.431Z",
@@ -5109,6 +5841,18 @@
       "updated_at": "2022-10-22T21:04:49.185Z",
       "publicationDate": "2022-10-11T21:16:11.347Z",
       "labsPublicationDate": "2022-10-11T02:19:20.541Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan - Avatarsǃ - Season 4 Redwood Camp",
+      "created_at": "2022-10-11T01:43:25.932Z",
+      "visits": null,
+      "favorites": 2870,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2022-10-22T21:04:49.185Z",
+      "publicationDate": "2022-10-11T21:16:11.347Z",
+      "labsPublicationDate": "2022-10-11T02:19:20.541Z"
     }
   ],
   "wrld_91ce7e18-6d05-4e4f-a79e-fb0efcfd9459": [
@@ -5165,6 +5909,18 @@
       "visits": null,
       "favorites": 141,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-04-01T07:20:45.259Z",
+      "publicationDate": "2023-06-25T10:19:54.282Z",
+      "labsPublicationDate": "2023-06-17T16:38:52.590Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "スナック（Snack Bar）",
+      "created_at": "2023-06-10T15:12:36.101Z",
+      "visits": null,
+      "favorites": 142,
+      "heat": 1,
       "popularity": 6,
       "updated_at": "2024-04-01T07:20:45.259Z",
       "publicationDate": "2023-06-25T10:19:54.282Z",
@@ -5349,6 +6105,18 @@
       "updated_at": "2022-11-26T16:04:06.400Z",
       "publicationDate": "2022-10-04T08:16:15.666Z",
       "labsPublicationDate": "2022-10-03T19:39:22.514Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Attack on Titan ˸ Dawn of Freedom ［ AVATARSǃ ］",
+      "created_at": "2022-10-03T19:13:22.266Z",
+      "visits": null,
+      "favorites": 1404,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2022-11-26T16:04:06.400Z",
+      "publicationDate": "2022-10-04T08:16:15.666Z",
+      "labsPublicationDate": "2022-10-03T19:39:22.514Z"
     }
   ],
   "wrld_9c7bb5df-ad34-46c4-a4ec-47ba44f7a154": [
@@ -5393,6 +6161,18 @@
       "visits": null,
       "favorites": 884,
       "heat": 0,
+      "popularity": 6,
+      "updated_at": "2022-04-14T23:45:17.698Z",
+      "publicationDate": "2022-04-17T00:27:24.668Z",
+      "labsPublicationDate": "2022-04-14T22:22:57.838Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Paris' Mansion",
+      "created_at": "2022-04-14T22:22:57.656Z",
+      "visits": null,
+      "favorites": 910,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2022-04-14T23:45:17.698Z",
       "publicationDate": "2022-04-17T00:27:24.668Z",
@@ -5447,6 +6227,18 @@
       "updated_at": "2025-07-08T06:19:36.516Z",
       "publicationDate": "2022-05-11T10:41:17.021Z",
       "labsPublicationDate": "2022-05-09T12:31:33.618Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "台北纯K（装修中）",
+      "created_at": "2022-05-07T09:23:48.273Z",
+      "visits": null,
+      "favorites": 32793,
+      "heat": 6,
+      "popularity": 8,
+      "updated_at": "2025-10-03T23:47:06.410Z",
+      "publicationDate": "2022-05-11T10:41:17.021Z",
+      "labsPublicationDate": "2022-05-09T12:31:33.618Z"
     }
   ],
   "wrld_89112876-1c0d-429b-8901-6003ceac8404": [
@@ -5493,6 +6285,18 @@
       "visits": null,
       "favorites": 23307,
       "heat": 6,
+      "popularity": 7,
+      "updated_at": "2025-05-29T06:38:51.533Z",
+      "publicationDate": "2025-04-25T10:45:40.491Z",
+      "labsPublicationDate": "2025-04-25T07:55:05.093Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "群青コントレイル ~Blue Contrail ''Gunjo''~",
+      "created_at": "2025-02-24T10:10:26.792Z",
+      "visits": null,
+      "favorites": 25457,
+      "heat": 5,
       "popularity": 7,
       "updated_at": "2025-05-29T06:38:51.533Z",
       "publicationDate": "2025-04-25T10:45:40.491Z",
@@ -5547,6 +6351,18 @@
       "updated_at": "2025-07-16T17:28:22.301Z",
       "publicationDate": "2023-10-24T15:04:10.614Z",
       "labsPublicationDate": "2023-10-23T14:55:48.480Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Dream of peace",
+      "created_at": "2023-10-22T12:46:42.450Z",
+      "visits": null,
+      "favorites": 11344,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-09-13T12:03:30.119Z",
+      "publicationDate": "2023-10-24T15:04:10.614Z",
+      "labsPublicationDate": "2023-10-23T14:55:48.480Z"
     }
   ],
   "wrld_18494c78-5205-404a-8c2e-58cf1f80622f": [
@@ -5592,6 +6408,18 @@
       "created_at": "2024-12-06T00:22:31.847Z",
       "visits": null,
       "favorites": 7963,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2024-12-30T02:45:57.680Z",
+      "publicationDate": "2024-12-10T14:05:20.419Z",
+      "labsPublicationDate": "2024-12-10T08:04:18.034Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "KUROINU Safe House",
+      "created_at": "2024-12-06T00:22:31.847Z",
+      "visits": null,
+      "favorites": 8036,
       "heat": 5,
       "popularity": 7,
       "updated_at": "2024-12-30T02:45:57.680Z",
@@ -5647,6 +6475,18 @@
       "updated_at": "2025-07-28T03:05:36.757Z",
       "publicationDate": "2021-11-16T01:08:30.887Z",
       "labsPublicationDate": "2021-11-13T06:14:04.986Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "灯台映画館",
+      "created_at": "2021-08-03T17:12:51.851Z",
+      "visits": null,
+      "favorites": 2280,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2025-08-08T16:14:24.968Z",
+      "publicationDate": "2021-11-16T01:08:30.887Z",
+      "labsPublicationDate": "2021-11-13T06:14:04.986Z"
     }
   ],
   "wrld_e16c5a30-5435-47f8-bf38-44385f6ac3a5": [
@@ -5692,6 +6532,18 @@
       "created_at": "2021-10-04T08:47:43.348Z",
       "visits": null,
       "favorites": 10946,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-03-27T01:52:11.995Z",
+      "publicationDate": "2021-12-10T00:44:21.979Z",
+      "labsPublicationDate": "2021-12-09T02:59:56.198Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "VR Narita Airport《NRT⁄RJAA》",
+      "created_at": "2021-10-04T08:47:43.348Z",
+      "visits": null,
+      "favorites": 11453,
       "heat": 5,
       "popularity": 7,
       "updated_at": "2025-03-27T01:52:11.995Z",
@@ -5747,6 +6599,18 @@
       "updated_at": "2025-06-24T17:55:04.561Z",
       "publicationDate": "2025-06-20T16:17:39.423Z",
       "labsPublicationDate": "2025-06-20T03:13:38.149Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Coffee House Shanghai",
+      "created_at": "2025-06-13T17:06:26.843Z",
+      "visits": null,
+      "favorites": 9272,
+      "heat": 6,
+      "popularity": 7,
+      "updated_at": "2025-06-24T17:55:04.561Z",
+      "publicationDate": "2025-06-20T16:17:39.423Z",
+      "labsPublicationDate": "2025-06-20T03:13:38.149Z"
     }
   ],
   "wrld_0a35397b-2e7d-4f01-8552-034ab8e76e2e": [
@@ -5792,6 +6656,18 @@
       "created_at": "2024-07-04T11:22:17.977Z",
       "visits": null,
       "favorites": 2723,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-07-17T11:19:04.488Z",
+      "publicationDate": "2024-07-25T03:13:01.693Z",
+      "labsPublicationDate": "2024-07-04T12:21:35.483Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文台球俱乐部Chinese Billiiards Club",
+      "created_at": "2024-07-04T11:22:17.977Z",
+      "visits": null,
+      "favorites": 2875,
       "heat": 5,
       "popularity": 7,
       "updated_at": "2025-07-17T11:19:04.488Z",
@@ -5847,6 +6723,18 @@
       "updated_at": "2025-08-02T12:38:17.632Z",
       "publicationDate": "2025-07-11T16:30:39.155Z",
       "labsPublicationDate": "2025-07-10T17:07:23.088Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "月虹の星天苑 -Starlit Garden of the Moonbow-",
+      "created_at": "2025-07-06T16:27:10.218Z",
+      "visits": null,
+      "favorites": 4042,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-09-15T15:05:50.273Z",
+      "publicationDate": "2025-07-11T16:30:39.155Z",
+      "labsPublicationDate": "2025-07-10T17:07:23.088Z"
     }
   ],
   "wrld_7a092275-aa12-46ef-9a53-c1d21968eda6": [
@@ -5892,6 +6780,18 @@
       "created_at": "2023-12-10T09:35:30.312Z",
       "visits": null,
       "favorites": 6881,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2024-05-30T19:45:09.565Z",
+      "publicationDate": "2024-05-30T14:53:29.481Z",
+      "labsPublicationDate": "2024-05-30T07:29:03.994Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "謎解き「灯台島からの脱出」",
+      "created_at": "2023-12-10T09:35:30.312Z",
+      "visits": null,
+      "favorites": 7235,
       "heat": 5,
       "popularity": 7,
       "updated_at": "2024-05-30T19:45:09.565Z",
@@ -5947,6 +6847,18 @@
       "updated_at": "2025-06-09T02:06:30.527Z",
       "publicationDate": "2025-05-21T08:58:14.969Z",
       "labsPublicationDate": "2025-05-19T03:52:59.116Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Iremía~",
+      "created_at": "2025-05-12T15:36:32.640Z",
+      "visits": null,
+      "favorites": 3571,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-06-09T02:06:30.527Z",
+      "publicationDate": "2025-05-21T08:58:14.969Z",
+      "labsPublicationDate": "2025-05-19T03:52:59.116Z"
     }
   ],
   "wrld_633f8fbf-6d1f-48ff-b496-3aab01c58616": [
@@ -5997,6 +6909,18 @@
       "updated_at": "2025-07-17T11:59:03.683Z",
       "publicationDate": "2025-04-04T06:22:08.748Z",
       "labsPublicationDate": "2025-04-02T11:48:07.937Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "后海KTV 重置中",
+      "created_at": "2025-03-23T10:43:25.317Z",
+      "visits": null,
+      "favorites": 4589,
+      "heat": 6,
+      "popularity": 7,
+      "updated_at": "2025-10-03T23:47:13.827Z",
+      "publicationDate": "2025-04-04T06:22:08.748Z",
+      "labsPublicationDate": "2025-04-02T11:48:07.937Z"
     }
   ],
   "wrld_9b408beb-8a38-413c-9efb-ccf8185fefc7": [
@@ -6042,6 +6966,18 @@
       "created_at": "2018-08-10T06:31:41.789Z",
       "visits": null,
       "favorites": 9031,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2020-03-06T15:15:49.365Z",
+      "publicationDate": "2019-05-29T21:13:16.936Z",
+      "labsPublicationDate": "2019-03-18T14:20:26.316Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［CN／EN］禁忌JINJI‘s avatar world",
+      "created_at": "2018-08-10T06:31:41.789Z",
+      "visits": null,
+      "favorites": 9011,
       "heat": 2,
       "popularity": 6,
       "updated_at": "2020-03-06T15:15:49.365Z",
@@ -6097,6 +7033,18 @@
       "updated_at": "2024-07-18T11:21:40.319Z",
       "publicationDate": "2023-07-16T11:54:41.030Z",
       "labsPublicationDate": "2023-07-15T08:48:43.898Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Charlotte's Sunflower Island~ひまわり咲く癒しの港町",
+      "created_at": "2023-06-17T13:17:02.252Z",
+      "visits": null,
+      "favorites": 11739,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-07-18T11:21:40.319Z",
+      "publicationDate": "2023-07-16T11:54:41.030Z",
+      "labsPublicationDate": "2023-07-15T08:48:43.898Z"
     }
   ],
   "wrld_30726aaf-46d1-4c64-af1c-75e0bf9125b5": [
@@ -6145,6 +7093,18 @@
       "heat": 5,
       "popularity": 6,
       "updated_at": "2025-08-02T09:57:16.979Z",
+      "publicationDate": "2023-10-19T17:51:45.715Z",
+      "labsPublicationDate": "2023-10-07T14:18:45.789Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Just AudioLink Home",
+      "created_at": "2023-10-07T14:01:50.827Z",
+      "visits": null,
+      "favorites": 1213,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-09-20T08:13:51.592Z",
       "publicationDate": "2023-10-19T17:51:45.715Z",
       "labsPublicationDate": "2023-10-07T14:18:45.789Z"
     }
@@ -6197,6 +7157,18 @@
       "updated_at": "2025-07-12T03:09:28.041Z",
       "publicationDate": "2025-07-03T17:01:42.377Z",
       "labsPublicationDate": "2025-07-03T13:53:54.183Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "きらめく夜の展望台 -The Shimmering Night Viewpoint-",
+      "created_at": "2025-06-29T16:41:42.631Z",
+      "visits": null,
+      "favorites": 10482,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-07-12T03:09:28.041Z",
+      "publicationDate": "2025-07-03T17:01:42.377Z",
+      "labsPublicationDate": "2025-07-03T13:53:54.183Z"
     }
   ],
   "wrld_2a695a67-1212-412b-b7ca-ada3dafb0778": [
@@ -6242,6 +7214,18 @@
       "created_at": "2023-01-17T15:49:49.014Z",
       "visits": null,
       "favorites": 3352,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-03-21T02:41:46.229Z",
+      "publicationDate": "2023-01-20T17:06:52.175Z",
+      "labsPublicationDate": "2023-01-20T14:25:04.831Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "おでん屋台 -oden-",
+      "created_at": "2023-01-17T15:49:49.014Z",
+      "visits": null,
+      "favorites": 3463,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2024-03-21T02:41:46.229Z",
@@ -6297,6 +7281,18 @@
       "updated_at": "2025-05-16T11:12:56.635Z",
       "publicationDate": "2024-10-13T20:06:16.765Z",
       "labsPublicationDate": "2024-10-08T21:08:02.879Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "ぐるたす寝台列車",
+      "created_at": "2024-10-08T20:58:42.299Z",
+      "visits": null,
+      "favorites": 1402,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-05-16T11:12:56.635Z",
+      "publicationDate": "2024-10-13T20:06:16.765Z",
+      "labsPublicationDate": "2024-10-08T21:08:02.879Z"
     }
   ],
   "wrld_27027d33-224d-465b-b116-992eb84aaab0": [
@@ -6347,6 +7343,18 @@
       "updated_at": "2025-05-10T01:32:21.765Z",
       "publicationDate": "2024-11-23T14:42:36.559Z",
       "labsPublicationDate": "2024-11-23T12:56:16.250Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "City MIO for Vehicle World",
+      "created_at": "2024-04-29T14:00:54.172Z",
+      "visits": null,
+      "favorites": 4367,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-09-28T05:38:34.870Z",
+      "publicationDate": "2024-11-23T14:42:36.559Z",
+      "labsPublicationDate": "2024-11-23T12:56:16.250Z"
     }
   ],
   "wrld_2e497409-c5d5-4ccd-a10f-2776d5e2ab98": [
@@ -6392,6 +7400,18 @@
       "created_at": "2022-08-23T07:12:43.767Z",
       "visits": null,
       "favorites": 10421,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-06-27T03:39:18.387Z",
+      "publicationDate": "2022-08-29T16:51:54.743Z",
+      "labsPublicationDate": "2022-08-29T15:00:04.618Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "水晶宮（Crystal Palace）",
+      "created_at": "2022-08-23T07:12:43.767Z",
+      "visits": null,
+      "favorites": 10594,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2025-06-27T03:39:18.387Z",
@@ -6447,6 +7467,18 @@
       "updated_at": "2025-02-02T12:36:47.184Z",
       "publicationDate": "2023-10-15T14:23:42.454Z",
       "labsPublicationDate": "2023-10-15T04:10:18.456Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Pair_Russian",
+      "created_at": "2023-10-03T07:56:36.032Z",
+      "visits": null,
+      "favorites": 2427,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-02-02T12:36:47.184Z",
+      "publicationDate": "2023-10-15T14:23:42.454Z",
+      "labsPublicationDate": "2023-10-15T04:10:18.456Z"
     }
   ],
   "wrld_e0ddbefa-a300-4402-a7f6-92dff9266650": [
@@ -6497,6 +7529,18 @@
       "updated_at": "2025-08-04T23:12:00.787Z",
       "publicationDate": "2025-01-21T17:43:50.256Z",
       "labsPublicationDate": "2025-01-18T19:07:16.776Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "银河台球厅 - Galaxy Billiards 2․6․4［ CN ⁄ EN ］ ［ 中文 ］",
+      "created_at": "2025-01-18T18:10:41.445Z",
+      "visits": null,
+      "favorites": 1472,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-10-09T06:38:20.034Z",
+      "publicationDate": "2025-01-21T17:43:50.256Z",
+      "labsPublicationDate": "2025-01-18T19:07:16.776Z"
     }
   ],
   "wrld_f81ebd9b-bd38-44e9-9487-91033fc75e7f": [
@@ -6543,6 +7587,18 @@
       "visits": null,
       "favorites": 3157,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-04-07T12:44:41.602Z",
+      "publicationDate": "2024-04-07T15:55:28.234Z",
+      "labsPublicationDate": "2024-04-07T12:44:41.602Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Justお花見",
+      "created_at": "2024-04-05T12:56:25.485Z",
+      "visits": null,
+      "favorites": 3109,
+      "heat": 1,
       "popularity": 6,
       "updated_at": "2024-04-07T12:44:41.602Z",
       "publicationDate": "2024-04-07T15:55:28.234Z",
@@ -6597,6 +7653,18 @@
       "updated_at": "2021-03-21T15:55:35.815Z",
       "publicationDate": "2021-03-23T11:38:39.927Z",
       "labsPublicationDate": "2021-03-21T10:34:52.747Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "台車クラフトパーク -CART CRAFT PARK-",
+      "created_at": "2021-03-21T09:59:55.445Z",
+      "visits": null,
+      "favorites": 3069,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2021-03-21T15:55:35.815Z",
+      "publicationDate": "2021-03-23T11:38:39.927Z",
+      "labsPublicationDate": "2021-03-21T10:34:52.747Z"
     }
   ],
   "wrld_bc8c7cfa-3ac9-4080-a76b-b0ab2591f073": [
@@ -6647,6 +7715,18 @@
       "updated_at": "2025-04-13T10:39:18.664Z",
       "publicationDate": "2025-03-29T11:59:04.743Z",
       "labsPublicationDate": "2025-03-28T20:31:29.302Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "終末の天文台 ⁄ Abandoned Observatory",
+      "created_at": "2025-03-15T13:06:45.923Z",
+      "visits": null,
+      "favorites": 6218,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-08-30T05:55:42.162Z",
+      "publicationDate": "2025-03-29T11:59:04.743Z",
+      "labsPublicationDate": "2025-03-28T20:31:29.302Z"
     }
   ],
   "wrld_a6f5dfd2-bb06-4e65-9e48-07e612760d61": [
@@ -6692,6 +7772,18 @@
       "created_at": "2024-10-20T11:56:45.539Z",
       "visits": null,
       "favorites": 6893,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-11-02T07:51:06.352Z",
+      "publicationDate": "2024-11-02T14:05:20.954Z",
+      "labsPublicationDate": "2024-11-02T07:51:06.352Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Charlotte's Lycoris Island",
+      "created_at": "2024-10-20T11:56:45.539Z",
+      "visits": null,
+      "favorites": 6994,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2024-11-02T07:51:06.352Z",
@@ -6747,6 +7839,18 @@
       "updated_at": "2024-08-24T14:49:32.039Z",
       "publicationDate": "2021-03-07T12:05:46.815Z",
       "labsPublicationDate": "2021-03-05T19:20:57.838Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Guillotine - VR断頭台",
+      "created_at": "2021-03-05T06:11:40.492Z",
+      "visits": null,
+      "favorites": 6931,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-08-24T14:49:32.039Z",
+      "publicationDate": "2021-03-07T12:05:46.815Z",
+      "labsPublicationDate": "2021-03-05T19:20:57.838Z"
     }
   ],
   "wrld_49ec94ae-6d9b-4cf4-934a-46700c06e5b2": [
@@ -6793,6 +7897,18 @@
       "visits": null,
       "favorites": 2832,
       "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-07-19T13:48:28.556Z",
+      "publicationDate": "2025-07-02T12:39:34.150Z",
+      "labsPublicationDate": "2025-07-01T19:00:01.398Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "蜜雪冰城",
+      "created_at": "2025-06-24T13:31:18.409Z",
+      "visits": null,
+      "favorites": 3004,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2025-07-19T13:48:28.556Z",
       "publicationDate": "2025-07-02T12:39:34.150Z",
@@ -6847,6 +7963,18 @@
       "updated_at": "2025-07-28T04:36:56.479Z",
       "publicationDate": "2025-04-24T06:19:04.702Z",
       "labsPublicationDate": "2025-04-22T05:21:23.869Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［ 新人推荐 ǃ ］ M子模型房 ⁄ 休息 ⁄ 聚会 ⁄ 睡觉 CN⁄HK⁄TW⁄JP Avatar World",
+      "created_at": "2025-04-21T15:30:30.503Z",
+      "visits": null,
+      "favorites": 5266,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-07-28T04:36:56.479Z",
+      "publicationDate": "2025-04-24T06:19:04.702Z",
+      "labsPublicationDate": "2025-04-22T05:21:23.869Z"
     }
   ],
   "wrld_902f0dcb-cac3-47ed-828d-c3fdb7b1c5b6": [
@@ -6892,6 +8020,18 @@
       "created_at": "2025-02-23T06:01:34.610Z",
       "visits": null,
       "favorites": 3929,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-03-09T09:49:16.094Z",
+      "publicationDate": "2025-03-09T14:03:41.797Z",
+      "labsPublicationDate": "2025-03-09T09:48:44.307Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "静寂の湖畔、月の灯火と焚き火の調べ（Silent lakeside‚ moonlight and bonfire music）",
+      "created_at": "2025-02-23T06:01:34.610Z",
+      "visits": null,
+      "favorites": 3981,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2025-03-09T09:49:16.094Z",
@@ -6947,6 +8087,18 @@
       "updated_at": "2024-08-19T15:53:52.314Z",
       "publicationDate": "2024-04-20T14:08:49.085Z",
       "labsPublicationDate": "2024-04-20T09:09:30.512Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Charlotte's Flowering Island",
+      "created_at": "2024-03-30T15:09:15.434Z",
+      "visits": null,
+      "favorites": 5555,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-08-19T15:53:52.314Z",
+      "publicationDate": "2024-04-20T14:08:49.085Z",
+      "labsPublicationDate": "2024-04-20T09:09:30.512Z"
     }
   ],
   "wrld_284d9919-e824-411b-8676-93124a0eac45": [
@@ -6995,6 +8147,18 @@
       "heat": 5,
       "popularity": 6,
       "updated_at": "2025-08-04T14:39:09.281Z",
+      "publicationDate": "2024-06-24T13:41:33.879Z",
+      "labsPublicationDate": "2024-06-15T04:49:47.992Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "カジュビリ部室⁄Casual Billiards Club room",
+      "created_at": "2024-06-12T12:55:52.745Z",
+      "visits": null,
+      "favorites": 612,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-10-05T14:01:17.580Z",
       "publicationDate": "2024-06-24T13:41:33.879Z",
       "labsPublicationDate": "2024-06-15T04:49:47.992Z"
     }
@@ -7047,6 +8211,18 @@
       "updated_at": "2025-05-16T15:59:10.699Z",
       "publicationDate": "2023-09-22T23:33:25.383Z",
       "labsPublicationDate": "2023-09-21T04:36:39.893Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "寝台特急北極星-Test Run-",
+      "created_at": "2023-06-04T10:21:06.438Z",
+      "visits": null,
+      "favorites": 1472,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-09-06T11:34:59.920Z",
+      "publicationDate": "2023-09-22T23:33:25.383Z",
+      "labsPublicationDate": "2023-09-21T04:36:39.893Z"
     }
   ],
   "wrld_2142ea4d-3faf-49af-8cb1-392fcbf013cc": [
@@ -7097,6 +8273,18 @@
       "updated_at": "2025-07-25T05:14:11.675Z",
       "publicationDate": "2023-12-28T13:59:44.472Z",
       "labsPublicationDate": "2023-12-28T08:53:45.347Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "SARUSHIMA WORLD（メタバースヨコスカ）",
+      "created_at": "2023-12-27T17:27:05.749Z",
+      "visits": null,
+      "favorites": 3459,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2025-09-30T23:23:16.026Z",
+      "publicationDate": "2023-12-28T13:59:44.472Z",
+      "labsPublicationDate": "2023-12-28T08:53:45.347Z"
     }
   ],
   "wrld_f60f259e-367c-41f2-81ee-c4c861bf4102": [
@@ -7143,6 +8331,18 @@
       "visits": null,
       "favorites": 1913,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-12-16T13:27:27.332Z",
+      "publicationDate": "2024-12-16T18:29:38.485Z",
+      "labsPublicationDate": "2024-12-16T13:27:27.331Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "ケセドのおでん屋台-CHESED's Oden Stall-",
+      "created_at": "2024-12-04T10:32:40.422Z",
+      "visits": null,
+      "favorites": 1903,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2024-12-16T13:27:27.332Z",
       "publicationDate": "2024-12-16T18:29:38.485Z",
@@ -7197,6 +8397,18 @@
       "updated_at": "2022-12-18T13:24:42.696Z",
       "publicationDate": "2021-01-14T02:24:24.884Z",
       "labsPublicationDate": "2021-01-12T08:14:20.888Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "灯台のある浜辺 Fall asleep with ocean sounds",
+      "created_at": "2021-01-12T07:57:47.608Z",
+      "visits": null,
+      "favorites": 800,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2022-12-18T13:24:42.696Z",
+      "publicationDate": "2021-01-14T02:24:24.884Z",
+      "labsPublicationDate": "2021-01-12T08:14:20.888Z"
     }
   ],
   "wrld_d04566e4-9da5-4162-b99f-b69e1c040789": [
@@ -7242,6 +8454,18 @@
       "created_at": "2023-09-03T12:09:38.479Z",
       "visits": null,
       "favorites": 3834,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-07-18T13:41:05.945Z",
+      "publicationDate": "2023-09-23T13:53:47.154Z",
+      "labsPublicationDate": "2023-09-23T08:22:06.569Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Charlotte's Maple Island",
+      "created_at": "2023-09-03T12:09:38.479Z",
+      "visits": null,
+      "favorites": 4048,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2024-07-18T13:41:05.945Z",
@@ -7297,6 +8521,18 @@
       "updated_at": "2022-09-19T09:27:18.895Z",
       "publicationDate": "2022-03-05T15:46:11.128Z",
       "labsPublicationDate": "2022-03-03T11:31:14.376Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "月の灯台",
+      "created_at": "2021-05-16T19:11:01.595Z",
+      "visits": null,
+      "favorites": 1535,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-09-19T09:27:18.895Z",
+      "publicationDate": "2022-03-05T15:46:11.128Z",
+      "labsPublicationDate": "2022-03-03T11:31:14.376Z"
     }
   ],
   "wrld_5e46be9d-61e3-42dd-9b67-d5113d648e56": [
@@ -7343,6 +8579,18 @@
       "visits": null,
       "favorites": 973,
       "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-10-31T12:38:16.729Z",
+      "publicationDate": "2023-07-20T18:39:37.492Z",
+      "labsPublicationDate": "2023-07-20T18:39:37.491Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "長距離列車 ［A long train journey］",
+      "created_at": "2021-10-22T13:42:17.683Z",
+      "visits": null,
+      "favorites": 973,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2024-10-31T12:38:16.729Z",
       "publicationDate": "2023-07-20T18:39:37.492Z",
@@ -7397,6 +8645,18 @@
       "updated_at": "2025-04-30T12:02:14.085Z",
       "publicationDate": "2025-04-30T18:59:30.262Z",
       "labsPublicationDate": "2025-04-30T12:02:14.085Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "終末の天文台（軽量版）⁄ Abandoned Observatory（Lite Ver․）",
+      "created_at": "2025-04-10T14:45:35.531Z",
+      "visits": null,
+      "favorites": 3440,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-08-30T07:11:51.898Z",
+      "publicationDate": "2025-04-30T18:59:30.262Z",
+      "labsPublicationDate": "2025-04-30T12:02:14.085Z"
     }
   ],
   "wrld_d0bc473d-ffbb-4b16-b2d0-019e6e99dfbe": [
@@ -7442,6 +8702,18 @@
       "created_at": "2023-03-28T16:37:30.037Z",
       "visits": null,
       "favorites": 2974,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-10-06T16:19:38.868Z",
+      "publicationDate": "2023-08-06T09:08:49.802Z",
+      "labsPublicationDate": "2023-08-05T13:06:51.053Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "東京～お台場 ドライブ Tokyo Diba Drive",
+      "created_at": "2023-03-28T16:37:30.037Z",
+      "visits": null,
+      "favorites": 3133,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2024-10-06T16:19:38.868Z",
@@ -7497,6 +8769,18 @@
       "updated_at": "2025-05-06T11:41:05.050Z",
       "publicationDate": "2024-09-23T15:56:33.215Z",
       "labsPublicationDate": "2024-07-29T11:43:49.884Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Billiard Room",
+      "created_at": "2024-07-29T11:41:42.760Z",
+      "visits": null,
+      "favorites": 508,
+      "heat": 1,
+      "popularity": 6,
+      "updated_at": "2025-09-24T16:34:27.800Z",
+      "publicationDate": "2024-09-23T15:56:33.215Z",
+      "labsPublicationDate": "2024-07-29T11:43:49.884Z"
     }
   ],
   "wrld_10f22c57-af91-44e7-9478-2b2379af4e62": [
@@ -7543,6 +8827,18 @@
       "visits": null,
       "favorites": 51,
       "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-06-24T13:21:51.463Z",
+      "publicationDate": "2024-06-05T16:41:57.015Z",
+      "labsPublicationDate": "2024-05-28T17:46:28.708Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "かすてらの部屋",
+      "created_at": "2024-05-27T17:34:45.686Z",
+      "visits": null,
+      "favorites": 54,
+      "heat": 2,
       "popularity": 6,
       "updated_at": "2025-06-24T13:21:51.463Z",
       "publicationDate": "2024-06-05T16:41:57.015Z",
@@ -7597,6 +8893,18 @@
       "updated_at": "2025-06-24T08:58:22.054Z",
       "publicationDate": "2025-04-06T14:50:01.514Z",
       "labsPublicationDate": "2025-03-31T15:53:45.163Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "夜行急行 DD51-マイテ-スシ-オイネ",
+      "created_at": "2025-03-25T08:13:44.084Z",
+      "visits": null,
+      "favorites": 1066,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2025-06-24T08:58:22.054Z",
+      "publicationDate": "2025-04-06T14:50:01.514Z",
+      "labsPublicationDate": "2025-03-31T15:53:45.163Z"
     }
   ],
   "wrld_233f5810-7287-46c5-9e4c-1782ae85d218": [
@@ -7643,6 +8951,18 @@
       "visits": null,
       "favorites": 313,
       "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-05-29T08:52:52.895Z",
+      "publicationDate": "2024-04-06T16:05:31.127Z",
+      "labsPublicationDate": "2024-04-03T09:55:26.191Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "りけずほーむ - LieQuzHome",
+      "created_at": "2024-04-03T08:59:01.441Z",
+      "visits": null,
+      "favorites": 307,
+      "heat": 1,
       "popularity": 6,
       "updated_at": "2024-05-29T08:52:52.895Z",
       "publicationDate": "2024-04-06T16:05:31.127Z",
@@ -7897,6 +9217,18 @@
       "updated_at": "2024-06-07T11:22:38.915Z",
       "publicationDate": "2024-06-03T09:40:10.076Z",
       "labsPublicationDate": "2024-06-03T09:30:20.868Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Virtual Dragon Boat Race 2024_TAIWAN EXCELLENCE",
+      "created_at": "2024-05-29T11:06:37.524Z",
+      "visits": null,
+      "favorites": 1088,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2024-06-07T11:22:38.915Z",
+      "publicationDate": "2024-06-03T09:40:10.076Z",
+      "labsPublicationDate": "2024-06-03T09:30:20.868Z"
     }
   ],
   "wrld_d9d1ae2f-6798-46a8-bb09-f51ea000f49f": [
@@ -7943,6 +9275,18 @@
       "visits": null,
       "favorites": 705,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-12-31T15:57:03.026Z",
+      "publicationDate": "2018-11-10T03:25:44.778Z",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［TW］奇想領域3․0 〈Chikus Avatar World〉",
+      "created_at": "2018-09-21T17:56:21.336Z",
+      "visits": null,
+      "favorites": 704,
+      "heat": 2,
       "popularity": 6,
       "updated_at": "2024-12-31T15:57:03.026Z",
       "publicationDate": "2018-11-10T03:25:44.778Z",
@@ -7997,6 +9341,18 @@
       "updated_at": "2025-08-02T22:25:34.375Z",
       "publicationDate": "2024-04-04T10:14:32.021Z",
       "labsPublicationDate": "2024-04-02T08:07:37.180Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Park Lookout 觀日亭公園：Sunrise ＆ Day Night Simulator",
+      "created_at": "2023-10-22T17:48:18.071Z",
+      "visits": null,
+      "favorites": 890,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-10-04T20:10:53.845Z",
+      "publicationDate": "2024-04-04T10:14:32.021Z",
+      "labsPublicationDate": "2024-04-02T08:07:37.180Z"
     }
   ],
   "wrld_1c3af67d-0e63-46a5-a578-4259e2a571c2": [
@@ -8042,6 +9398,18 @@
       "created_at": "2023-04-29T10:20:49.139Z",
       "visits": null,
       "favorites": 793,
+      "heat": 3,
+      "popularity": 5,
+      "updated_at": "2025-07-29T03:20:31.729Z",
+      "publicationDate": "2023-05-22T17:20:46.335Z",
+      "labsPublicationDate": "2023-05-18T13:48:41.565Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Hsinchu Air Force Base",
+      "created_at": "2023-04-29T10:20:49.139Z",
+      "visits": null,
+      "favorites": 820,
       "heat": 3,
       "popularity": 5,
       "updated_at": "2025-07-29T03:20:31.729Z",
@@ -8097,6 +9465,18 @@
       "updated_at": "2022-10-01T13:38:15.291Z",
       "publicationDate": "2020-11-01T09:29:31.073Z",
       "labsPublicationDate": "2020-09-02T18:11:38.376Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Infurnity Online World 獸無限",
+      "created_at": "2020-07-27T15:32:17.494Z",
+      "visits": null,
+      "favorites": 670,
+      "heat": 0,
+      "popularity": 5,
+      "updated_at": "2022-10-01T13:38:15.291Z",
+      "publicationDate": "2020-11-01T09:29:31.073Z",
+      "labsPublicationDate": "2020-09-02T18:11:38.376Z"
     }
   ],
   "wrld_9813ce90-08bc-496d-a010-ef2d12d7653d": [
@@ -8143,6 +9523,18 @@
       "visits": null,
       "favorites": 175,
       "heat": 3,
+      "popularity": 5,
+      "updated_at": "2021-11-14T11:52:34.281Z",
+      "publicationDate": "2021-11-07T09:14:47.924Z",
+      "labsPublicationDate": "2021-10-18T04:48:06.592Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "tw KTV包廂",
+      "created_at": "2021-10-18T02:07:48.865Z",
+      "visits": null,
+      "favorites": 177,
+      "heat": 2,
       "popularity": 5,
       "updated_at": "2021-11-14T11:52:34.281Z",
       "publicationDate": "2021-11-07T09:14:47.924Z",
@@ -8197,6 +9589,18 @@
       "updated_at": "2024-01-30T06:43:42.596Z",
       "publicationDate": "2024-01-26T14:47:36.021Z",
       "labsPublicationDate": "2024-01-24T04:06:49.642Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "New Year in Taiwan",
+      "created_at": "2024-01-24T04:00:24.463Z",
+      "visits": null,
+      "favorites": 182,
+      "heat": 0,
+      "popularity": 5,
+      "updated_at": "2024-01-30T06:43:42.596Z",
+      "publicationDate": "2024-01-26T14:47:36.021Z",
+      "labsPublicationDate": "2024-01-24T04:06:49.642Z"
     }
   ],
   "wrld_8626f0dc-726c-4936-a4dc-d3323d19ccbc": [
@@ -8247,6 +9651,18 @@
       "updated_at": "2021-06-29T04:46:06.969Z",
       "publicationDate": "2021-02-27T12:47:12.661Z",
       "labsPublicationDate": "2021-02-19T14:36:24.413Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "小法師的小別墅",
+      "created_at": "2021-02-16T11:18:54.107Z",
+      "visits": null,
+      "favorites": 80,
+      "heat": 1,
+      "popularity": 5,
+      "updated_at": "2021-06-29T04:46:06.969Z",
+      "publicationDate": "2021-02-27T12:47:12.661Z",
+      "labsPublicationDate": "2021-02-19T14:36:24.413Z"
     }
   ],
   "wrld_cf3284cc-3f31-4537-b16b-73be6527d26d": [
@@ -8288,6 +9704,18 @@
     },
     {
       "timestamp": 1754374298,
+      "name": "고려 만월",
+      "created_at": "2023-05-14T11:10:46.598Z",
+      "visits": null,
+      "favorites": 53,
+      "heat": 0,
+      "popularity": 5,
+      "updated_at": "2023-05-14T11:10:46.598Z",
+      "publicationDate": "2023-05-21T02:34:21.340Z",
+      "labsPublicationDate": "2023-05-14T11:10:46.955Z"
+    },
+    {
+      "timestamp": 1759999538,
       "name": "고려 만월",
       "created_at": "2023-05-14T11:10:46.598Z",
       "visits": null,
@@ -8347,6 +9775,18 @@
       "updated_at": "2021-09-08T09:31:42.646Z",
       "publicationDate": "2018-11-10T05:34:15.956Z",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［TW］台灣Taiwan",
+      "created_at": "2018-09-17T10:45:38.787Z",
+      "visits": null,
+      "favorites": 119,
+      "heat": 1,
+      "popularity": 4,
+      "updated_at": "2021-09-08T09:31:42.646Z",
+      "publicationDate": "2018-11-10T05:34:15.956Z",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_23fc32aa-dc17-44fb-8af1-48722001004f": [
@@ -8393,6 +9833,18 @@
       "visits": null,
       "favorites": 41,
       "heat": 3,
+      "popularity": 4,
+      "updated_at": "2019-08-15T17:24:57.009Z",
+      "publicationDate": "2020-02-14T12:52:09.924Z",
+      "labsPublicationDate": "2019-08-15T17:24:57.391Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［TW］辦桌",
+      "created_at": "2019-04-06T13:00:43.492Z",
+      "visits": null,
+      "favorites": 40,
+      "heat": 0,
       "popularity": 4,
       "updated_at": "2019-08-15T17:24:57.009Z",
       "publicationDate": "2020-02-14T12:52:09.924Z",
@@ -8447,6 +9899,18 @@
       "updated_at": "2022-07-15T04:45:51.157Z",
       "publicationDate": "2023-02-06T15:10:04.737Z",
       "labsPublicationDate": "2022-04-24T11:49:51.830Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "台灣文化元宇宙藝術博物館",
+      "created_at": "2022-04-12T12:54:22.300Z",
+      "visits": null,
+      "favorites": 59,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2022-07-15T04:45:51.157Z",
+      "publicationDate": "2023-02-06T15:10:04.737Z",
+      "labsPublicationDate": "2022-04-24T11:49:51.830Z"
     }
   ],
   "wrld_813fe5a1-5b2b-4523-96b2-7c87ecba5ee1": [
@@ -8488,6 +9952,18 @@
     },
     {
       "timestamp": 1754374298,
+      "name": "［TW］ 疫情指揮中心記者會場",
+      "created_at": "2021-09-24T03:52:43.917Z",
+      "visits": null,
+      "favorites": 39,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2021-09-24T03:52:43.917Z",
+      "publicationDate": "2022-08-04T08:43:15.665Z",
+      "labsPublicationDate": "2021-09-24T03:55:42.474Z"
+    },
+    {
+      "timestamp": 1759999538,
       "name": "［TW］ 疫情指揮中心記者會場",
       "created_at": "2021-09-24T03:52:43.917Z",
       "visits": null,
@@ -8547,6 +10023,18 @@
       "updated_at": "2024-09-07T19:31:15.886Z",
       "publicationDate": "2024-09-12T08:59:54.997Z",
       "labsPublicationDate": "2024-09-07T18:54:17.912Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "臺獨吧［TW⁄HK⁄MO⁄MY⁄SG］",
+      "created_at": "2024-09-07T18:47:09.768Z",
+      "visits": null,
+      "favorites": 54,
+      "heat": 0,
+      "popularity": 4,
+      "updated_at": "2024-09-07T19:31:15.886Z",
+      "publicationDate": "2024-09-12T08:59:54.997Z",
+      "labsPublicationDate": "2024-09-07T18:54:17.912Z"
     }
   ],
   "wrld_590e99ac-255b-4b43-a6c5-885ed4e9e915": [
@@ -8597,6 +10085,18 @@
       "updated_at": "2025-02-18T14:06:38.610Z",
       "publicationDate": "none",
       "labsPublicationDate": "2025-02-17T08:39:00.971Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "屋部御ノ腐亞酒",
+      "created_at": "2025-02-16T23:02:34.570Z",
+      "visits": null,
+      "favorites": 2,
+      "heat": 1,
+      "popularity": 3,
+      "updated_at": "2025-02-18T14:06:38.610Z",
+      "publicationDate": "2025-10-09T00:31:38.913Z",
+      "labsPublicationDate": "2025-02-17T08:39:00.971Z"
     }
   ],
   "wrld_229f4d1e-93b0-4b49-9b7b-68b92da038f6": [
@@ -8638,6 +10138,18 @@
     },
     {
       "timestamp": 1754374298,
+      "name": "Pichu Collection",
+      "created_at": "2021-11-21T20:07:10.602Z",
+      "visits": null,
+      "favorites": 18,
+      "heat": 0,
+      "popularity": 3,
+      "updated_at": "2023-10-01T18:59:47.316Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "2021-12-05T21:58:03.556Z"
+    },
+    {
+      "timestamp": 1759999538,
       "name": "Pichu Collection",
       "created_at": "2021-11-21T20:07:10.602Z",
       "visits": null,
@@ -8695,6 +10207,18 @@
       "heat": 6,
       "popularity": 9,
       "updated_at": "2025-07-31T14:43:04.125Z",
+      "publicationDate": "2020-08-03T20:18:55.058Z",
+      "labsPublicationDate": "2020-08-03T17:28:55.314Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 8․0․2［CN＼HK＼TW］",
+      "created_at": "2018-08-08T03:43:15.960Z",
+      "visits": null,
+      "favorites": 172366,
+      "heat": 7,
+      "popularity": 9,
+      "updated_at": "2025-10-09T08:04:40.755Z",
       "publicationDate": "2020-08-03T20:18:55.058Z",
       "labsPublicationDate": "2020-08-03T17:28:55.314Z"
     }
@@ -8797,6 +10321,18 @@
       "updated_at": "2025-08-01T11:46:09.703Z",
       "publicationDate": "2025-07-21T23:55:08.663Z",
       "labsPublicationDate": "2025-07-21T23:55:08.662Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "（新手专用ǃ）Sitycat模型房⁄开会⁄会议室⁄休息屋 Avatar world",
+      "created_at": "2024-06-01T07:20:26.189Z",
+      "visits": null,
+      "favorites": 64455,
+      "heat": 6,
+      "popularity": 8,
+      "updated_at": "2025-09-02T18:20:46.185Z",
+      "publicationDate": "2025-07-21T23:55:08.663Z",
+      "labsPublicationDate": "2025-07-21T23:55:08.662Z"
     }
   ],
   "wrld_6b7ded72-cedb-49fe-9428-b73bdf3e0b73": [
@@ -8842,6 +10378,18 @@
       "created_at": "2018-04-08T00:32:40.933Z",
       "visits": null,
       "favorites": 3997,
+      "heat": 3,
+      "popularity": 7,
+      "updated_at": "2018-11-10T01:10:46.596Z",
+      "publicationDate": "2018-11-10T01:10:46.596Z",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧[CN|HK|TW]",
+      "created_at": "2018-04-08T00:32:40.933Z",
+      "visits": null,
+      "favorites": 4018,
       "heat": 3,
       "popularity": 7,
       "updated_at": "2018-11-10T01:10:46.596Z",
@@ -8897,6 +10445,18 @@
       "updated_at": "2023-09-22T02:40:00.592Z",
       "publicationDate": "2021-08-16T13:09:20.978Z",
       "labsPublicationDate": "2021-08-14T13:33:59.225Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 3․38［CN＼HK＼TW］",
+      "created_at": "2021-03-07T16:38:27.845Z",
+      "visits": null,
+      "favorites": 7580,
+      "heat": 4,
+      "popularity": 7,
+      "updated_at": "2023-09-22T02:40:00.592Z",
+      "publicationDate": "2021-08-16T13:09:20.978Z",
+      "labsPublicationDate": "2021-08-14T13:33:59.225Z"
     }
   ],
   "wrld_6fb88283-f736-4607-8c22-baaff35f9e1c": [
@@ -8947,6 +10507,18 @@
       "updated_at": "2025-07-26T19:20:30.278Z",
       "publicationDate": "2024-10-21T15:42:10.022Z",
       "labsPublicationDate": "2024-10-20T14:31:10.969Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "~舒休吧~Leisure sleeping Bar v3․5",
+      "created_at": "2024-10-15T18:24:17.682Z",
+      "visits": null,
+      "favorites": 2882,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-10-02T12:30:51.153Z",
+      "publicationDate": "2024-10-21T15:42:10.022Z",
+      "labsPublicationDate": "2024-10-20T14:31:10.969Z"
     }
   ],
   "wrld_6a657627-db66-45c2-b0b9-5fcba435862a": [
@@ -8993,6 +10565,18 @@
       "visits": null,
       "favorites": 15497,
       "heat": 4,
+      "popularity": 7,
+      "updated_at": "2024-07-23T06:08:17.702Z",
+      "publicationDate": "2023-10-17T02:05:27.707Z",
+      "labsPublicationDate": "2023-10-16T06:31:31.734Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "HYSTERIA （Horror） v1․0",
+      "created_at": "2023-10-16T06:27:45.577Z",
+      "visits": null,
+      "favorites": 16167,
+      "heat": 5,
       "popularity": 7,
       "updated_at": "2024-07-23T06:08:17.702Z",
       "publicationDate": "2023-10-17T02:05:27.707Z",
@@ -9047,6 +10631,18 @@
       "updated_at": "2024-05-02T14:55:18.528Z",
       "publicationDate": "2022-03-14T02:59:17.595Z",
       "labsPublicationDate": "2022-03-07T14:55:05.923Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "摆烂吧［CN＼HK＼TW］",
+      "created_at": "2022-03-07T14:55:05.006Z",
+      "visits": null,
+      "favorites": 6980,
+      "heat": 3,
+      "popularity": 7,
+      "updated_at": "2024-05-02T14:55:18.528Z",
+      "publicationDate": "2022-03-14T02:59:17.595Z",
+      "labsPublicationDate": "2022-03-07T14:55:05.923Z"
     }
   ],
   "wrld_666eab03-abc5-4dd4-a445-60850df20f37": [
@@ -9093,6 +10689,18 @@
       "visits": null,
       "favorites": 5411,
       "heat": 4,
+      "popularity": 7,
+      "updated_at": "2023-09-22T02:39:11.553Z",
+      "publicationDate": "2022-10-01T05:48:17.803Z",
+      "labsPublicationDate": "2022-09-27T09:53:35.666Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 4․68［CN＼HK＼TW］",
+      "created_at": "2022-09-27T09:53:35.147Z",
+      "visits": null,
+      "favorites": 5565,
+      "heat": 5,
       "popularity": 7,
       "updated_at": "2023-09-22T02:39:11.553Z",
       "publicationDate": "2022-10-01T05:48:17.803Z",
@@ -9147,6 +10755,18 @@
       "updated_at": "2025-02-03T23:52:08.408Z",
       "publicationDate": "2023-05-22T17:51:40.588Z",
       "labsPublicationDate": "2023-05-16T19:56:18.586Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "星流-巨幕-",
+      "created_at": "2023-05-07T20:20:36.312Z",
+      "visits": null,
+      "favorites": 3224,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-09-01T19:53:08.221Z",
+      "publicationDate": "2023-05-22T17:51:40.588Z",
+      "labsPublicationDate": "2023-05-16T19:56:18.586Z"
     }
   ],
   "wrld_73a81fc0-b6e1-4273-a6f0-32d1b20d3ce2": [
@@ -9197,6 +10817,18 @@
       "updated_at": "2023-09-28T10:23:57.077Z",
       "publicationDate": "2022-12-13T16:02:08.554Z",
       "labsPublicationDate": "2022-12-04T10:13:23.893Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 5․53［CN＼HK＼TW］",
+      "created_at": "2022-12-03T16:14:12.401Z",
+      "visits": null,
+      "favorites": 3338,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2023-09-28T10:23:57.077Z",
+      "publicationDate": "2022-12-13T16:02:08.554Z",
+      "labsPublicationDate": "2022-12-04T10:13:23.893Z"
     }
   ],
   "wrld_25fa1530-9c36-4e66-b6e8-caf210c1b8b2": [
@@ -9242,6 +10874,18 @@
       "created_at": "2022-03-19T23:48:55.468Z",
       "visits": null,
       "favorites": 4165,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-03-19T23:48:55.468Z",
+      "publicationDate": "2022-03-21T00:27:05.919Z",
+      "labsPublicationDate": "2022-03-19T23:48:55.671Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Weirdcore",
+      "created_at": "2022-03-19T23:48:55.468Z",
+      "visits": null,
+      "favorites": 4277,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2022-03-19T23:48:55.468Z",
@@ -9297,6 +10941,18 @@
       "updated_at": "2020-03-01T13:29:28.268Z",
       "publicationDate": "2019-10-17T08:27:47.847Z",
       "labsPublicationDate": "2019-10-16T09:45:17.245Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "砂糖的恐怖地图（CN／TW／HK）",
+      "created_at": "2019-09-08T09:58:26.618Z",
+      "visits": null,
+      "favorites": 2172,
+      "heat": 1,
+      "popularity": 6,
+      "updated_at": "2020-03-01T13:29:28.268Z",
+      "publicationDate": "2019-10-17T08:27:47.847Z",
+      "labsPublicationDate": "2019-10-16T09:45:17.245Z"
     }
   ],
   "wrld_94359489-70e5-4539-a697-d2506aa644d6": [
@@ -9347,6 +11003,18 @@
       "updated_at": "2024-11-18T06:27:25.004Z",
       "publicationDate": "2024-10-03T20:36:48.172Z",
       "labsPublicationDate": "2024-10-03T10:50:49.780Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 6․71［CN＼HK＼TW］",
+      "created_at": "2021-08-24T15:04:43.122Z",
+      "visits": null,
+      "favorites": 2958,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2024-11-18T06:27:25.004Z",
+      "publicationDate": "2024-10-03T20:36:48.172Z",
+      "labsPublicationDate": "2024-10-03T10:50:49.780Z"
     }
   ],
   "wrld_64565288-0f20-4a1f-a4c2-2dd82950f461": [
@@ -9392,6 +11060,18 @@
       "created_at": "2023-02-28T13:08:26.614Z",
       "visits": null,
       "favorites": 3081,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-03-23T13:17:18.723Z",
+      "publicationDate": "2023-03-12T15:20:38.183Z",
+      "labsPublicationDate": "2023-02-28T13:08:26.954Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "回忆的家",
+      "created_at": "2023-02-28T13:08:26.614Z",
+      "visits": null,
+      "favorites": 3079,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2024-03-23T13:17:18.723Z",
@@ -9447,6 +11127,18 @@
       "updated_at": "2022-02-20T02:57:22.923Z",
       "publicationDate": "2022-03-08T14:05:30.937Z",
       "labsPublicationDate": "2022-02-19T05:46:41.613Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Know Your Friend真心話",
+      "created_at": "2022-02-17T02:41:44.340Z",
+      "visits": null,
+      "favorites": 1839,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-02-20T02:57:22.923Z",
+      "publicationDate": "2022-03-08T14:05:30.937Z",
+      "labsPublicationDate": "2022-02-19T05:46:41.613Z"
     }
   ],
   "wrld_95317403-8519-4803-8a7f-2cc93a3582a8": [
@@ -9493,6 +11185,18 @@
       "visits": null,
       "favorites": 4742,
       "heat": 2,
+      "popularity": 6,
+      "updated_at": "2020-06-30T05:53:27.624Z",
+      "publicationDate": "2019-12-27T15:17:45.103Z",
+      "labsPublicationDate": "2019-12-27T06:32:32.491Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Blossoms on A Moonlit Night - New Year Edition 花月夜-新年版",
+      "created_at": "2019-12-27T06:32:32.337Z",
+      "visits": null,
+      "favorites": 4744,
+      "heat": 3,
       "popularity": 6,
       "updated_at": "2020-06-30T05:53:27.624Z",
       "publicationDate": "2019-12-27T15:17:45.103Z",
@@ -9547,6 +11251,18 @@
       "updated_at": "2025-07-27T08:30:40.619Z",
       "publicationDate": "2025-04-12T03:15:23.263Z",
       "labsPublicationDate": "2025-04-11T08:22:46.002Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "极星咖啡厅v1․3",
+      "created_at": "2025-02-27T09:20:07.724Z",
+      "visits": null,
+      "favorites": 1522,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-10-06T17:25:45.671Z",
+      "publicationDate": "2025-04-12T03:15:23.263Z",
+      "labsPublicationDate": "2025-04-11T08:22:46.002Z"
     }
   ],
   "wrld_461f26a2-c573-4c78-a11c-d1035dcb7c04": [
@@ -9597,6 +11313,18 @@
       "updated_at": "2023-09-22T02:40:40.270Z",
       "publicationDate": "2020-09-12T15:27:54.227Z",
       "labsPublicationDate": "2020-09-12T01:10:55.803Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "中文吧 Chinese Bar 2․17［CN＼HK＼TW］",
+      "created_at": "2019-07-25T14:29:27.834Z",
+      "visits": null,
+      "favorites": 1517,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2023-09-22T02:40:40.270Z",
+      "publicationDate": "2020-09-12T15:27:54.227Z",
+      "labsPublicationDate": "2020-09-12T01:10:55.803Z"
     }
   ],
   "wrld_128ffbdb-fcad-4f50-ba14-5ada24740655": [
@@ -9642,6 +11370,18 @@
       "created_at": "2018-03-14T11:12:49.973Z",
       "visits": null,
       "favorites": 445,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2018-11-10T01:04:45.096Z",
+      "publicationDate": "2018-11-10T01:04:45.096Z",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "[TW]臥室bedroom 〈Avatar〉 V3.6",
+      "created_at": "2018-03-14T11:12:49.973Z",
+      "visits": null,
+      "favorites": 442,
       "heat": 0,
       "popularity": 6,
       "updated_at": "2018-11-10T01:04:45.096Z",
@@ -9697,6 +11437,18 @@
       "updated_at": "2022-03-13T05:14:16.658Z",
       "publicationDate": "2021-12-09T23:42:11.241Z",
       "labsPublicationDate": "2021-12-07T15:25:43.118Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "喵喵のHouse［CN＼TW＼HK］",
+      "created_at": "2021-11-29T13:43:50.228Z",
+      "visits": null,
+      "favorites": 979,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-03-13T05:14:16.658Z",
+      "publicationDate": "2021-12-09T23:42:11.241Z",
+      "labsPublicationDate": "2021-12-07T15:25:43.118Z"
     }
   ],
   "wrld_a94bccd0-53d6-44c8-a041-9cfa28606dc2": [
@@ -9743,6 +11495,18 @@
       "visits": null,
       "favorites": 303,
       "heat": 0,
+      "popularity": 6,
+      "updated_at": "2022-07-23T20:20:52.670Z",
+      "publicationDate": "2020-07-28T21:42:01.589Z",
+      "labsPublicationDate": "2020-07-02T18:04:22.180Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Lite Room",
+      "created_at": "2020-07-01T17:09:47.642Z",
+      "visits": null,
+      "favorites": 302,
+      "heat": 4,
       "popularity": 6,
       "updated_at": "2022-07-23T20:20:52.670Z",
       "publicationDate": "2020-07-28T21:42:01.589Z",
@@ -9797,6 +11561,18 @@
       "updated_at": "2022-03-24T18:49:51.254Z",
       "publicationDate": "2022-02-19T23:24:43.834Z",
       "labsPublicationDate": "2022-02-17T08:01:36.597Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "明明鸭的Beat Saber",
+      "created_at": "2022-02-17T06:44:37.386Z",
+      "visits": null,
+      "favorites": 2357,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-03-24T18:49:51.254Z",
+      "publicationDate": "2022-02-19T23:24:43.834Z",
+      "labsPublicationDate": "2022-02-17T08:01:36.597Z"
     }
   ],
   "wrld_2d46dcdc-4e1d-4202-baab-e1b02bf9f82e": [
@@ -9842,6 +11618,18 @@
       "created_at": "2022-03-26T15:10:32.855Z",
       "visits": null,
       "favorites": 1999,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-04-30T09:50:55.520Z",
+      "publicationDate": "2022-03-28T16:02:29.717Z",
+      "labsPublicationDate": "2022-03-27T07:37:31.697Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "殡仪馆、葬儀場、Funeral ［CN＼HK＼TW］",
+      "created_at": "2022-03-26T15:10:32.855Z",
+      "visits": null,
+      "favorites": 2058,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2022-04-30T09:50:55.520Z",
@@ -9897,6 +11685,18 @@
       "updated_at": "2025-04-09T11:28:51.774Z",
       "publicationDate": "2024-06-21T16:56:03.648Z",
       "labsPublicationDate": "2024-06-20T05:27:48.887Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［CN］M子模型房 PLUSǃǃ Avatar World",
+      "created_at": "2024-06-20T05:27:48.214Z",
+      "visits": null,
+      "favorites": 1911,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-04-09T11:28:51.774Z",
+      "publicationDate": "2024-06-21T16:56:03.648Z",
+      "labsPublicationDate": "2024-06-20T05:27:48.887Z"
     }
   ],
   "wrld_0322c760-3e9f-47fa-ba91-46ef51ea3256": [
@@ -9942,6 +11742,18 @@
       "created_at": "2020-07-15T05:48:46.376Z",
       "visits": null,
       "favorites": 847,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2020-08-23T22:10:22.300Z",
+      "publicationDate": "2020-07-26T08:11:46.930Z",
+      "labsPublicationDate": "2020-07-15T15:41:54.895Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Never Have I Ever 中文",
+      "created_at": "2020-07-15T05:48:46.376Z",
+      "visits": null,
+      "favorites": 866,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2020-08-23T22:10:22.300Z",
@@ -9997,6 +11809,18 @@
       "updated_at": "2023-07-10T07:36:32.917Z",
       "publicationDate": "2023-07-10T07:36:32.916Z",
       "labsPublicationDate": "2023-07-10T07:36:32.915Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "猫の居【HK ⁄ TW】",
+      "created_at": "2022-08-07T08:58:51.253Z",
+      "visits": null,
+      "favorites": 165,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2023-07-10T07:36:32.917Z",
+      "publicationDate": "2023-07-10T07:36:32.916Z",
+      "labsPublicationDate": "2023-07-10T07:36:32.915Z"
     }
   ],
   "wrld_85525a78-634a-48ae-ab4f-7d8d83a25f12": [
@@ -10047,6 +11871,18 @@
       "updated_at": "2022-04-13T13:03:13.195Z",
       "publicationDate": "2020-10-28T13:30:23.710Z",
       "labsPublicationDate": "2020-10-28T07:30:59.307Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "砂糖的恐怖地图完结篇［CN⁄TW］",
+      "created_at": "2020-08-30T11:30:44.324Z",
+      "visits": null,
+      "favorites": 1064,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-04-13T13:03:13.195Z",
+      "publicationDate": "2020-10-28T13:30:23.710Z",
+      "labsPublicationDate": "2020-10-28T07:30:59.307Z"
     }
   ],
   "wrld_4e44bea9-2498-41a0-9ea0-9f53d4977a88": [
@@ -10092,6 +11928,18 @@
       "created_at": "2021-11-09T17:22:06.003Z",
       "visits": null,
       "favorites": 361,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2022-05-18T17:47:47.539Z",
+      "publicationDate": "2022-05-18T17:47:47.949Z",
+      "labsPublicationDate": "2022-05-18T17:47:47.936Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "商业帝国的废墟 2․0․0 ［CN＼HK＼TW］",
+      "created_at": "2021-11-09T17:22:06.003Z",
+      "visits": null,
+      "favorites": 359,
       "heat": 0,
       "popularity": 6,
       "updated_at": "2022-05-18T17:47:47.539Z",
@@ -10147,6 +11995,18 @@
       "updated_at": "2021-06-27T13:12:04.755Z",
       "publicationDate": "2021-06-21T13:14:56.242Z",
       "labsPublicationDate": "2021-06-19T09:51:02.036Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Weirdcore Music Room",
+      "created_at": "2021-06-19T09:51:01.869Z",
+      "visits": null,
+      "favorites": 2778,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2021-06-27T13:12:04.755Z",
+      "publicationDate": "2021-06-21T13:14:56.242Z",
+      "labsPublicationDate": "2021-06-19T09:51:02.036Z"
     }
   ],
   "wrld_63c03d50-983b-4e83-b00b-b6937704eba6": [
@@ -10197,6 +12057,18 @@
       "updated_at": "2023-10-15T14:27:14.482Z",
       "publicationDate": "2022-10-24T16:30:33.531Z",
       "labsPublicationDate": "2022-08-29T11:30:50.756Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "貓又的小房間",
+      "created_at": "2022-08-22T12:49:37.878Z",
+      "visits": null,
+      "favorites": 58,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2023-10-15T14:27:14.482Z",
+      "publicationDate": "2022-10-24T16:30:33.531Z",
+      "labsPublicationDate": "2022-08-29T11:30:50.756Z"
     }
   ],
   "wrld_e2c4c963-7d80-40d6-bf1d-6ead6e9f2eb6": [
@@ -10242,6 +12114,18 @@
       "created_at": "2023-07-05T16:06:02.698Z",
       "visits": null,
       "favorites": 627,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-04-26T10:21:22.987Z",
+      "publicationDate": "2023-08-29T03:17:23.493Z",
+      "labsPublicationDate": "2023-07-05T16:28:17.542Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "爱莉希雅小屋（新家）",
+      "created_at": "2023-07-05T16:06:02.698Z",
+      "visits": null,
+      "favorites": 716,
       "heat": 4,
       "popularity": 6,
       "updated_at": "2025-04-26T10:21:22.987Z",
@@ -10297,6 +12181,18 @@
       "updated_at": "2018-06-10T16:35:54.130Z",
       "publicationDate": "2018-06-10T16:35:54.130Z",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "幻想乡大富翁1.1【CN|HK|TW 中文社區】",
+      "created_at": "2018-04-21T07:24:42.238Z",
+      "visits": null,
+      "favorites": 793,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2018-06-10T16:35:54.130Z",
+      "publicationDate": "2018-06-10T16:35:54.130Z",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_57bcf5c6-2e0a-4dd6-a8cf-940f9d9b3834": [
@@ -10343,6 +12239,18 @@
       "visits": null,
       "favorites": 861,
       "heat": 4,
+      "popularity": 6,
+      "updated_at": "2022-02-20T08:43:41.511Z",
+      "publicationDate": "2019-08-09T16:33:46.452Z",
+      "labsPublicationDate": "2019-08-08T08:58:03.807Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "砂糖菜馆 ［CN⁄TW⁄HK］",
+      "created_at": "2019-05-17T08:11:18.275Z",
+      "visits": null,
+      "favorites": 860,
+      "heat": 1,
       "popularity": 6,
       "updated_at": "2022-02-20T08:43:41.511Z",
       "publicationDate": "2019-08-09T16:33:46.452Z",
@@ -10397,6 +12305,18 @@
       "updated_at": "2024-10-10T22:36:07.717Z",
       "publicationDate": "2024-06-03T16:05:45.707Z",
       "labsPublicationDate": "2024-05-26T15:27:40.483Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "这是一个洞",
+      "created_at": "2024-05-16T19:55:25.506Z",
+      "visits": null,
+      "favorites": 55,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2025-09-02T12:25:09.416Z",
+      "publicationDate": "2024-06-03T16:05:45.707Z",
+      "labsPublicationDate": "2024-05-26T15:27:40.483Z"
     }
   ],
   "wrld_d947b894-0d69-4ec5-9e25-1e027aca7716": [
@@ -10443,6 +12363,18 @@
       "visits": null,
       "favorites": 206,
       "heat": 3,
+      "popularity": 6,
+      "updated_at": "2024-04-01T13:25:20.530Z",
+      "publicationDate": "2023-03-21T17:01:15.725Z",
+      "labsPublicationDate": "2023-03-05T11:50:13.227Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［CN］小灰灰的碧桂园小窝 -V2․3 Hui's Country Garden Sleeping House",
+      "created_at": "2023-03-05T11:50:12.797Z",
+      "visits": null,
+      "favorites": 212,
+      "heat": 2,
       "popularity": 6,
       "updated_at": "2024-04-01T13:25:20.530Z",
       "publicationDate": "2023-03-21T17:01:15.725Z",
@@ -10497,6 +12429,18 @@
       "updated_at": "2018-12-19T23:18:09.278Z",
       "publicationDate": "2018-11-10T06:32:17.913Z",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "Chinese Chess 中國象棋",
+      "created_at": "2018-06-12T12:12:46.696Z",
+      "visits": null,
+      "favorites": 572,
+      "heat": 2,
+      "popularity": 6,
+      "updated_at": "2018-12-19T23:18:09.278Z",
+      "publicationDate": "2018-11-10T06:32:17.913Z",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_58830023-645e-4026-a946-20450ea28b9b": [
@@ -10542,6 +12486,18 @@
       "created_at": "2018-07-16T06:03:45.239Z",
       "visits": null,
       "favorites": 113,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2018-11-10T02:36:46.745Z",
+      "publicationDate": "2018-11-10T02:36:46.745Z",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "[TW]LittleRoom小房間",
+      "created_at": "2018-07-16T06:03:45.239Z",
+      "visits": null,
+      "favorites": 112,
       "heat": 0,
       "popularity": 6,
       "updated_at": "2018-11-10T02:36:46.745Z",
@@ -10597,6 +12553,18 @@
       "updated_at": "2023-01-09T12:02:46.641Z",
       "publicationDate": "2022-12-31T17:17:37.448Z",
       "labsPublicationDate": "2022-12-20T09:27:46.495Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "海上小屋 Sea hut 2․1［CN＼HK＼TW］",
+      "created_at": "2022-12-20T09:27:46.014Z",
+      "visits": null,
+      "favorites": 262,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2023-01-09T12:02:46.641Z",
+      "publicationDate": "2022-12-31T17:17:37.448Z",
+      "labsPublicationDate": "2022-12-20T09:27:46.495Z"
     }
   ],
   "wrld_9beecbf7-82c3-48c4-ab8d-67275e84ef36": [
@@ -10642,6 +12610,18 @@
       "created_at": "2021-11-06T05:55:00.769Z",
       "visits": null,
       "favorites": 747,
+      "heat": 3,
+      "popularity": 6,
+      "updated_at": "2022-01-28T19:15:48.213Z",
+      "publicationDate": "2021-11-11T11:30:36.457Z",
+      "labsPublicationDate": "2021-11-06T05:55:02.192Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "［CN⁄HK⁄TW］麻将屋",
+      "created_at": "2021-11-06T05:55:00.769Z",
+      "visits": null,
+      "favorites": 776,
       "heat": 3,
       "popularity": 6,
       "updated_at": "2022-01-28T19:15:48.213Z",
@@ -10697,6 +12677,18 @@
       "updated_at": "2019-02-14T20:39:33.950Z",
       "publicationDate": "none",
       "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "溢彩流光中文1․0［CN／HK／TW／JP］",
+      "created_at": "2019-02-12T13:31:47.241Z",
+      "visits": null,
+      "favorites": 50,
+      "heat": 0,
+      "popularity": 6,
+      "updated_at": "2019-02-14T20:39:33.950Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
     }
   ],
   "wrld_ef2d32c6-cd16-4825-aa6e-ccf50fbb9a34": [
@@ -10747,6 +12739,18 @@
       "updated_at": "2025-04-26T10:09:33.154Z",
       "publicationDate": "2023-01-12T12:38:27.813Z",
       "labsPublicationDate": "2022-11-22T12:45:00.526Z"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "偶像练习生（模型房⁄Avatars）CN⁄TW⁄HK",
+      "created_at": "2022-11-22T12:25:07.372Z",
+      "visits": null,
+      "favorites": 1173,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-04-26T10:09:33.154Z",
+      "publicationDate": "2023-01-12T12:38:27.813Z",
+      "labsPublicationDate": "2022-11-22T12:45:00.526Z"
     }
   ],
   "wrld_2cb83679-991b-4781-88c5-44b46cbbd8ac": [
@@ -10792,6 +12796,18 @@
       "created_at": "2019-03-19T08:28:55.732Z",
       "visits": null,
       "favorites": 51,
+      "heat": 0,
+      "popularity": 5,
+      "updated_at": "2019-04-04T02:37:06.929Z",
+      "publicationDate": "2019-03-26T03:08:11.814Z",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759999538,
+      "name": "似水流年中文0․86［CN／TW／HK／JP］",
+      "created_at": "2019-03-19T08:28:55.732Z",
+      "visits": null,
+      "favorites": 50,
       "heat": 0,
       "popularity": 5,
       "updated_at": "2019-04-04T02:37:06.929Z",
@@ -10914,6 +12930,18 @@
     },
     {
       "timestamp": 1756168645,
+      "name": "Starsight Museum",
+      "created_at": "2025-08-13T13:48:58.458Z",
+      "visits": 0,
+      "favorites": 0,
+      "heat": 0,
+      "popularity": 0,
+      "updated_at": "2025-08-13T13:48:58.458Z",
+      "publicationDate": "none",
+      "labsPublicationDate": "none"
+    },
+    {
+      "timestamp": 1759975387,
       "name": "Starsight Museum",
       "created_at": "2025-08-13T13:48:58.458Z",
       "visits": 0,
@@ -12223,6 +14251,132 @@
       "updated_at": "2021-12-17T10:52:07.033Z",
       "publicationDate": "2021-12-19T21:03:53.565Z",
       "labsPublicationDate": "2021-12-17T09:03:50.872Z"
+    }
+  ],
+  "wrld_c3a8c582-dc6c-4e15-a53d-713f2dbb9cb8": [
+    {
+      "timestamp": 1759999538,
+      "name": "ぱちんこやさん",
+      "created_at": "2025-07-23T14:38:41.880Z",
+      "visits": null,
+      "favorites": 5986,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-09-25T04:43:26.546Z",
+      "publicationDate": "2025-08-30T08:00:41.902Z",
+      "labsPublicationDate": "2025-08-29T12:15:42.356Z"
+    }
+  ],
+  "wrld_2333c07c-7e45-4dab-8f48-e2828e5e79fa": [
+    {
+      "timestamp": 1759999538,
+      "name": "日落晚风-Aurora Windmill",
+      "created_at": "2025-05-30T15:12:24.726Z",
+      "visits": null,
+      "favorites": 1478,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-10-07T21:16:24.551Z",
+      "publicationDate": "2025-06-01T18:19:16.180Z",
+      "labsPublicationDate": "2025-05-30T17:05:26.302Z"
+    }
+  ],
+  "wrld_4439ce3e-6e37-4f33-a92d-914739f40847": [
+    {
+      "timestamp": 1759999538,
+      "name": "こえれん！ 声をきたえるところ。",
+      "created_at": "2025-06-30T00:19:04.777Z",
+      "visits": null,
+      "favorites": 1642,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-10-08T20:07:06.908Z",
+      "publicationDate": "2025-07-04T19:53:22.134Z",
+      "labsPublicationDate": "2025-06-30T16:59:37.255Z"
+    }
+  ],
+  "wrld_75c00cce-3920-4520-b093-cdd27438198f": [
+    {
+      "timestamp": 1759999538,
+      "name": "シャミ'sハウス",
+      "created_at": "2025-05-06T16:24:10.823Z",
+      "visits": null,
+      "favorites": 369,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-07-08T10:42:20.831Z",
+      "publicationDate": "2025-05-11T18:13:09.841Z",
+      "labsPublicationDate": "2025-05-10T12:34:32.946Z"
+    }
+  ],
+  "wrld_cec029cb-8dc6-4f3b-b269-dd914ce98c24": [
+    {
+      "timestamp": 1759999538,
+      "name": "Need For Speed Carbon˸ Lookout Point",
+      "created_at": "2025-08-14T06:53:06.554Z",
+      "visits": null,
+      "favorites": 4668,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-10-02T19:58:46.574Z",
+      "publicationDate": "2025-08-20T10:45:21.501Z",
+      "labsPublicationDate": "2025-08-19T22:27:21.698Z"
+    }
+  ],
+  "wrld_9ef60ac1-1ab0-49f9-88c6-de76a6bed1ee": [
+    {
+      "timestamp": 1759999538,
+      "name": "Taiga Forest",
+      "created_at": "2025-01-06T09:48:57.949Z",
+      "visits": null,
+      "favorites": 790,
+      "heat": 4,
+      "popularity": 6,
+      "updated_at": "2025-07-25T01:48:15.561Z",
+      "publicationDate": "2025-01-26T19:34:54.685Z",
+      "labsPublicationDate": "2025-01-24T20:25:12.173Z"
+    }
+  ],
+  "wrld_b5ed19cb-cf04-481c-833a-9833138ff668": [
+    {
+      "timestamp": 1759999538,
+      "name": "VR宇宙博物館コスモリア Cosmoria［EN ⁄ JP ⁄ KR ⁄ zh-CN ⁄ zh-TW］",
+      "created_at": "2023-09-01T11:04:24.368Z",
+      "visits": null,
+      "favorites": 45864,
+      "heat": 5,
+      "popularity": 7,
+      "updated_at": "2025-09-22T07:10:57.553Z",
+      "publicationDate": "2023-09-01T15:59:44.649Z",
+      "labsPublicationDate": "2023-09-01T14:00:40.690Z"
+    }
+  ],
+  "wrld_4f2bd984-0924-4e0e-a42d-69bda4cb94af": [
+    {
+      "timestamp": 1759999538,
+      "name": "~舒休吧~Leisure sleeping Bar v2․9",
+      "created_at": "2025-09-09T05:41:05.422Z",
+      "visits": null,
+      "favorites": 160,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-10-02T13:08:10.375Z",
+      "publicationDate": "2025-09-10T14:42:18.193Z",
+      "labsPublicationDate": "2025-09-09T05:42:12.214Z"
+    }
+  ],
+  "wrld_e622d853-a3a9-419a-b7d3-6be66ab61666": [
+    {
+      "timestamp": 1759999538,
+      "name": "天井 - 昼（Zhou）",
+      "created_at": "2025-08-15T15:01:08.766Z",
+      "visits": null,
+      "favorites": 16,
+      "heat": 5,
+      "popularity": 6,
+      "updated_at": "2025-08-18T18:33:04.813Z",
+      "publicationDate": "2025-08-22T10:14:47.044Z",
+      "labsPublicationDate": "2025-08-16T07:52:37.792Z"
     }
   ]
 }
