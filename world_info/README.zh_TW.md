@@ -9,13 +9,15 @@ world_info/
 │  ├─ scraper.py          # 從 VRChat API 取得世界資料
 │  ├─ review_tool.py      # 標記世界是否核可
 │  ├─ exporter.py         # 產生 approved_export.json
+│  ├─ personal_upload.py  # 上傳個人世界統計到雲端
 │  └─ raw_worlds.json     # 產生的範例資料
 ├─ ui.py                  # Tkinter 介面，可登入並搜尋世界
 ├─ docs/
 │  ├─ index.html          # 提供篩選功能的世界清單頁面
 │  └─ approved_export.json
 └─ unity_prefab_generator/
-   └─ GenerateWorldCards.cs
+   ├─ GenerateWorldCards.cs    # 依模板生成可在 VRChat 使用的 Prefab
+   └─ WorldCardTemplate.prefab # 世界卡片範本
 ```
 
 執行前請先安裝 Python 套件：
@@ -51,12 +53,15 @@ playwright install
    追加一行，記錄瀏覽收藏比、距離上次更新，以及資料爬取日期（`YYYY/MM/DD`）。
    這些 Excel 檔需安裝 `openpyxl` 套件後才能正確寫入，可直接以試算表軟體開啟編輯。
 3. `python3 scraper/exporter.py`
+4. 若要上傳個人世界統計，執行 `python3 scraper/personal_upload.py`
 
 若要抓取作者世界，需先安裝 `playwright` 套件並執行 `playwright install`。
 若未安裝此套件，圖形介面仍可使用，但無法取得作者創作世界。
 
 完成後，將 `scraper/approved_export.json` 複製到 `docs/` 以更新網站，
-或在 Unity 中使用 `GenerateWorldCards` 編輯器腳本載入。
+或在 Unity 中使用 `GenerateWorldCards` 編輯器腳本載入。該腳本會
+根據 `WorldCardTemplate.prefab` 為每個世界建立卡片，並輸出可直接
+放入 VRChat 場景的 `GeneratedWorldCards.prefab`。
 
 更多背景與架構說明請參考
 [`complete_guide.zh_TW.md`](complete_guide.zh_TW.md)。

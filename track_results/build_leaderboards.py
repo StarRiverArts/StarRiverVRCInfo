@@ -204,7 +204,8 @@ def main(argv: List[str] | None = None) -> None:
 
     try:
         rows = fetch_sheet()
-    except Exception:
+    except RuntimeError as exc:
+        print(exc)
         rows = []
 
     if rows:

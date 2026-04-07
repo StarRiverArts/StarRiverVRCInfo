@@ -23,6 +23,7 @@ try:
         USER_FILE,
         STAR_RIVER_FILE,
         TAIWAN_FILE,
+        METRIC_COLS,
     )
 except ModuleNotFoundError:  # pragma: no cover - package path
     from constants import (
@@ -31,6 +32,7 @@ except ModuleNotFoundError:  # pragma: no cover - package path
         USER_FILE,
         STAR_RIVER_FILE,
         TAIWAN_FILE,
+        METRIC_COLS,
     )
 
 logger = logging.getLogger(__name__)
@@ -56,14 +58,24 @@ def search_user(user_id: str, headers: dict, limit: int = 50) -> list[dict]:
 
 
 def search_fixed(keywords: str, headers: dict, blacklist: set[str]) -> list[dict]:
-    """Fetch worlds for a comma-separated keyword list, skipping blacklist."""
+    """Fetch worlds for a comma-separated keyword list, skipping blacklist.
+
+    Duplicate worlds across keywords are removed based on their ID.
+    """
     kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
     all_worlds: list[dict] = []
+    seen: set[str] = set()
     for kw in kw_list:
         if kw in blacklist:
             continue
         worlds = fetch_worlds(keyword=kw, limit=50, headers=headers)
-        all_worlds.extend(worlds)
+        for w in worlds:
+            wid = w.get("id") or w.get("worldId")
+            if wid and wid in seen:
+                continue
+            if wid:
+                seen.add(wid)
+            all_worlds.append(w)
     logger.info("Fetched %d worlds for keywords %s", len(all_worlds), kw_list)
     return all_worlds
 
@@ -73,23 +85,7 @@ def save_worlds(worlds: list[dict], file: Path) -> None:
     if Workbook is None or load_workbook is None:
         logger.error("openpyxl not available; cannot save %s", file)
         return
-    headers = [
-        "爬取日期",
-        "世界名稱",
-        "世界ID",
-        "發布日期",
-        "最後更新",
-        "瀏覽人次",
-        "大小",
-        "收藏次數",
-        "熱度",
-        "人氣",
-        "實驗室到發布",
-        "瀏覽蒐藏比",
-        "距離上次更新",
-        "已發布",
-        "人次發布比",
-    ]
+    headers = ["爬取日期"] + METRIC_COLS
     if file.exists():
         wb = load_workbook(file)
         ws = wb.active

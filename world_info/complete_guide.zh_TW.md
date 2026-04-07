@@ -26,6 +26,7 @@
 │  ├─ scraper.py
 │  ├─ review_tool.py
 │  ├─ exporter.py
+│  ├─ personal_upload.py
 │  ├─ raw_worlds.json
 │  ├─ reviewed_worlds.json
 │  └─ approved_export.json
@@ -44,8 +45,9 @@
 1. `scraper.py`：登入 VRChat、搜尋關鍵字取得世界資料並輸出 `raw_worlds.json`。
 2. `review_tool.py`：讀取 raw 資料，人工標記為 approved 或 rejected，結果存入 `reviewed_worlds.json`。
 3. `exporter.py`：濾除未核可的世界，產生 `approved_export.json`。
-4. `docs/index.html`：於 GitHub Pages 顯示世界清單。
-5. `GenerateWorldCards.cs`：在 Unity 中讀取 JSON，產生推薦圖卡 Prefab。
+4. `personal_upload.py`：把特定玩家的世界統計上傳到雲端。
+5. `docs/index.html`：於 GitHub Pages 顯示世界清單。
+6. `GenerateWorldCards.cs`：在 Unity 中依 `WorldCardTemplate.prefab` 建立卡片，輸出可在 VRChat 內作為螢幕的 Prefab。
 
 ## JSON 範例
 

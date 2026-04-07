@@ -1,0 +1,9 @@
+# Simplified prefab template for personal stats screen
+Canvas:
+  ScrollRect:
+    Content:
+      CardTemplate:
+        Title:
+          type: TextMeshProUGUI
+        Visits:
+          type: TextMeshProUGUI
