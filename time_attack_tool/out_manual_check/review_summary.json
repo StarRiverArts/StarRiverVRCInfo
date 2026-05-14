@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-05-13T11:38:33.799940Z",
+  "total_submissions": 4,
+  "by_status": {
+    "approved": 1,
+    "submitted": 1,
+    "needs_info": 1,
+    "rejected": 1
+  },
+  "pending_items": [
+    {
+      "submission_id": "sub_006",
+      "racer_name_input": "Dave",
+      "track_input": "Akina DH",
+      "vehicle_input": "EVO IX",
+      "lap_time_text": "1:26.004",
+      "review_status": "submitted"
+    },
+    {
+      "submission_id": "sub_007",
+      "racer_name_input": "Eve",
+      "track_input": "Unknown Route",
+      "vehicle_input": "GR86",
+      "lap_time_text": "1:40.250",
+      "review_status": "needs_info"
+    }
+  ]
+}

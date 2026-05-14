@@ -4,3 +4,8 @@ world_info/__pycache__/
 world_info/docs/approved_export.json
 world_info/blacklist_taiwan.txt
 world_info/blacklist_taiwan.xlsx
+world_info/scraper/headers.json
+world_info/scraper/settings.json
+world_info_web/data/
+tests/__pycache__/
+.tmp_pytest/

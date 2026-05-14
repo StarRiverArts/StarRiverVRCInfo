@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import json; h = json.load\\(open\\('world_info/scraper/history.json', encoding='utf-8'\\)\\); wids = list\\(h.keys\\(\\)\\)[:2]; [print\\(wid, h[wid][-1]\\) for wid in wids]\")",
+      "Bash(python -c ' *)",
+      "Bash(python -m pytest tests/ -x -q --tb=short)",
+      "Bash(python -m pytest tests/ -q --tb=short)",
+      "WebFetch(domain:vrchatapi.github.io)",
+      "WebFetch(domain:vrchat.community)",
+      "WebSearch",
+      "WebFetch(domain:wiki.vrchat.com)",
+      "WebFetch(domain:gist.github.com)",
+      "Bash(python -m py_compile world_info/scraper/scraper.py world_info/actions.py world_info/ui.py)",
+      "Bash(python -m py_compile world_info/scraper/scraper.py world_info/actions.py world_info/ui.py world_info/tabs/editable_table.py world_info/tabs/taiwan.py world_info/tabs/search_results.py world_info/tabs/user.py)",
+      "Bash(python -m pytest tests/ -v --tb=short)",
+      "Bash(python -m pytest tests/ --tb=long)",
+      "Bash(python -m pytest tests/ --tb=long -x)",
+      "Bash(python3 -c ' *)",
+      "Bash(python -m py_compile world_info_web/backend/storage.py)",
+      "Bash(python -m py_compile world_info_web/backend/service.py)",
+      "Bash(python -m py_compile world_info_web/backend/service.py world_info_web/backend/app.py)",
+      "Bash(python -m py_compile world_info_web/backend/scheduler.py world_info_web/backend/app.py world_info_web/backend/service.py)",
+      "Bash(python -m py_compile world_info_web/backend/app.py world_info_web/backend/service.py world_info_web/backend/storage.py world_info_web/backend/scheduler.py)"
+    ]
+  }
+}

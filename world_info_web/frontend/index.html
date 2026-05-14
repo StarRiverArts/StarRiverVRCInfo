@@ -1,0 +1,1370 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Info Web</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">World Info Web</p>
+        <h1>VRChat World Intelligence Console</h1>
+        <p class="hero-copy">
+          Track new worlds, momentum, review queues, and community operations from one place.
+        </p>
+      </div>
+      <div class="hero-panel">
+        <div class="stat-chip">
+          <span>Health</span>
+          <strong id="health-indicator">Checking</strong>
+        </div>
+        <div class="stat-chip">
+          <span>Current Source</span>
+          <strong id="current-source-label">Loading</strong>
+        </div>
+      </div>
+    </header>
+
+    <nav class="page-nav card">
+      <button class="page-tab is-active" type="button" data-page-tab="dashboard">Dashboard</button>
+      <button class="page-tab" type="button" data-page-tab="monitor">Monitor</button>
+      <button class="page-tab" type="button" data-page-tab="discover">Discover</button>
+      <button class="page-tab" type="button" data-page-tab="communities">Communities</button>
+      <button class="page-tab" type="button" data-page-tab="operations">Operations</button>
+      <button class="page-tab" type="button" data-page-tab="graph">Graph</button>
+      <button class="page-tab" type="button" data-page-tab="review">Review</button>
+      <button class="page-tab" type="button" data-page-tab="debug">Debug</button>
+    </nav>
+
+    <main class="layout">
+      <section class="workspace">
+
+        <section class="dashboard-section" data-pages="dashboard">
+          <div class="dashboard-hero">
+            <div class="dashboard-hero-text">
+              <p class="dashboard-eyebrow" id="dash-eyebrow">db:all</p>
+              <h2 class="dashboard-title" id="dash-title">Traffic Monitor</h2>
+            </div>
+            <div class="dashboard-sync-info">
+              <span class="dashboard-sync-label">Last sync</span>
+              <strong id="dash-last-sync">--</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="workspace-nav card" data-pages="dashboard">
+          <div class="workspace-nav-head">
+            <div>
+              <p class="dashboard-eyebrow">Dashboard</p>
+              <h2>Briefing Routes</h2>
+            </div>
+            <p class="helper-copy">Start with the briefing, move to highlights, then check scope health.</p>
+          </div>
+          <div class="workspace-tab-row">
+            <button class="workspace-tab is-active" type="button" data-dashboard-tab="briefing">Briefing</button>
+            <button class="workspace-tab" type="button" data-dashboard-tab="highlights">Highlights</button>
+            <button class="workspace-tab" type="button" data-dashboard-tab="health">Health</button>
+          </div>
+        </section>
+
+        <section class="dashboard-section" data-pages="dashboard" data-dashboard-section="briefing">
+          <div class="dashboard-stats" id="dash-stats">
+            <div class="dash-stat-chip"><span>Tracked Worlds</span><strong id="dash-world-count">--</strong></div>
+            <div class="dash-stat-chip"><span>Visits</span><strong id="dash-total-visits">--</strong></div>
+            <div class="dash-stat-chip"><span>Favorites</span><strong id="dash-total-favorites">--</strong></div>
+            <div class="dash-stat-chip"><span>Creators</span><strong id="dash-avg-visits">--</strong></div>
+          </div>
+
+          <div class="dashboard-brief-grid">
+            <section class="card dashboard-brief-card">
+              <div class="card-head">
+                <h3>New Worlds</h3>
+                <span>fresh launches</span>
+              </div>
+              <div id="dash-new-worlds" class="dash-brief-list"></div>
+            </section>
+            <section class="card dashboard-brief-card">
+              <div class="card-head">
+                <h3>Worth Watching</h3>
+                <span>quality picks</span>
+              </div>
+              <div id="dash-worth-watching" class="dash-brief-list"></div>
+            </section>
+            <section class="card dashboard-brief-card">
+              <div class="card-head">
+                <h3>Creator Focus</h3>
+                <span>who to watch</span>
+              </div>
+              <div id="dash-creators" class="dash-brief-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="dashboard-section" data-pages="dashboard" data-dashboard-section="highlights">
+          <div class="dashboard-body">
+            <div class="dashboard-worlds-section">
+              <h3 class="dashboard-section-title">Highlights</h3>
+              <div id="dash-world-grid" class="dash-world-grid"></div>
+            </div>
+            <div class="dashboard-side">
+              <h3 class="dashboard-section-title">Momentum</h3>
+              <div id="dash-movers" class="dash-movers"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-health-grid" data-pages="dashboard" data-dashboard-section="health">
+          <section class="card">
+            <div class="card-head">
+              <h2>Briefing Health</h2>
+              <span>scope signals</span>
+            </div>
+            <div id="dash-health-summary" class="history-stats"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Community Readiness</h2>
+              <span>group layer status</span>
+            </div>
+            <div id="dash-community-health" class="history-stats"></div>
+            <div id="dash-community-notes" class="runs-list"></div>
+          </section>
+        </section>
+
+        <section class="workspace-nav card" data-pages="discover">
+          <div class="workspace-nav-head">
+            <div>
+              <p class="dashboard-eyebrow">Discover</p>
+              <h2>Exploration Routes</h2>
+            </div>
+            <p class="helper-copy">Start with new worlds, then potential picks, then deep analysis.</p>
+          </div>
+          <div class="workspace-tab-row">
+            <button class="workspace-tab is-active" type="button" data-discover-tab="new">New</button>
+            <button class="workspace-tab" type="button" data-discover-tab="potential">Potential</button>
+            <button class="workspace-tab" type="button" data-discover-tab="regional">Regional</button>
+            <button class="workspace-tab" type="button" data-discover-tab="search">Search</button>
+            <button class="workspace-tab" type="button" data-discover-tab="compare">Compare</button>
+            <button class="workspace-tab" type="button" data-discover-tab="history">History</button>
+            <button class="workspace-tab" type="button" data-discover-tab="signals">Signals</button>
+          </div>
+        </section>
+
+        <section class="card topics-card" data-pages="discover" data-discover-section="regional">
+          <div class="card-head">
+            <h2>View Overview</h2>
+            <span>job-backed scopes + saved views</span>
+          </div>
+          <div id="topics-list" class="topics-list"></div>
+        </section>
+
+        <section class="toolbar card" data-pages="dashboard monitor discover operations communities">
+          <div class="toolbar-row">
+            <label>
+              Source
+              <select id="source-select"></select>
+            </label>
+            <label>
+              Scope View
+              <input id="topic-mode" type="text" value="all sources" readonly>
+            </label>
+            <div class="toolbar-actions">
+              <button id="view-db-all-button" class="button subtle" type="button">View db:all</button>
+            </div>
+            <label data-discover-filters>
+              Search
+              <input id="query-input" type="text" placeholder="keyword / world ID / author">
+            </label>
+            <label data-discover-filters>
+              Tag
+              <select id="tag-select">
+                <option value="all">all</option>
+              </select>
+            </label>
+            <label data-discover-filters>
+              Sort
+              <select id="sort-select">
+                <option value="breakout">breakout</option>
+                <option value="new_hot">new hot</option>
+                <option value="momentum">momentum</option>
+                <option value="worth_watching">worth watching</option>
+                <option value="recent_update">recent update winners</option>
+                <option value="visits">visits</option>
+                <option value="favorites">favorites</option>
+                <option value="heat">heat</option>
+                <option value="popularity">popularity</option>
+                <option value="updated">updated</option>
+                <option value="publication">publication</option>
+                <option value="name">name</option>
+              </select>
+            </label>
+            <label data-discover-filters>
+              Direction
+              <select id="direction-select">
+                <option value="desc">desc</option>
+                <option value="asc">asc</option>
+              </select>
+            </label>
+            <button id="reload-button" class="button subtle" type="button">Reload</button>
+          </div>
+          <div id="sync-status-banner" class="status-banner hidden"></div>
+          <div class="summary-grid" id="summary-grid"></div>
+        </section>
+
+        <section class="workspace-nav card" data-pages="monitor">
+          <div class="workspace-nav-head">
+            <div>
+              <p class="dashboard-eyebrow">Monitor</p>
+              <h2>Live Control Room</h2>
+            </div>
+            <p class="helper-copy">Watch what is happening now, not the full world inventory.</p>
+          </div>
+          <div class="workspace-tab-row">
+            <button class="workspace-tab is-active" type="button" data-monitor-tab="events">Events</button>
+            <button class="workspace-tab" type="button" data-monitor-tab="worlds">Worlds</button>
+            <button class="workspace-tab" type="button" data-monitor-tab="creators">Creators</button>
+            <button class="workspace-tab" type="button" data-monitor-tab="groups">Groups</button>
+            <button class="workspace-tab" type="button" data-monitor-tab="health">Health</button>
+          </div>
+        </section>
+
+        <section class="monitor-band" data-pages="monitor" data-monitor-section="events">
+          <div class="monitor-band-head">
+            <p class="monitor-band-kicker">Now</p>
+            <h3>Live Signals</h3>
+            <p>Look here first for fresh uploads, immediate momentum, update winners, and anything that needs attention now.</p>
+          </div>
+        </section>
+
+        <section class="card events-card" data-pages="monitor" data-monitor-section="events">
+          <div class="card-head">
+            <h2>Event Feed</h2>
+            <span id="events-caption">recent uploads, updates, and spikes</span>
+          </div>
+          <div class="events-toolbar">
+            <label>
+              Type
+              <select id="events-filter-select">
+                <option value="all">all</option>
+                <option value="traffic_spike">traffic spike</option>
+                <option value="new_upload">new upload</option>
+                <option value="new_update">new update</option>
+              </select>
+            </label>
+            <label>
+              Window
+              <select id="events-days-select">
+                <option value="3">3 days</option>
+                <option value="7" selected>7 days</option>
+                <option value="14">14 days</option>
+              </select>
+            </label>
+            <button id="events-reload-button" class="button subtle" type="button">Reload</button>
+          </div>
+          <div id="events-summary" class="history-stats"></div>
+          <div id="events-list" class="runs-list"></div>
+        </section>
+
+        <section class="operations-nav card" data-pages="operations">
+          <div class="operations-nav-head">
+            <div>
+              <p class="dashboard-eyebrow">Operations</p>
+              <h2>Control Center</h2>
+            </div>
+            <p class="helper-copy">Keep sync, views, records, diagnostics, and settings separated.</p>
+          </div>
+          <div class="operations-tab-row">
+            <button class="operations-tab is-active" type="button" data-operations-tab="sync">Sync</button>
+            <button class="operations-tab" type="button" data-operations-tab="views">Views</button>
+            <button class="operations-tab" type="button" data-operations-tab="scheduler">Scheduler</button>
+            <button class="operations-tab" type="button" data-operations-tab="records">Records</button>
+            <button class="operations-tab" type="button" data-operations-tab="diagnostics">Diagnostics</button>
+            <button class="operations-tab" type="button" data-operations-tab="settings">Settings</button>
+          </div>
+        </section>
+
+        <section class="search-grid" data-pages="operations" data-operations-section="sync">
+          <form id="keyword-form" class="card action-card">
+            <div class="card-head">
+              <h2>Manual Keyword Search</h2>
+              <span>save snapshot</span>
+            </div>
+            <label>
+              Keyword
+              <input name="keyword" type="text" placeholder="Taiwan">
+            </label>
+            <label>
+              Limit
+              <input name="limit" type="number" min="1" max="200" value="50">
+            </label>
+            <p class="helper-copy">Use local headers only. Do not send browser login data here.</p>
+            <button class="button" type="submit">Run Keyword Search</button>
+          </form>
+
+          <form id="user-form" class="card action-card">
+            <div class="card-head">
+              <h2>Manual Creator Search</h2>
+              <span>worlds API</span>
+            </div>
+            <label>
+              User ID
+              <input name="user_id" type="text" placeholder="usr_...">
+            </label>
+            <label>
+              Limit
+              <input name="limit" type="number" min="1" max="200" value="50">
+            </label>
+            <p class="helper-copy">Accepts only `usr_...` and goes straight to the worlds API.</p>
+            <button class="button" type="submit">Run Creator Search</button>
+          </form>
+
+          <form id="world-search-form" class="card action-card">
+            <div class="card-head">
+              <h2>Manual World Search</h2>
+              <span>tag / popular / active / event</span>
+            </div>
+            <label>
+              Source Name
+              <input name="source_name" type="text" placeholder="spacejam3">
+            </label>
+            <label>
+              Search
+              <input name="search" type="text" placeholder="optional world name keyword">
+            </label>
+            <label>
+              Tags
+              <input name="tags" type="text" placeholder="author_tag_game, admin_spacejam3">
+            </label>
+            <label>
+              Exclude Tags
+              <input name="notags" type="text" placeholder="admin_hidden, content_gore">
+            </label>
+            <label>
+              Sort
+              <select name="sort">
+                <option value="popularity">popularity</option>
+                <option value="heat">heat</option>
+                <option value="favorites">favorites</option>
+                <option value="updated">updated</option>
+                <option value="publicationDate">publication date</option>
+                <option value="relevance">relevance</option>
+              </select>
+            </label>
+            <label>
+              Endpoint
+              <select name="active">
+                <option value="false">all public worlds</option>
+                <option value="true">active worlds</option>
+              </select>
+            </label>
+            <label>
+              Featured
+              <select name="featured">
+                <option value="">any</option>
+                <option value="true">featured only</option>
+                <option value="false">not featured</option>
+              </select>
+            </label>
+            <label>
+              Limit
+              <input name="limit" type="number" min="1" max="200" value="50">
+            </label>
+            <p class="helper-copy">Tags use comma-separated OR matching. Event rows can be queried as tags.</p>
+            <button class="button" type="submit">Run World Search</button>
+          </form>
+
+          <form id="fixed-form" class="card action-card">
+            <div class="card-head">
+              <h2>Manual Fixed Search</h2>
+              <span>keyword bundle</span>
+            </div>
+            <label>
+              Source Name
+              <input name="source_name" type="text" value="taiwan">
+            </label>
+            <label>
+              Keywords
+              <textarea name="keywords" rows="2" placeholder="Taiwan, Formosa"></textarea>
+            </label>
+            <label>
+              Blacklist
+              <input name="blacklist" type="text" placeholder="world ID or keyword">
+            </label>
+            <button class="button" type="submit">Run Fixed Search</button>
+          </form>
+        </section>
+
+        <section class="card table-card" data-pages="discover operations" data-operations-section="records" data-discover-section="search">
+          <div class="card-head">
+            <h2>World Inventory</h2>
+            <span id="table-caption">0 worlds</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Author</th>
+                  <th>World ID</th>
+                  <th>Status</th>
+                  <th>Visits</th>
+                  <th>Favorites</th>
+                  <th>Heat</th>
+                  <th>Popularity</th>
+                  <th>Portals</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody id="world-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card compare-card" data-pages="discover" data-discover-section="compare">
+          <div class="card-head">
+            <h2>World Change Overview</h2>
+            <div class="compare-head-tools">
+              <span id="compare-caption">compare by latest history</span>
+              <div class="compare-window-tabs">
+                <button class="compare-window-tab is-active" type="button" data-compare-window="1d">1d</button>
+                <button class="compare-window-tab" type="button" data-compare-window="7d">7d</button>
+                <button class="compare-window-tab" type="button" data-compare-window="30d">30d</button>
+                <button class="compare-window-tab" type="button" data-compare-window="all">all</button>
+              </div>
+            </div>
+          </div>
+          <div class="compare-flow-panel">
+            <div class="chart-head">
+              <h4>Instant Traffic Delta</h4>
+              <span id="compare-flow-caption">top 30 by peak delta</span>
+            </div>
+            <div id="compare-flow-summary" class="compare-flow-summary"></div>
+            <div id="compare-flow-chart" class="chart"></div>
+          </div>
+          <div class="compare-cumulative-panel">
+            <div class="chart-head">
+              <h4>Cumulative Visits</h4>
+              <span id="compare-cumulative-caption">top 30 by peak visits</span>
+            </div>
+            <div id="compare-cumulative-summary" class="compare-flow-summary"></div>
+            <div id="compare-cumulative-chart" class="chart"></div>
+          </div>
+          <div class="compare-cumulative-panel">
+            <div class="chart-head">
+              <h4>Instant Traffic Table</h4>
+              <span id="compare-traffic-table-caption">all prefetched worlds</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Show</th>
+                    <th>World</th>
+                    <th>Author</th>
+                    <th>Peak Delta</th>
+                    <th>Latest Delta</th>
+                  </tr>
+                </thead>
+                <tbody id="compare-traffic-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="compare-cumulative-panel">
+            <div class="chart-head">
+              <h4>Cumulative Visits Table</h4>
+              <span id="compare-cumulative-table-caption">all prefetched worlds</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Show</th>
+                    <th>World</th>
+                    <th>Author</th>
+                    <th>Peak Visits</th>
+                    <th>Latest Visits</th>
+                  </tr>
+                </thead>
+                <tbody id="compare-cumulative-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="compare-grid" class="compare-grid"></div>
+        </section>
+
+        <section class="card history-card" data-pages="discover" data-discover-section="history">
+          <div class="card-head">
+            <h2>World Trends</h2>
+            <div class="history-head-meta">
+              <div id="history-mode-controls" class="history-mode-controls hidden">
+                <button id="history-mode-daily" class="button subtle history-mode-button is-active" type="button">Daily</button>
+                <button id="history-mode-48h" class="button subtle history-mode-button" type="button">48H</button>
+              </div>
+              <span id="history-world-label">No selection</span>
+            </div>
+          </div>
+          <div id="history-focus-grid" class="history-focus-grid"></div>
+          <div id="history-chart" class="chart"></div>
+        </section>
+
+        <section class="card growth-card" data-pages="monitor discover" data-discover-section="new" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Rising Now</h2>
+            <span id="rising-now-caption">current collection</span>
+          </div>
+          <div id="rising-now-list" class="runs-list"></div>
+        </section>
+
+        <section class="monitor-band" data-pages="monitor" data-monitor-section="worlds">
+          <div class="monitor-band-head">
+            <p class="monitor-band-kicker">Watchlists</p>
+            <h3>Curated Picks</h3>
+            <p>These filtered boards should surface discovery candidates and recovery signals instead of raw popularity winners.</p>
+          </div>
+        </section>
+
+        <section class="card growth-card" data-pages="monitor discover" data-discover-section="new" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>New & Hot</h2>
+            <span id="new-hot-caption">current collection</span>
+          </div>
+          <div id="new-hot-list" class="runs-list"></div>
+        </section>
+
+        <section class="section-band" data-pages="discover" data-discover-section="potential">
+          <div class="section-band-head">
+            <h3>Potential Picks</h3>
+            <p>Review quality, revival, and creator momentum before deeper scouting.</p>
+          </div>
+        </section>
+
+        <section class="card growth-card" data-pages="monitor discover" data-discover-section="potential" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Worth Watching</h2>
+            <span id="worth-watching-caption">current collection</span>
+          </div>
+          <div id="worth-watching-list" class="runs-list"></div>
+        </section>
+
+        <section class="card growth-card" data-pages="monitor discover" data-discover-section="potential" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Dormant Revival</h2>
+            <span id="dormant-revival-caption">current collection</span>
+          </div>
+          <div id="dormant-revival-list" class="runs-list"></div>
+        </section>
+
+        <section class="card authors-card" data-pages="monitor discover" data-discover-section="potential" data-monitor-section="creators">
+          <div class="card-head">
+            <h2>Creator Momentum</h2>
+            <span id="creator-momentum-caption">current collection</span>
+          </div>
+          <div id="creator-momentum-list" class="runs-list"></div>
+        </section>
+
+        <section class="card authors-card" data-pages="discover" data-discover-section="regional">
+          <div class="card-head">
+            <h2>Author Data</h2>
+            <span id="authors-caption">current collection</span>
+          </div>
+          <div id="authors-list" class="runs-list"></div>
+        </section>
+
+        <section class="section-band" data-pages="discover" data-discover-section="signals">
+          <div class="section-band-head">
+            <h3>Signal Desk</h3>
+            <p>Focus on anomalies, update impact, and momentum signals only.</p>
+          </div>
+        </section>
+
+        <section class="card anomalies-card" data-pages="monitor discover" data-discover-section="signals" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Anomaly Watch</h2>
+            <span id="anomalies-caption">current collection</span>
+          </div>
+          <div id="anomalies-summary" class="history-stats"></div>
+          <div id="anomalies-list" class="runs-list"></div>
+        </section>
+
+        <section class="card updates-card" data-pages="monitor discover" data-discover-section="signals" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Update Effectiveness</h2>
+            <span id="updates-caption">current collection</span>
+          </div>
+          <div id="updates-summary" class="history-stats"></div>
+          <div id="updates-list" class="runs-list"></div>
+        </section>
+
+        <section class="card growth-card" data-pages="monitor discover" data-discover-section="signals" data-monitor-section="worlds">
+          <div class="card-head">
+            <h2>Momentum Watch</h2>
+            <span id="growth-caption">current collection</span>
+          </div>
+          <div id="growth-list" class="runs-list"></div>
+        </section>
+
+        <section class="card signal-analysis-card" data-pages="discover" data-discover-section="signals">
+          <div class="card-head">
+            <h2>Signal Analysis</h2>
+            <span id="signal-caption">heat / popularity relationships</span>
+          </div>
+          <div id="signal-summary" class="history-stats"></div>
+          <div id="signal-correlation-list" class="signal-correlation-list"></div>
+          <div id="signal-chart-grid" class="signal-chart-grid"></div>
+          <div id="signal-leaderboards" class="signal-leaderboards"></div>
+        </section>
+
+        <section class="workspace-nav card" data-pages="communities">
+          <div class="workspace-nav-head">
+            <div>
+              <p class="dashboard-eyebrow">Communities</p>
+              <h2>Group Workspace</h2>
+            </div>
+            <p class="helper-copy">Organize group directory, memberships, and publishing queues before growth analytics.</p>
+          </div>
+          <div class="workspace-tab-row">
+            <button class="workspace-tab is-active" type="button" data-communities-tab="directory">Directory</button>
+            <button class="workspace-tab" type="button" data-communities-tab="growth">Growth</button>
+            <button class="workspace-tab" type="button" data-communities-tab="worlds">Group Worlds</button>
+            <button class="workspace-tab" type="button" data-communities-tab="publishing">Publishing</button>
+          </div>
+          <div id="communities-summary" class="history-stats"></div>
+        </section>
+
+        <section class="communities-grid" data-pages="communities" data-communities-section="directory">
+          <section class="card">
+            <div class="card-head">
+              <h2>Community Directory</h2>
+              <span>observed groups</span>
+            </div>
+            <form id="group-form" class="editor-form">
+              <label>
+                Group ID
+                <input id="group-id" name="group_id" type="text" placeholder="grp_...">
+              </label>
+              <label>
+                Group Name
+                <input id="group-name" name="name" type="text" placeholder="Community Name">
+              </label>
+              <label>
+                Region
+                <input id="group-region" name="region" type="text" placeholder="TW / JP / Global">
+              </label>
+              <label>
+                Category
+                <input id="group-category" name="category" type="text" placeholder="racing / hangout / studio">
+              </label>
+              <label class="editor-span">
+                Managed Status
+                <input id="group-managed-status" name="managed_status" type="text" placeholder="observed / managed / archived">
+              </label>
+              <label class="editor-span">
+                External Links
+                <input id="group-external-links" name="external_links" type="text" placeholder="https://..., wrld_..., https://...">
+              </label>
+              <label class="editor-span">
+                Description
+                <textarea id="group-description" name="description" rows="3" placeholder="What this group is about"></textarea>
+              </label>
+              <div class="auth-actions editor-actions">
+                <button class="button" type="submit">Save Group</button>
+                <button class="button button-secondary" type="button" id="group-form-reset">Reset</button>
+              </div>
+              <p id="group-form-status" class="helper-copy"></p>
+            </form>
+            <div id="communities-directory-list" class="runs-list"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Scope</h2>
+              <span>current layer</span>
+            </div>
+            <div class="history-stats">
+              <article class="history-stat"><span>Status</span><strong>Observed</strong></article>
+              <article class="history-stat"><span>Memberships</span><strong>Writable</strong></article>
+              <article class="history-stat"><span>Publishing</span><strong>Queue Ready</strong></article>
+            </div>
+            <p class="helper-copy">Use this page for group identity, memberships, and queue work. Keep deep world scouting in Discover.</p>
+          </section>
+        </section>
+
+        <section class="communities-grid" data-pages="communities" data-communities-section="growth">
+          <section class="card">
+            <div class="card-head">
+              <h2>Growth Watch</h2>
+              <span>next layer</span>
+            </div>
+            <div id="communities-growth-summary" class="history-stats"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Interim Signal</h2>
+              <span>current proxy</span>
+            </div>
+            <p class="helper-copy">Until group snapshots exist, use memberships, scoped watchlists, and creator momentum as the closest proxy.</p>
+          </section>
+        </section>
+
+        <section class="communities-grid" data-pages="communities" data-communities-section="worlds">
+          <section class="card">
+            <div class="card-head">
+              <h2>Group Worlds</h2>
+              <span>membership registry</span>
+            </div>
+            <form id="group-world-form" class="editor-form">
+              <label>
+                Group ID
+                <input id="group-world-group-id" name="group_id" type="text" placeholder="grp_...">
+              </label>
+              <label>
+                World ID
+                <input id="group-world-world-id" name="world_id" type="text" placeholder="wrld_...">
+              </label>
+              <label>
+                Role
+                <input id="group-world-role" name="membership_role" type="text" placeholder="member / flagship / archive">
+              </label>
+              <label>
+                Source Key
+                <input id="group-world-source-key" name="source_key" type="text" placeholder="db:job:taiwan">
+              </label>
+              <div class="auth-actions editor-actions">
+                <button class="button" type="submit">Link World</button>
+                <button class="button button-secondary" type="button" id="group-world-reset">Reset</button>
+              </div>
+              <p id="group-world-status" class="helper-copy"></p>
+            </form>
+            <div id="communities-worlds-summary" class="history-stats"></div>
+            <div id="communities-worlds-list" class="runs-list"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Group Slices</h2>
+              <span>top linked worlds</span>
+            </div>
+            <div id="communities-world-groups" class="runs-list"></div>
+          </section>
+        </section>
+
+        <section class="communities-grid" data-pages="communities" data-communities-section="publishing">
+          <section class="card">
+            <div class="card-head">
+              <h2>Publishing Pipeline</h2>
+              <span>managed queue</span>
+            </div>
+            <form id="managed-group-form" class="editor-form">
+              <label>
+                Group ID
+                <input id="managed-group-id" name="group_id" type="text" placeholder="grp_...">
+              </label>
+              <label>
+                Workspace Key
+                <input id="managed-workspace-key" name="workspace_key" type="text" placeholder="community_racing_tw">
+              </label>
+              <label class="toggle-row editor-span">
+                <input id="managed-posting-enabled" name="posting_enabled" type="checkbox">
+                <span>Enable publishing for this managed group.</span>
+              </label>
+              <label class="editor-span">
+                Notes
+                <textarea id="managed-notes" name="notes" rows="2" placeholder="Operator notes"></textarea>
+              </label>
+              <div class="auth-actions editor-actions">
+                <button class="button" type="submit">Save Managed Group</button>
+                <button class="button button-secondary" type="button" id="managed-group-reset">Reset</button>
+              </div>
+              <p id="managed-group-status" class="helper-copy"></p>
+            </form>
+            <div id="communities-managed-group-list" class="runs-list"></div>
+            <form id="scheduled-post-form" class="editor-form">
+              <input id="scheduled-post-id" name="post_id" type="hidden">
+              <label>
+                Group ID
+                <input id="scheduled-post-group-id" name="group_id" type="text" placeholder="grp_...">
+              </label>
+              <label>
+                Content Type
+                <input id="scheduled-post-content-type" name="content_type" type="text" value="announcement">
+              </label>
+              <label>
+                Status
+                <input id="scheduled-post-status" name="status" type="text" value="pending">
+              </label>
+              <label>
+                Scheduled For
+                <input id="scheduled-post-scheduled-for" name="scheduled_for" type="text" placeholder="2026-05-10T10:00:00+08:00">
+              </label>
+              <label class="editor-span">
+                Payload
+                <textarea id="scheduled-post-payload" name="payload" rows="3" placeholder='{"body":"post body"}'></textarea>
+              </label>
+              <div class="auth-actions editor-actions">
+                <button class="button" type="submit">Queue Post</button>
+                <button class="button button-secondary" type="button" id="scheduled-post-reset">Reset</button>
+              </div>
+              <p id="scheduled-post-status-text" class="helper-copy"></p>
+            </form>
+            <div id="communities-publishing-list" class="runs-list"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Queue Status</h2>
+              <span>publishing snapshot</span>
+            </div>
+            <div id="communities-publishing-summary" class="history-stats"></div>
+            <p class="helper-copy">This page keeps publishing work separate from sync and discovery.</p>
+          </section>
+        </section>
+
+        <section class="card creator-review-card" data-pages="review">
+          <div class="card-head">
+            <h2>Creator Review</h2>
+            <span id="review-pending-count">-</span>
+          </div>
+          <div class="creator-review-toolbar">
+            <select id="review-job-select"></select>
+            <button id="review-load-btn" class="button" type="button">Load</button>
+          </div>
+          <div id="creator-review-list" class="creator-review-list"></div>
+        </section>
+
+        <section class="card debug-card" data-pages="debug">
+          <div class="card-head">
+            <h2>Request Debug</h2>
+            <span id="debug-caption">client request timings</span>
+          </div>
+          <div class="auth-actions">
+            <button id="debug-clear-button" class="button subtle" type="button">Clear Log</button>
+          </div>
+          <div id="debug-summary" class="history-stats"></div>
+          <div class="debug-grid">
+            <section class="debug-section">
+              <div class="card-head">
+                <h3>Panel Status</h3>
+                <span>page, section, request, error</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Panel</th>
+                      <th>Page</th>
+                      <th>Section</th>
+                      <th>Status</th>
+                      <th>Last Request</th>
+                      <th>Last Error</th>
+                      <th>Last Success</th>
+                    </tr>
+                  </thead>
+                  <tbody id="debug-panel-status-body"></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="debug-section">
+              <div class="card-head">
+                <h3>Visibility Snapshot</h3>
+                <span>expected vs actual visible sections</span>
+              </div>
+              <div id="debug-visibility-body" class="debug-visibility-grid"></div>
+            </section>
+          </div>
+          <div class="card-head">
+            <h3>Request Log</h3>
+            <span>all fetchJson traffic</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Method</th>
+                  <th>Request</th>
+                  <th>Status</th>
+                  <th>Duration</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody id="debug-request-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="settings-section" data-pages="review">
+          <h2 class="settings-page-title">Review Lists</h2>
+          <div class="settings-grid">
+
+            <section class="card">
+              <div class="card-head"><h3>Zh World Blacklist</h3><span id="taiwan-blacklist-caption">world-level exclusions</span></div>
+              <form id="taiwan-blacklist-form" class="editor-form">
+                <label class="editor-span">World ID <input id="taiwan-blacklist-world-id" name="world_id" type="text" placeholder="wrld_..."></label>
+                <div class="auth-actions editor-actions">
+                  <button id="taiwan-blacklist-add-button" class="button" type="submit">Add</button>
+                  <button id="taiwan-blacklist-selected-button" class="button subtle" type="button">Use Selected</button>
+                </div>
+                <p id="taiwan-blacklist-status" class="helper-copy"></p>
+              </form>
+              <div id="taiwan-blacklist-list" class="runs-list"></div>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><h3>Zh Creator Whitelist</h3><span id="taiwan-creator-whitelist-caption">bypass all filters</span></div>
+              <form id="taiwan-creator-whitelist-form" class="editor-form">
+                <label class="editor-span">User ID <input id="taiwan-creator-whitelist-user-id" name="user_id" type="text" placeholder="usr_..."></label>
+                <div class="auth-actions editor-actions">
+                  <button id="taiwan-creator-whitelist-add-button" class="button" type="submit">Add</button>
+                  <button id="taiwan-creator-whitelist-selected-button" class="button subtle" type="button">Use Selected</button>
+                </div>
+                <p id="taiwan-creator-whitelist-status" class="helper-copy"></p>
+              </form>
+              <div id="taiwan-creator-whitelist-list" class="runs-list"></div>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><h3>Zh Creator Blacklist</h3><span id="taiwan-creator-blacklist-caption">author-level exclusions</span></div>
+              <form id="taiwan-creator-blacklist-form" class="editor-form">
+                <label class="editor-span">User ID <input id="taiwan-creator-blacklist-user-id" name="user_id" type="text" placeholder="usr_..."></label>
+                <div class="auth-actions editor-actions">
+                  <button id="taiwan-creator-blacklist-add-button" class="button" type="submit">Add</button>
+                  <button id="taiwan-creator-blacklist-selected-button" class="button subtle" type="button">Use Selected</button>
+                </div>
+                <p id="taiwan-creator-blacklist-status" class="helper-copy"></p>
+              </form>
+              <div id="taiwan-creator-blacklist-list" class="runs-list"></div>
+            </section>
+
+          </div>
+        </section>
+
+        <section class="card auto-sync-card" data-pages="operations" data-operations-section="scheduler">
+          <div class="card-head">
+            <h2>Auto Sync Schedule</h2>
+            <span id="auto-sync-caption">Server-side scheduler</span>
+          </div>
+          <div class="auto-sync-notify-bar">
+            <p id="notification-status" class="helper-copy">Browser notifications are off.</p>
+            <button id="notification-toggle-button" class="button subtle" type="button">Enable Notifications</button>
+          </div>
+          <div id="auto-sync-job-list" class="auto-sync-job-list"></div>
+        </section>
+
+        <section class="settings-section" data-pages="operations" data-operations-section="settings">
+          <h2 class="settings-page-title">Web And Feature Settings</h2>
+          <div class="settings-grid">
+
+            <section class="card">
+              <div class="card-head"><h3>Settings Scope</h3><span>configuration hub</span></div>
+              <p class="helper-copy">This page holds global web behavior settings.</p>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><h3>Linked Controls</h3><span>nearby workflows</span></div>
+              <p class="helper-copy">Auth, Sync Jobs, and Auto Sync stay in their own subpages.</p>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><h3>Explore Charts</h3><span>history view</span></div>
+              <label class="toggle-row">
+                <input id="hourly-history-all-toggle" type="checkbox" checked>
+                <span>Show the 48H hourly trend toggle for every topic and source.</span>
+              </label>
+              <p class="helper-copy">When disabled, the 48H toggle is only shown for StarRiver performance scopes.</p>
+            </section>
+
+            <section class="card">
+              <div class="card-head"><h3>Review Workflow</h3><span>content decisions</span></div>
+              <p class="helper-copy">Use Review when you need approval, blocking, or manual content decisions.</p>
+            </section>
+
+          </div>
+        </section>
+
+        <section class="communities-grid" data-pages="monitor" data-monitor-section="groups">
+          <section class="card">
+            <div class="card-head">
+              <h2>Group Monitoring</h2>
+              <span>directory pulse</span>
+            </div>
+            <div id="monitor-groups-summary" class="history-stats"></div>
+            <div id="monitor-groups-directory" class="runs-list"></div>
+          </section>
+          <section class="card">
+            <div class="card-head">
+              <h2>Managed Pipeline</h2>
+              <span>publishing proxy</span>
+            </div>
+            <div id="monitor-groups-publishing" class="history-stats"></div>
+            <div id="monitor-groups-managed" class="runs-list"></div>
+          </section>
+        </section>
+
+        <section class="monitor-band" data-pages="monitor" data-monitor-section="health">
+          <div class="monitor-band-head">
+            <p class="monitor-band-kicker">Health</p>
+            <h3>Scope Health</h3>
+            <p>Use this section to judge whether the current scope is healthy, stale, or update-driven.</p>
+          </div>
+        </section>
+
+        <section class="card performance-card" data-pages="dashboard monitor" data-dashboard-section="health" data-monitor-section="health">
+          <div class="card-head">
+            <h2>Scope Performance</h2>
+            <span id="performance-caption">db:all</span>
+          </div>
+          <div id="performance-summary" class="history-stats"></div>
+          <div id="performance-list" class="runs-list"></div>
+        </section>
+
+        <section class="card graph-canvas-card" data-pages="graph">
+          <div class="card-head">
+            <h2>World Network Graph</h2>
+            <span id="graph-caption">0 nodes 繚 0 edges</span>
+          </div>
+          <canvas id="graph-canvas" class="graph-canvas"></canvas>
+          <div id="graph-tooltip" class="graph-tooltip hidden"></div>
+        </section>
+      </section>
+
+      <aside class="sidebar">
+        <section class="card auth-card" data-pages="operations" data-operations-section="sync">
+          <div class="card-head">
+            <h2>Auth Settings</h2>
+            <span id="auth-status-label">browser local only</span>
+          </div>
+          <form id="auth-form" class="auth-form">
+            <label>
+              Cookie
+              <textarea id="auth-cookie" name="cookie" rows="3" placeholder="auth=...; twoFactorAuth=...; machineId=..."></textarea>
+            </label>
+            <label>
+              Username
+              <input id="auth-username" name="username" type="text" placeholder="optional">
+            </label>
+            <label>
+              Password
+              <input id="auth-password" name="password" type="password" placeholder="optional">
+            </label>
+            <p class="helper-copy">Stored in this browser only. Use Cookie directly, or login once and save the returned session.</p>
+            <div class="auth-actions">
+              <button class="button" type="submit">Save Session</button>
+              <button id="auth-login-button" class="button subtle" type="button">Login</button>
+              <button id="auth-check-button" class="button subtle" type="button">Check Session</button>
+              <button id="auth-clear-button" class="button subtle" type="button">Clear</button>
+            </div>
+            <p id="auth-status-detail" class="helper-copy">No auth configured.</p>
+          </form>
+          <div id="auth-2fa-panel" class="auth-2fa hidden">
+            <label>
+              2FA Method
+              <select id="auth-2fa-method"></select>
+            </label>
+            <label>
+              2FA Code
+              <input id="auth-2fa-code" type="text" placeholder="Authenticator / email code">
+            </label>
+            <div class="auth-actions">
+              <button id="auth-2fa-verify-button" class="button" type="button">Verify 2FA</button>
+              <button id="auth-2fa-cancel-button" class="button subtle" type="button">Cancel</button>
+            </div>
+            <p class="helper-copy">When VRChat requires a verification code, enter it here to finish login and save the resulting session cookie.</p>
+          </div>
+        </section>
+
+        <section class="card jobs-card" data-pages="operations" data-operations-section="sync">
+          <div class="card-head">
+            <h2>Sync Jobs</h2>
+            <span>named jobs</span>
+          </div>
+          <section class="sync-auto-card">
+            <div class="card-head">
+              <h3>Auto Sync</h3>
+              <span id="auto-sync-status">default starriver</span>
+            </div>
+            <label>
+              Target Job
+              <select id="auto-sync-job"></select>
+            </label>
+            <label class="toggle-row">
+              <input id="auto-sync-enabled" type="checkbox" checked>
+              <span>Run once when the page opens or login completes if today has no record yet.</span>
+            </label>
+          </section>
+          <form id="job-create-form" class="editor-form">
+            <input id="job-edit-mode" type="hidden" value="create">
+            <label>
+              Job Label
+              <input id="job-create-label" name="label" type="text" placeholder="Example Job">
+            </label>
+            <label>
+              Job Key
+              <input id="job-create-key" name="job_key" type="text" placeholder="example_job">
+            </label>
+            <label>
+              Type
+              <select id="job-create-type" name="job_type">
+                <option value="keywords">keywords</option>
+                <option value="user">creator</option>
+                <option value="world_search">world search</option>
+              </select>
+            </label>
+            <label>
+              Limit
+              <input id="job-create-limit" name="limit" type="number" min="1" value="50">
+            </label>
+            <label class="editor-span" id="job-create-keywords-wrap">
+              Keywords
+              <input id="job-create-keywords" name="keywords" type="text" placeholder="keyword1, keyword2">
+            </label>
+            <label class="editor-span hidden" id="job-create-user-wrap">
+              Creator User ID
+              <input id="job-create-user-id" name="user_id" type="text" placeholder="usr_...">
+            </label>
+            <label class="editor-span hidden" id="job-create-world-search-wrap">
+              World Search
+              <input id="job-create-search" name="search" type="text" placeholder="optional keyword">
+            </label>
+            <label class="editor-span hidden" id="job-create-tags-wrap">
+              Tags
+              <input id="job-create-tags" name="tags" type="text" placeholder="author_tag_game, admin_spacejam3">
+            </label>
+            <label class="editor-span hidden" id="job-create-notags-wrap">
+              Exclude Tags
+              <input id="job-create-notags" name="notags" type="text" placeholder="admin_hidden, content_gore">
+            </label>
+            <label class="hidden" id="job-create-sort-wrap">
+              Sort
+              <select id="job-create-sort" name="sort">
+                <option value="popularity">popularity</option>
+                <option value="heat">heat</option>
+                <option value="favorites">favorites</option>
+                <option value="updated">updated</option>
+                <option value="publicationDate">publication date</option>
+                <option value="relevance">relevance</option>
+              </select>
+            </label>
+            <label class="hidden" id="job-create-active-wrap">
+              Endpoint
+              <select id="job-create-active" name="active">
+                <option value="false">all public worlds</option>
+                <option value="true">active worlds</option>
+              </select>
+            </label>
+            <label class="hidden" id="job-create-featured-wrap">
+              Featured
+              <select id="job-create-featured" name="featured">
+                <option value="">any</option>
+                <option value="true">featured only</option>
+                <option value="false">not featured</option>
+              </select>
+            </label>
+            <div class="auth-actions editor-actions">
+              <button id="job-create-button" class="button" type="submit">Add Job + Topic</button>
+              <button id="job-edit-cancel-button" class="button subtle hidden" type="button">Cancel Edit</button>
+            </div>
+            <p id="job-create-status" class="helper-copy">Creates a new sync job and a matching topic that follows its DB source.</p>
+          </form>
+          <button id="import-legacy-button" class="button subtle">Import Legacy Data</button>
+          <div id="jobs-list" class="jobs-list"></div>
+        </section>
+
+        <section class="card topics-admin-card" data-pages="operations" data-operations-section="views">
+          <div class="card-head">
+            <h2>View Manager</h2>
+            <span>create / hide / delete</span>
+          </div>
+          <form id="topic-form" class="editor-form">
+            <label>
+              View Label
+              <input id="topic-create-label" name="label" type="text" placeholder="Space Jam 3">
+            </label>
+            <label>
+              View Key
+              <input id="topic-create-key" name="topic_key" type="text" placeholder="spacejam3_view">
+            </label>
+            <label>
+              View Type
+              <select id="topic-create-type" name="topic_type">
+                <option value="view">view</option>
+                <option value="job">job</option>
+              </select>
+            </label>
+            <label>
+              Color
+              <input id="topic-create-color" name="color" type="color" value="#0f766e">
+            </label>
+            <label class="editor-span">
+              Source Rule
+              <input id="topic-create-source" name="source" type="text" placeholder="db:job:spacejam3 or db:manual:world_search:spacejam3">
+            </label>
+            <label class="editor-span">
+              Tag Rules
+              <input id="topic-create-tags" name="tags" type="text" placeholder="admin_spacejam3, author_tag_racing">
+            </label>
+            <label class="editor-span">
+              Keyword Rules
+              <input id="topic-create-keywords" name="keywords" type="text" placeholder="racing, space jam">
+            </label>
+            <label class="toggle-row editor-span">
+              <input id="topic-create-active" name="is_active" type="checkbox" checked>
+              <span>Show this view in Discover.</span>
+            </label>
+            <div class="auth-actions editor-actions">
+              <button id="topic-create-button" class="button" type="submit">Save View</button>
+            </div>
+            <p id="topic-create-status" class="helper-copy">Use Source Rule for tracked job/manual sources. Use Tag/Keyword Rules for a saved view over existing DB data.</p>
+          </form>
+          <div id="topics-admin-list" class="jobs-list"></div>
+        </section>
+
+        <section class="card runs-card" data-pages="operations" data-operations-section="sync">
+          <div class="card-head">
+            <h2>Recent Runs</h2>
+            <span>latest 12</span>
+          </div>
+          <div id="runs-list" class="runs-list"></div>
+        </section>
+
+        <section class="card runs-card" data-pages="operations" data-operations-section="diagnostics">
+          <div class="card-head">
+            <h2>Query Analytics</h2>
+            <span>recent keyword/topic relation</span>
+          </div>
+          <div id="query-analytics-summary" class="history-stats"></div>
+          <div id="query-analytics-list" class="runs-list"></div>
+        </section>
+
+        <section class="card diagnostics-card" data-pages="operations" data-operations-section="diagnostics">
+          <div class="card-head">
+            <h2>Job Diagnostics</h2>
+            <span>config + current db</span>
+          </div>
+          <div id="job-diagnostics-list" class="runs-list"></div>
+        </section>
+
+        <section class="card diagnostics-card" data-pages="operations" data-operations-section="diagnostics">
+          <div class="card-head">
+            <h2>Rate Limits</h2>
+            <span id="rate-limit-caption">recent 429 events</span>
+          </div>
+          <div id="rate-limit-summary" class="history-stats"></div>
+          <div id="rate-limit-list" class="runs-list"></div>
+        </section>
+
+        <section class="card source-diff-card" data-pages="operations" data-operations-section="diagnostics">
+          <div class="card-head">
+            <h2>Source Diff</h2>
+            <span>latest 2 completed runs</span>
+          </div>
+          <div id="source-diff-list" class="runs-list"></div>
+        </section>
+
+        <section class="section-band" data-pages="operations" data-operations-section="records">
+          <div class="section-band-head">
+            <h3>Record Workspace</h3>
+            <p>Start with inventory, then detail and editor, then use daily stats for context.</p>
+          </div>
+        </section>
+
+
+        <section class="card review-card" data-pages="operations" data-operations-section="diagnostics">
+          <div class="card-head">
+            <h2>Self Check</h2>
+            <span id="review-status">Loading</span>
+          </div>
+          <ul id="review-list" class="review-list"></ul>
+        </section>
+
+        <section class="section-band" data-pages="operations" data-operations-section="diagnostics">
+          <div class="section-band-head">
+            <h3>Diagnostics Desk</h3>
+            <p>Check query links, job state, rate limits, source diff, and self-check results.</p>
+          </div>
+        </section>
+
+        <section class="card analytics-card" data-pages="operations" data-operations-section="records">
+          <div class="card-head">
+            <h2>Daily Stats</h2>
+            <span>legacy + db</span>
+          </div>
+          <div id="analytics-list" class="analytics-list"></div>
+        </section>
+
+        <section class="card graph-controls-card" data-pages="graph">
+          <div class="card-head">
+            <h2>Graph Controls</h2>
+            <button id="graph-load-button" class="button" type="button">Load Graph</button>
+          </div>
+          <label>
+            Source
+            <select id="graph-source-select"></select>
+          </label>
+          <label>
+            Color Mode
+            <select id="graph-color-mode">
+              <option value="author">Author</option>
+              <option value="topic">Topic</option>
+              <option value="relationship">Relationship</option>
+            </select>
+          </label>
+          <label>
+            Selection Highlight
+            <select id="graph-highlight-mode">
+              <option value="both">Same Author + Connected</option>
+              <option value="author">Same Author Only</option>
+              <option value="linked">Connected Only</option>
+              <option value="none">Off</option>
+            </select>
+          </label>
+          <label>
+            Edge Types
+            <div class="toggle-group">
+              <label class="toggle-row">
+                <input id="graph-edge-author" type="checkbox" checked>
+                <span>Same Author</span>
+              </label>
+              <label class="toggle-row">
+                <input id="graph-edge-tag" type="checkbox" checked>
+                <span>Shared Tags</span>
+              </label>
+              <label class="toggle-row">
+                <input id="graph-edge-portal" type="checkbox" checked>
+                <span>Portal Links</span>
+              </label>
+            </div>
+          </label>
+          <label>
+            Min Shared Tags
+            <div class="range-row">
+              <input id="graph-min-tags" type="range" min="1" max="10" value="2">
+              <span id="graph-min-tags-label">2</span>
+            </div>
+          </label>
+          <label>
+            Max Nodes
+            <input id="graph-max-nodes" type="number" min="10" max="500" value="300">
+          </label>
+          <div class="graph-legend">
+            <div id="graph-legend-content"></div>
+          </div>
+        </section>
+
+        <section class="card graph-detail-card" data-pages="graph">
+          <div class="card-head">
+            <h2>Selected World</h2>
+            <span id="graph-selected-label">No selection</span>
+          </div>
+          <div id="graph-world-detail" class="detail-empty">Click a node to see details.</div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="/app.js" defer></script>
+</body>
+</html>
+
+
+

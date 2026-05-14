@@ -1,0 +1,128 @@
+{
+  "generated_at": "2026-05-13T16:48:46.957066Z",
+  "default_record_tier": "qualified",
+  "include_recorded": false,
+  "record_count": 1,
+  "by_route": {
+    "route_test": {
+      "track_variant_id": "var_test",
+      "track_variant_name": "Test Variant",
+      "track_route_id": "route_test",
+      "track_route_name": "Forward",
+      "fastest_overall": {
+        "record_id": "rec_100",
+        "racer_id": "racer_100",
+        "racer_display_name": "Zed",
+        "vehicle_id": "veh_100",
+        "vehicle_display_name": "FD3S",
+        "lap_time_ms": 58321,
+        "lap_time_text": "58.321"
+      },
+      "top_records": [
+        {
+          "record_id": "rec_100",
+          "submission_id": "sub_100",
+          "source_type": "google_form",
+          "review_status": "approved",
+          "record_tier": "qualified",
+          "racer_id": "racer_100",
+          "racer_display_name": "Zed",
+          "vehicle_id": "veh_100",
+          "vehicle_display_name": "FD3S",
+          "track_family_id": null,
+          "track_family_name": null,
+          "track_variant_id": "var_test",
+          "track_variant_name": "Test Variant",
+          "track_route_id": "route_test",
+          "track_route_name": "Forward",
+          "lap_time_ms": 58321,
+          "lap_time_text": "58.321",
+          "platform": null,
+          "fps_value": null,
+          "recorded_at": null,
+          "approved_at": null,
+          "event_id": null,
+          "notes": null,
+          "primary_badge": "TR",
+          "badges": [
+            "TR"
+          ]
+        }
+      ],
+      "vehicle_best": [
+        {
+          "vehicle_id": "veh_100",
+          "vehicle_display_name": "FD3S",
+          "record_id": "rec_100",
+          "racer_id": "racer_100",
+          "racer_display_name": "Zed",
+          "lap_time_ms": 58321,
+          "lap_time_text": "58.321"
+        }
+      ],
+      "player_best": [
+        {
+          "racer_id": "racer_100",
+          "racer_display_name": "Zed",
+          "record_id": "rec_100",
+          "vehicle_id": "veh_100",
+          "vehicle_display_name": "FD3S",
+          "lap_time_ms": 58321,
+          "lap_time_text": "58.321"
+        }
+      ]
+    }
+  },
+  "by_variant": {
+    "var_test": {
+      "track_variant_id": "var_test",
+      "track_variant_name": "Test Variant",
+      "track_family_id": null,
+      "track_family_name": null,
+      "route_ids": [
+        "route_test"
+      ],
+      "record_count": 1,
+      "fastest_record": {
+        "record_id": "rec_100",
+        "track_route_id": "route_test",
+        "track_route_name": "Forward",
+        "racer_display_name": "Zed",
+        "vehicle_display_name": "FD3S",
+        "lap_time_ms": 58321,
+        "lap_time_text": "58.321"
+      }
+    }
+  },
+  "recent_records": [
+    {
+      "record_id": "rec_100",
+      "submission_id": "sub_100",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_100",
+      "racer_display_name": "Zed",
+      "vehicle_id": "veh_100",
+      "vehicle_display_name": "FD3S",
+      "track_family_id": null,
+      "track_family_name": null,
+      "track_variant_id": "var_test",
+      "track_variant_name": "Test Variant",
+      "track_route_id": "route_test",
+      "track_route_name": "Forward",
+      "lap_time_ms": 58321,
+      "lap_time_text": "58.321",
+      "platform": null,
+      "fps_value": null,
+      "recorded_at": null,
+      "approved_at": null,
+      "event_id": null,
+      "notes": null,
+      "primary_badge": "TR",
+      "badges": [
+        "TR"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "Ch": {
+    "last_attempt_at": "2026-05-13T17:28:31.736362+00:00",
+    "last_error": null,
+    "running": false,
+    "last_auto_run": "2026-05-13T17:28:31.736362+00:00",
+    "interval": "1d",
+    "stagger_interval": "1d"
+  },
+  "starriver": {
+    "interval": "1h",
+    "last_auto_run": "2026-05-13T22:52:04.023450+00:00",
+    "stagger_interval": "1h",
+    "last_attempt_at": "2026-05-13T22:52:04.023450+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "taiwan": {
+    "interval": "3h",
+    "last_auto_run": "2026-05-13T20:41:25.947438+00:00",
+    "stagger_interval": "3h",
+    "last_attempt_at": "2026-05-13T20:41:25.947438+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "spaceJam3": {
+    "interval": "6h",
+    "last_auto_run": "2026-05-14T00:19:25.501693+00:00",
+    "stagger_interval": "6h",
+    "last_attempt_at": "2026-05-14T00:19:25.501693+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "racing": {
+    "interval": "12h",
+    "last_auto_run": "2026-05-13T17:22:45.395718+00:00",
+    "stagger_interval": "12h",
+    "last_attempt_at": "2026-05-13T17:22:45.395718+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "Popular100": {
+    "interval": "1d",
+    "last_auto_run": "2026-05-13T17:22:06.730477+00:00",
+    "stagger_interval": "1d",
+    "last_attempt_at": "2026-05-13T17:22:06.730477+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "JapanTop": {
+    "interval": "1d",
+    "last_auto_run": "2026-05-13T17:22:56.879209+00:00",
+    "stagger_interval": "1d",
+    "last_attempt_at": "2026-05-13T17:22:56.879209+00:00",
+    "last_error": null,
+    "running": false
+  },
+  "Game100": {
+    "interval": "1d",
+    "last_auto_run": "2026-05-13T17:24:09.819529+00:00",
+    "stagger_interval": "1d",
+    "last_attempt_at": "2026-05-13T17:24:09.819529+00:00",
+    "last_error": null,
+    "running": false
+  }
+}

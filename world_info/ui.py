@@ -8,10 +8,10 @@ The interface provides several tabs:
 - World List: show the filtered worlds in a simple list.
 - User Worlds: fetch and display worlds created by a specific user.
 
-The tool relies on functions in ``scraper/scraper.py``.  Results are saved
-under that folder for reuse by other scripts.  Fetching a creator's worlds uses
-Playwright to scrape the VRChat website, so the ``playwright`` package must be
-installed and ``playwright install`` executed beforehand.
+The tool relies on functions in ``scraper/scraper.py``. Results are saved under
+that folder for reuse by other scripts. Creator worlds are fetched through the
+worlds API by creator user ID, which is a better fit for the future web app
+than scraping website HTML.
 """
 from __future__ import annotations
 
@@ -38,7 +38,11 @@ if __package__ is None or __package__ == "":
         update_history,
         record_row,
         _parse_date,
+        vrchat_login,
+        vrchat_verify_2fa,
+        vrchat_check_session,
         HISTORY_TABLE,
+        HEADERS_FILE,
     )
     from world_info.analytics import update_daily_stats
     from world_info.constants import (
@@ -52,9 +56,8 @@ if __package__ is None or __package__ == "":
     )
     from world_info.tabs import (
         EntryTab,
-        DataTab,
-        FilterTab,
-        ListTab,
+        SearchResultsTab,
+        TaiwanTab,
         UserTab,
         HistoryTab,
         SettingsTab,
@@ -74,7 +77,11 @@ else:
         update_history,
         record_row,
         _parse_date,
+        vrchat_login,
+        vrchat_verify_2fa,
+        vrchat_check_session,
         HISTORY_TABLE,
+        HEADERS_FILE,
     )
     from .analytics import update_daily_stats
     from .constants import (
@@ -88,9 +95,8 @@ else:
     )
     from .tabs import (
         EntryTab,
-        DataTab,
-        FilterTab,
-        ListTab,
+        SearchResultsTab,
+        TaiwanTab,
         UserTab,
         HistoryTab,
         SettingsTab,
@@ -114,6 +120,27 @@ except Exception:  # pragma: no cover - optional
 logger = logging.getLogger(__name__)
 
 
+def _warn_null_visits(worlds: list, source: str) -> None:
+    """Warn (log + dialog) when worlds are missing visits data from the API."""
+    null_count = sum(1 for w in worlds if w.get("visits") is None)
+    if null_count:
+        logger.warning(
+            "[%s] %d 個世界的瀏覽人次未從 API 取得（顯示為空白）。"
+            " 請確認 Cookie 是否有效，或重新登入 VRChat。",
+            source,
+            null_count,
+        )
+        try:
+            messagebox.showwarning(
+                "⚠️ 拜訪人次未取得",
+                f"有 {null_count} 個世界的拜訪人次無法從 API 取得。\n\n"
+                "原因：VRChat API 需要登入才能回傳拜訪數據。\n"
+                "請到「入口」頁面登入 VRChat，或貼上有效的 Cookie 後再爬取。",
+            )
+        except Exception:
+            pass  # no Tk root in headless / test context
+
+
 # configuration and extra spreadsheets
 SETTINGS_FILE = BASE / "scraper" / "settings.json"
 
@@ -134,15 +161,20 @@ class WorldInfoUI(tk.Tk):
         self.nb = ttk.Notebook(self)
         self.nb.pack(fill=tk.BOTH, expand=True)
 
-        self.tab_entry = EntryTab(self.nb, self)
-        self.tab_filter = FilterTab(self.nb, self)
-        self.tab_data = DataTab(self.nb, self)
-        self.tab_list = ListTab(self.nb, self)
-        self.tab_user = UserTab(self.nb, self)
+        # Tab order: 入口 → 個人世界 → 台灣世界 → 搜尋結果 → 歷史 → 設定 → 關於 → 日誌
+        self.tab_entry   = EntryTab(self.nb, self)
+        self.tab_user    = UserTab(self.nb, self)
+        self.tab_taiwan  = TaiwanTab(self.nb, self)
+        self.tab_search  = SearchResultsTab(self.nb, self)
         self.tab_history = HistoryTab(self.nb, self)
         self.tab_settings = SettingsTab(self.nb, self)
-        self.tab_about = AboutTab(self.nb, self)
-        self.tab_log = LogTab(self.nb, self)
+        self.tab_about   = AboutTab(self.nb, self)
+        self.tab_log     = LogTab(self.nb, self)
+
+        # Legacy aliases so older methods that reference tab_list / tab_data still work
+        self.tab_list   = self.tab_search
+        self.tab_data   = self.tab_search
+        self.tab_filter = self.tab_search
 
         handler = self.tab_log.handler
         logging.getLogger().addHandler(handler)
@@ -155,6 +187,143 @@ class WorldInfoUI(tk.Tk):
 
 
 
+
+    # ── VRChat 登入 ────────────────────────────────────────────────────
+
+    def _set_login_status(self, text: str, color: str = "gray") -> None:
+        self.var_login_status.set(text)
+        self.tab_entry.app.lbl_login_status.configure(foreground=color)
+
+    def _persist_cookie(self, cookie: str) -> None:
+        """Save cookie to settings and headers.json so it survives restarts."""
+        self.settings["cookie"] = cookie
+        self.var_cookie.set(cookie)
+        self.var_set_cookie.set(cookie)
+        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(self.settings, f, ensure_ascii=False, indent=2)
+        with open(HEADERS_FILE, "w", encoding="utf-8") as f:
+            json.dump({"Cookie": cookie}, f, ensure_ascii=False, indent=2)
+        self.headers = load_auth_headers(cookie, None, None)
+        logger.info("Cookie 已儲存至 headers.json")
+
+    def _on_login(self) -> None:
+        username = self.var_user.get().strip()
+        password = self.var_pass.get().strip()
+        if not username or not password:
+            messagebox.showerror("登入失敗", "請輸入帳號和密碼")
+            return
+
+        self._set_login_status("⏳ 登入中…", "orange")
+        self.update_idletasks()
+
+        result = vrchat_login(username, password)
+
+        if result.get("requires_2fa"):
+            methods = result.get("methods", ["totp"])
+            self._pending_auth_cookie = result.get("auth_cookie", "")
+            self.var_twofa_method.set(methods[0])
+            self._twofa_frame.grid()          # 顯示 2FA 區塊
+            self._set_login_status(
+                f"⚠️ 需要雙因素驗證（{', '.join(methods)}）", "orange"
+            )
+            logger.info("VRChat 登入需要 2FA，方式: %s", methods)
+            return
+
+        if not result.get("ok"):
+            err = result.get("error", "未知錯誤")
+            self._set_login_status(f"❌ 登入失敗：{err}", "red")
+            messagebox.showerror("登入失敗", err)
+            return
+
+        self._twofa_frame.grid_remove()
+        cookie = result["cookie"]
+        user = result.get("user", {})
+        display_name = user.get("displayName", username)
+        self._persist_cookie(cookie)
+        self._set_login_status(f"✅ 已登入：{display_name}", "green")
+        logger.info("VRChat 登入成功：%s", display_name)
+
+    def _on_verify_2fa(self) -> None:
+        code = self.var_twofa_code.get().strip().replace(" ", "")
+        method = self.var_twofa_method.get().strip()
+        auth_cookie = getattr(self, "_pending_auth_cookie", "")
+
+        if not code:
+            messagebox.showerror("驗證失敗", "請輸入驗證碼")
+            return
+
+        self._set_login_status("⏳ 驗證中…", "orange")
+        self.update_idletasks()
+
+        result = vrchat_verify_2fa(code, method, auth_cookie)
+        if not result.get("ok"):
+            err = result.get("error", "未知錯誤")
+            self._set_login_status(f"❌ 2FA 驗證失敗：{err}", "red")
+            messagebox.showerror("2FA 驗證失敗", err)
+            return
+
+        self._twofa_frame.grid_remove()
+        cookie = result["cookie"]
+        self._persist_cookie(cookie)
+        self._set_login_status("✅ 2FA 驗證成功，已登入", "green")
+        logger.info("VRChat 2FA 驗證成功")
+
+    def _async_verify_session(self) -> None:
+        """Called once after startup to verify the saved cookie is still valid."""
+        cookie = self.settings.get("cookie", "")
+        if not cookie:
+            return
+        result = vrchat_check_session(cookie)
+        if result.get("ok"):
+            name = result["user"].get("displayName", "")
+            self._set_login_status(
+                f"✅ Session 有效：{name}" if name else "✅ Session 有效", "green"
+            )
+            logger.info("啟動時 session 驗證成功：%s", name)
+        else:
+            err = result.get("error", "未知")
+            self._set_login_status(f"⚠️ Session 已失效：{err}", "red")
+            logger.warning("啟動時 session 驗證失敗：%s", err)
+
+    def _handle_auth_error(self, err: Exception) -> bool:
+        """Show a helpful prompt when a scraping call fails with a 401/auth error.
+
+        Returns True so callers can use it as a guard:
+            except RuntimeError as e:
+                if self._handle_auth_error(e): return
+        """
+        msg = str(err)
+        if "401" in msg or "Unauthorized" in msg.lower() or "auth" in msg.lower():
+            self._set_login_status("⚠️ 認證已失效，請重新登入", "red")
+            messagebox.showwarning(
+                "認證失效",
+                "VRChat 回傳 401 Unauthorized。\n"
+                "請至「入口」頁重新登入，或貼上有效的 Cookie。",
+            )
+            return True
+        return False
+
+    def _on_logout(self) -> None:
+        self.settings.pop("cookie", None)
+        self.var_cookie.set("")
+        self.var_set_cookie.set("")
+        self.headers = {}
+        if HEADERS_FILE.exists():
+            HEADERS_FILE.write_text("{}", encoding="utf-8")
+        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+            json.dump(self.settings, f, ensure_ascii=False, indent=2)
+        self._set_login_status("⬜ 已登出", "gray")
+        self._twofa_frame.grid_remove()
+        logger.info("已清除登入資訊")
+
+    def _apply_manual_cookie(self) -> None:
+        cookie = self.var_cookie.get().strip()
+        if not cookie:
+            messagebox.showerror("錯誤", "Cookie 欄位為空")
+            return
+        self._persist_cookie(cookie)
+        self._set_login_status("✅ Cookie 已套用（手動）", "green")
+        logger.info("手動套用 Cookie")
 
     def _load_settings(self) -> dict:
         if SETTINGS_FILE.exists():
@@ -176,14 +345,21 @@ class WorldInfoUI(tk.Tk):
         self._apply_settings()
 
     def _apply_settings(self) -> None:
-        self.var_cookie.set(self.settings.get("cookie", ""))
-        self.var_set_cookie.set(self.settings.get("cookie", ""))
+        cookie = self.settings.get("cookie", "")
+        self.var_cookie.set(cookie)
+        self.var_set_cookie.set(cookie)
         self.var_personal_kw.set(self.settings.get("personal_keywords", ""))
         self.var_taiwan_kw.set(self.settings.get("taiwan_keywords", ""))
         self.var_blacklist.set(self.settings.get("blacklist", ""))
         player_id = self.settings.get("player_id", "")
         self.var_userid.set(player_id)
         self.var_playerid_set.set(player_id)
+        # Reflect saved login state in the status label; async-check in background
+        if cookie:
+            self._set_login_status("⏳ 驗證 session 中…", "orange")
+            self.after(200, self._async_verify_session)
+        else:
+            self._set_login_status("⬜ 尚未登入", "gray")
 
     def _load_local_tables(self) -> None:
         """Load existing personal Excel file and populate the user world list."""
@@ -277,30 +453,45 @@ class WorldInfoUI(tk.Tk):
                     self.tree.insert("", tk.END, values=row[:15])
 
 
-    def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None) -> None:
+    def _search_fixed(self, keywords: str, out_file: Path, source_name: str | None = None,
+                      update_search_tab: bool = True) -> bool:
+        """Search fixed keywords and save to *out_file*.
+
+        Returns True when worlds were fetched, False on failure/empty.
+        *update_search_tab* controls whether results are also pushed to the
+        搜尋結果 tab (set False for Taiwan search which has its own tab).
+        """
         blacklist = {k.strip() for k in self.settings.get("blacklist", "").split(",") if k.strip()}
         logger.info("Searching keywords %s", keywords)
         try:
             all_worlds = search_fixed(keywords, self.headers, blacklist)
+        except RuntimeError as e:  # pragma: no cover - runtime only
+            logger.error("Keyword search failed: %s", e)
+            if not self._handle_auth_error(e):
+                messagebox.showerror("Error", str(e))
+            return False
         except Exception as e:  # pragma: no cover - runtime only
             logger.error("Keyword search failed: %s", e)
             messagebox.showerror("Error", str(e))
-            return
+            return False
         if not all_worlds:
             logger.warning("No worlds found for %s", keywords)
-            return
+            return False
+        _warn_null_visits(all_worlds, keywords)
         update_history(all_worlds)
         self.history = load_history()
         self._refresh_history_table()
         save_worlds(all_worlds, out_file)
         if source_name:
             update_daily_stats(source_name, all_worlds)
-        self.data = all_worlds
-        self._update_tag_options()
-        self._apply_filter()
+        if update_search_tab:
+            self.data = all_worlds
+            self._update_tag_options()
+            self._apply_filter()
+        return True
 
     def _search_personal(self) -> None:
-        """Fetch worlds for the configured player ID and refresh the table."""
+        """Fetch worlds for the configured player ID and overwrite the local table."""
         self._load_auth_headers()
         user_id = self.settings.get("player_id", "").strip()
         if not user_id:
@@ -309,52 +500,51 @@ class WorldInfoUI(tk.Tk):
             return
         try:
             worlds = search_user(user_id, self.headers)
+        except RuntimeError as e:  # pragma: no cover - runtime only
+            logger.error("Personal search failed: %s", e)
+            if not self._handle_auth_error(e):
+                messagebox.showerror("Error", str(e))
+            return
         except Exception as e:  # pragma: no cover - runtime only
             logger.error("Personal search failed: %s", e)
             messagebox.showerror("Error", str(e))
             return
 
-        fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
-        for w in worlds:
-            w["爬取日期"] = fetch_date
-        # clear current rows before inserting the refreshed data
-        for item in self.user_tree.get_children():
-            self.user_tree.delete(item)
-
-        # log duplicate count if any existing worlds were fetched again
-        duplicate_count = sum(
-            1
-            for w in worlds
-            if any(
-                (w.get("id") or w.get("世界ID"))
-                == (u.get("id") or u.get("世界ID"))
-                for u in self.user_data
-                if u.get("id") or u.get("世界ID")
-            )
-        )
-
         logger.info("Fetched %d worlds for %s", len(worlds), user_id)
-        if duplicate_count:
-            logger.info("Detected %d duplicate worlds for %s", duplicate_count, user_id)
-        file_path = STAR_RIVER_FILE
-        save_worlds(worlds, file_path)
+        _warn_null_visits(worlds, user_id)
+
+        # save_worlds now overwrites the file so no manual dedup is needed
+        save_worlds(worlds, STAR_RIVER_FILE)
         update_history(worlds)
         self.history = load_history()
         self._refresh_history_table()
         source_name = re.sub(r"[^A-Za-z0-9_-]+", "_", user_id)
         update_daily_stats(source_name, worlds)
 
-        # reload the table so manual edits remain and new data is visible
+        # Reload the table, then navigate to the editor sub-tab so the user
+        # can immediately review and delete any bad records.
         self._load_local_tables()
+        if hasattr(self, "personal_editor"):
+            self.personal_editor.load_xlsx(STAR_RIVER_FILE)
+            n = len(self.personal_editor.get_rows())
+            if hasattr(self, "var_personal_editor_status"):
+                self.var_personal_editor_status.set(f"已載入 {n} 筆（{STAR_RIVER_FILE.name}）")
         self.nb.select(self.tab_user.frame)
+        if hasattr(self, "user_nb") and hasattr(self, "tab_editor"):
+            self.user_nb.select(self.tab_editor)
 
     def _search_taiwan(self) -> None:
         self._load_auth_headers()
-        self._search_fixed(
+        ok = self._search_fixed(
             self.settings.get("taiwan_keywords", ""),
             TAIWAN_FILE,
             "taiwan",
+            update_search_tab=False,
         )
+        if ok:
+            # Reload the editable Taiwan table and navigate to it
+            self.tab_taiwan._reload()
+            self.nb.select(self.tab_taiwan.frame)
     # ------------------------------------------------------------------
     # Actions
     def _load_auth_headers(self) -> None:
@@ -372,6 +562,7 @@ class WorldInfoUI(tk.Tk):
         try:
             logger.info("Searching keyword %s", keyword)
             self.data = search_keyword(keyword, self.headers)
+            _warn_null_visits(self.data, keyword)
             with open(RAW_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.data, f, ensure_ascii=False, indent=2)
             update_history(self.data)
@@ -384,7 +575,8 @@ class WorldInfoUI(tk.Tk):
             logger.info("Keyword search complete: %s", keyword)
         except RuntimeError as e:  # pragma: no cover - runtime only
             logger.error("HTTP error during keyword search: %s", e)
-            messagebox.showerror("HTTP Error", str(e))
+            if not self._handle_auth_error(e):
+                messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
             logger.error("Keyword search failed: %s", e)
             messagebox.showerror("Error", str(e))
@@ -399,6 +591,7 @@ class WorldInfoUI(tk.Tk):
         try:
             logger.info("Searching user %s", user_id)
             self.user_data = search_user(user_id, self.headers)
+            _warn_null_visits(self.user_data, user_id)
             fetch_date = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
             for w in self.user_data:
                 w["爬取日期"] = fetch_date
@@ -413,18 +606,19 @@ class WorldInfoUI(tk.Tk):
             self.var_playerid_set.set(user_id)
             self._save_settings()
 
-            for item in self.user_tree.get_children():
-                self.user_tree.delete(item)
-            for w in self.user_data:
-                row = record_row(w)
-                self.user_tree.insert("", tk.END, values=row)
-            self._create_world_tabs()
-            self._update_dashboard()
+            # Reload from Excel so user_data uses Chinese keys (for dashboard),
+            # then navigate directly to the editor sub-tab for review/delete.
+            self._load_local_tables()
+            if hasattr(self, "personal_editor"):
+                self.personal_editor.load_xlsx(STAR_RIVER_FILE)
             self.nb.select(self.tab_user.frame)
+            if hasattr(self, "user_nb") and hasattr(self, "tab_editor"):
+                self.user_nb.select(self.tab_editor)
             logger.info("User search complete: %s", user_id)
         except RuntimeError as e:  # pragma: no cover - runtime only
             logger.error("HTTP error during user search: %s", e)
-            messagebox.showerror("HTTP Error", str(e))
+            if not self._handle_auth_error(e):
+                messagebox.showerror("HTTP Error", str(e))
         except Exception as e:  # pragma: no cover - runtime only
             logger.error("User search failed: %s", e)
             messagebox.showerror("Error", str(e))

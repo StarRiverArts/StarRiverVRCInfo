@@ -1,0 +1,360 @@
+{
+  "generated_at": "2026-05-13T11:38:33.799940Z",
+  "default_record_tier": "qualified",
+  "include_recorded": false,
+  "record_count": 4,
+  "by_route": {
+    "route_akina_downhill": {
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_downhill",
+      "track_route_name": "Downhill",
+      "fastest_overall": {
+        "record_id": "rec_002",
+        "racer_id": "racer_002",
+        "racer_display_name": "Bob",
+        "vehicle_id": "veh_001",
+        "vehicle_display_name": "RX-7",
+        "lap_time_ms": 82900,
+        "lap_time_text": "1:22.900"
+      },
+      "top_records": [
+        {
+          "record_id": "rec_002",
+          "submission_id": "sub_002",
+          "source_type": "google_form",
+          "review_status": "approved",
+          "record_tier": "qualified",
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "vehicle_id": "veh_001",
+          "vehicle_display_name": "RX-7",
+          "track_family_id": "fam_touge",
+          "track_family_name": "Touge Series",
+          "track_variant_id": "var_akina",
+          "track_variant_name": "Akina DH",
+          "track_route_id": "route_akina_downhill",
+          "track_route_name": "Downhill",
+          "lap_time_ms": 82900,
+          "lap_time_text": "1:22.900",
+          "platform": "PCVR",
+          "fps_value": "144",
+          "recorded_at": "2026-05-11T12:00:00Z",
+          "approved_at": "2026-05-11T13:00:00Z",
+          "event_id": null,
+          "notes": "New route best",
+          "primary_badge": "TR",
+          "badges": [
+            "TR"
+          ]
+        },
+        {
+          "record_id": "rec_001",
+          "submission_id": "sub_001",
+          "source_type": "google_form",
+          "review_status": "approved",
+          "record_tier": "qualified",
+          "racer_id": "racer_001",
+          "racer_display_name": "Alice",
+          "vehicle_id": "veh_001",
+          "vehicle_display_name": "RX-7",
+          "track_family_id": "fam_touge",
+          "track_family_name": "Touge Series",
+          "track_variant_id": "var_akina",
+          "track_variant_name": "Akina DH",
+          "track_route_id": "route_akina_downhill",
+          "track_route_name": "Downhill",
+          "lap_time_ms": 83456,
+          "lap_time_text": "1:23.456",
+          "platform": "PCVR",
+          "fps_value": "120",
+          "recorded_at": "2026-05-10T12:00:00Z",
+          "approved_at": "2026-05-10T13:00:00Z",
+          "event_id": null,
+          "notes": "First verified run",
+          "primary_badge": "PR",
+          "badges": [
+            "PR"
+          ]
+        },
+        {
+          "record_id": "rec_003",
+          "submission_id": "sub_003",
+          "source_type": "google_form",
+          "review_status": "approved",
+          "record_tier": "qualified",
+          "racer_id": "racer_001",
+          "racer_display_name": "Alice",
+          "vehicle_id": "veh_002",
+          "vehicle_display_name": "EVO IX",
+          "track_family_id": "fam_touge",
+          "track_family_name": "Touge Series",
+          "track_variant_id": "var_akina",
+          "track_variant_name": "Akina DH",
+          "track_route_id": "route_akina_downhill",
+          "track_route_name": "Downhill",
+          "lap_time_ms": 84120,
+          "lap_time_text": "1:24.120",
+          "platform": "PCVR",
+          "fps_value": "120",
+          "recorded_at": "2026-05-12T12:00:00Z",
+          "approved_at": "2026-05-12T13:00:00Z",
+          "event_id": null,
+          "notes": "Car swap run",
+          "primary_badge": "CR",
+          "badges": [
+            "CR"
+          ]
+        }
+      ],
+      "vehicle_best": [
+        {
+          "vehicle_id": "veh_001",
+          "vehicle_display_name": "RX-7",
+          "record_id": "rec_002",
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "lap_time_ms": 82900,
+          "lap_time_text": "1:22.900"
+        },
+        {
+          "vehicle_id": "veh_002",
+          "vehicle_display_name": "EVO IX",
+          "record_id": "rec_003",
+          "racer_id": "racer_001",
+          "racer_display_name": "Alice",
+          "lap_time_ms": 84120,
+          "lap_time_text": "1:24.120"
+        }
+      ],
+      "player_best": [
+        {
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "record_id": "rec_002",
+          "vehicle_id": "veh_001",
+          "vehicle_display_name": "RX-7",
+          "lap_time_ms": 82900,
+          "lap_time_text": "1:22.900"
+        },
+        {
+          "racer_id": "racer_001",
+          "racer_display_name": "Alice",
+          "record_id": "rec_001",
+          "vehicle_id": "veh_001",
+          "vehicle_display_name": "RX-7",
+          "lap_time_ms": 83456,
+          "lap_time_text": "1:23.456"
+        }
+      ]
+    },
+    "route_akina_uphill": {
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_uphill",
+      "track_route_name": "Uphill",
+      "fastest_overall": {
+        "record_id": "rec_005",
+        "racer_id": "racer_002",
+        "racer_display_name": "Bob",
+        "vehicle_id": "veh_002",
+        "vehicle_display_name": "EVO IX",
+        "lap_time_ms": 90250,
+        "lap_time_text": "1:30.250"
+      },
+      "top_records": [
+        {
+          "record_id": "rec_005",
+          "submission_id": "sub_005",
+          "source_type": "google_form",
+          "review_status": "approved",
+          "record_tier": "qualified",
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "vehicle_id": "veh_002",
+          "vehicle_display_name": "EVO IX",
+          "track_family_id": "fam_touge",
+          "track_family_name": "Touge Series",
+          "track_variant_id": "var_akina",
+          "track_variant_name": "Akina DH",
+          "track_route_id": "route_akina_uphill",
+          "track_route_name": "Uphill",
+          "lap_time_ms": 90250,
+          "lap_time_text": "1:30.250",
+          "platform": "PCVR",
+          "fps_value": "144",
+          "recorded_at": "2026-05-13T12:00:00Z",
+          "approved_at": "2026-05-13T13:00:00Z",
+          "event_id": null,
+          "notes": "Different route",
+          "primary_badge": "TR",
+          "badges": [
+            "TR"
+          ]
+        }
+      ],
+      "vehicle_best": [
+        {
+          "vehicle_id": "veh_002",
+          "vehicle_display_name": "EVO IX",
+          "record_id": "rec_005",
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "lap_time_ms": 90250,
+          "lap_time_text": "1:30.250"
+        }
+      ],
+      "player_best": [
+        {
+          "racer_id": "racer_002",
+          "racer_display_name": "Bob",
+          "record_id": "rec_005",
+          "vehicle_id": "veh_002",
+          "vehicle_display_name": "EVO IX",
+          "lap_time_ms": 90250,
+          "lap_time_text": "1:30.250"
+        }
+      ]
+    }
+  },
+  "by_variant": {
+    "var_akina": {
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_family_id": "fam_touge",
+      "track_family_name": "Touge Series",
+      "route_ids": [
+        "route_akina_downhill",
+        "route_akina_uphill"
+      ],
+      "record_count": 4,
+      "fastest_record": {
+        "record_id": "rec_002",
+        "track_route_id": "route_akina_downhill",
+        "track_route_name": "Downhill",
+        "racer_display_name": "Bob",
+        "vehicle_display_name": "RX-7",
+        "lap_time_ms": 82900,
+        "lap_time_text": "1:22.900"
+      }
+    }
+  },
+  "recent_records": [
+    {
+      "record_id": "rec_005",
+      "submission_id": "sub_005",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_002",
+      "racer_display_name": "Bob",
+      "vehicle_id": "veh_002",
+      "vehicle_display_name": "EVO IX",
+      "track_family_id": "fam_touge",
+      "track_family_name": "Touge Series",
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_uphill",
+      "track_route_name": "Uphill",
+      "lap_time_ms": 90250,
+      "lap_time_text": "1:30.250",
+      "platform": "PCVR",
+      "fps_value": "144",
+      "recorded_at": "2026-05-13T12:00:00Z",
+      "approved_at": "2026-05-13T13:00:00Z",
+      "event_id": null,
+      "notes": "Different route",
+      "primary_badge": "TR",
+      "badges": [
+        "TR"
+      ]
+    },
+    {
+      "record_id": "rec_003",
+      "submission_id": "sub_003",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_001",
+      "racer_display_name": "Alice",
+      "vehicle_id": "veh_002",
+      "vehicle_display_name": "EVO IX",
+      "track_family_id": "fam_touge",
+      "track_family_name": "Touge Series",
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_downhill",
+      "track_route_name": "Downhill",
+      "lap_time_ms": 84120,
+      "lap_time_text": "1:24.120",
+      "platform": "PCVR",
+      "fps_value": "120",
+      "recorded_at": "2026-05-12T12:00:00Z",
+      "approved_at": "2026-05-12T13:00:00Z",
+      "event_id": null,
+      "notes": "Car swap run",
+      "primary_badge": "CR",
+      "badges": [
+        "CR"
+      ]
+    },
+    {
+      "record_id": "rec_002",
+      "submission_id": "sub_002",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_002",
+      "racer_display_name": "Bob",
+      "vehicle_id": "veh_001",
+      "vehicle_display_name": "RX-7",
+      "track_family_id": "fam_touge",
+      "track_family_name": "Touge Series",
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_downhill",
+      "track_route_name": "Downhill",
+      "lap_time_ms": 82900,
+      "lap_time_text": "1:22.900",
+      "platform": "PCVR",
+      "fps_value": "144",
+      "recorded_at": "2026-05-11T12:00:00Z",
+      "approved_at": "2026-05-11T13:00:00Z",
+      "event_id": null,
+      "notes": "New route best",
+      "primary_badge": "TR",
+      "badges": [
+        "TR"
+      ]
+    },
+    {
+      "record_id": "rec_001",
+      "submission_id": "sub_001",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_001",
+      "racer_display_name": "Alice",
+      "vehicle_id": "veh_001",
+      "vehicle_display_name": "RX-7",
+      "track_family_id": "fam_touge",
+      "track_family_name": "Touge Series",
+      "track_variant_id": "var_akina",
+      "track_variant_name": "Akina DH",
+      "track_route_id": "route_akina_downhill",
+      "track_route_name": "Downhill",
+      "lap_time_ms": 83456,
+      "lap_time_text": "1:23.456",
+      "platform": "PCVR",
+      "fps_value": "120",
+      "recorded_at": "2026-05-10T12:00:00Z",
+      "approved_at": "2026-05-10T13:00:00Z",
+      "event_id": null,
+      "notes": "First verified run",
+      "primary_badge": "PR",
+      "badges": [
+        "PR"
+      ]
+    }
+  ]
+}

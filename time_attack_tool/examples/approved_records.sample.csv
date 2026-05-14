@@ -1,0 +1,7 @@
+record_id,submission_id,source_type,review_status,record_tier,racer_id,racer_display_name,vehicle_id,vehicle_display_name,track_family_id,track_family_name,track_variant_id,track_variant_name,track_route_id,track_route_name,lap_time_text,platform,fps_value,recorded_at,approved_at,event_id,notes
+rec_001,sub_001,google_form,approved,qualified,racer_001,Alice,veh_001,RX-7,fam_touge,Touge Series,var_akina,Akina DH,route_akina_downhill,Downhill,1:23.456,PCVR,120,2026-05-10T12:00:00Z,2026-05-10T13:00:00Z,,First verified run
+rec_002,sub_002,google_form,approved,qualified,racer_002,Bob,veh_001,RX-7,fam_touge,Touge Series,var_akina,Akina DH,route_akina_downhill,Downhill,1:22.900,PCVR,144,2026-05-11T12:00:00Z,2026-05-11T13:00:00Z,,New route best
+rec_003,sub_003,google_form,approved,qualified,racer_001,Alice,veh_002,EVO IX,fam_touge,Touge Series,var_akina,Akina DH,route_akina_downhill,Downhill,1:24.120,PCVR,120,2026-05-12T12:00:00Z,2026-05-12T13:00:00Z,,Car swap run
+rec_004,sub_004,legacy_sheet,approved,recorded,racer_003,Carol,veh_003,GR86,fam_touge,Touge Series,var_akina,Akina DH,route_akina_downhill,Downhill,1:25.500,Desktop,60,2025-12-10T12:00:00Z,2026-05-12T13:00:00Z,,Legacy imported record
+rec_005,sub_005,google_form,approved,qualified,racer_002,Bob,veh_002,EVO IX,fam_touge,Touge Series,var_akina,Akina DH,route_akina_uphill,Uphill,1:30.250,PCVR,144,2026-05-13T12:00:00Z,2026-05-13T13:00:00Z,,Different route
+

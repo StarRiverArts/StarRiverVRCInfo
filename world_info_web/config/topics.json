@@ -1,0 +1,286 @@
+{
+  "personal": {
+    "label": "StarRiver Arts",
+    "description": "StarRiver Arts worlds",
+    "color": "#155e75",
+    "sort_order": 10,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:starriver"
+      }
+    ]
+  },
+  "racing": {
+    "label": "Racing keyword sync",
+    "description": "Racing job worlds",
+    "color": "#b45309",
+    "sort_order": 20,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:racing"
+      }
+    ]
+  },
+  "taiwan": {
+    "label": "Zh keyword sync",
+    "description": "Zh job worlds and tracked creators",
+    "color": "#0f766e",
+    "sort_order": 30,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      }
+    ]
+  },
+  "Ch": {
+    "label": "All Chinese",
+    "description": "All Chinese job worlds",
+    "color": "#7c3aed",
+    "sort_order": 40,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Ch"
+      }
+    ]
+  },
+  "recent_updated": {
+    "label": "Recent Updated",
+    "description": "Recently updated worlds from db:all",
+    "color": "#0f766e",
+    "topic_type": "view",
+    "sort_order": 50,
+    "rules": [
+      {
+        "type": "updated_within_days",
+        "value": "30"
+      }
+    ]
+  },
+  "recent_published": {
+    "label": "Recent Published",
+    "description": "New worlds published in the last 14 days",
+    "color": "#2563eb",
+    "topic_type": "view",
+    "sort_order": 60,
+    "rules": [
+      {
+        "type": "published_within_days",
+        "value": "14"
+      }
+    ]
+  },
+  "taiwan_recent_published": {
+    "label": "Taiwan New",
+    "description": "Zh job worlds published in the last 14 days",
+    "color": "#0f766e",
+    "topic_type": "view",
+    "sort_order": 65,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      },
+      {
+        "type": "published_within_days",
+        "value": "14"
+      }
+    ]
+  },
+  "worth_watching": {
+    "label": "Worth Watching",
+    "description": "Worlds with strong favorite rate and baseline traction",
+    "color": "#b45309",
+    "topic_type": "view",
+    "sort_order": 68,
+    "rules": [
+      {
+        "type": "favorite_rate_min",
+        "value": "8"
+      },
+      {
+        "type": "visits_min",
+        "value": "80"
+      },
+      {
+        "type": "favorites_min",
+        "value": "12"
+      }
+    ]
+  },
+  "taiwan_worth_watching": {
+    "label": "Taiwan Worth Watching",
+    "description": "Zh job worlds with strong favorite rate and baseline traction",
+    "color": "#0f766e",
+    "topic_type": "view",
+    "sort_order": 69,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      },
+      {
+        "type": "favorite_rate_min",
+        "value": "8"
+      },
+      {
+        "type": "visits_min",
+        "value": "80"
+      },
+      {
+        "type": "favorites_min",
+        "value": "12"
+      }
+    ]
+  },
+  "zh_jp_emerging_hot": {
+    "label": "Zh / JP Emerging Hot",
+    "description": "Chinese and Japanese worlds with traction, excluding giant legacy worlds",
+    "color": "#c2410c",
+    "topic_type": "view",
+    "sort_order": 69,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Ch"
+      },
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      },
+      {
+        "type": "source",
+        "value": "db:job:JapanTop"
+      },
+      {
+        "type": "visits_min",
+        "value": "120"
+      },
+      {
+        "type": "visits_max",
+        "value": "15000"
+      },
+      {
+        "type": "favorites_min",
+        "value": "10"
+      }
+    ]
+  },
+  "zh_jp_recent_published": {
+    "label": "Zh / JP New",
+    "description": "Chinese and Japanese worlds published in the last 14 days",
+    "color": "#2563eb",
+    "topic_type": "view",
+    "sort_order": 69,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Ch"
+      },
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      },
+      {
+        "type": "source",
+        "value": "db:job:JapanTop"
+      },
+      {
+        "type": "published_within_days",
+        "value": "14"
+      }
+    ]
+  },
+  "zh_jp_potential_gems": {
+    "label": "Zh / JP Potential",
+    "description": "Chinese and Japanese worlds with healthy favorite rate before they get too large",
+    "color": "#7c3aed",
+    "topic_type": "view",
+    "sort_order": 69,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Ch"
+      },
+      {
+        "type": "source",
+        "value": "db:job:taiwan"
+      },
+      {
+        "type": "source",
+        "value": "db:job:JapanTop"
+      },
+      {
+        "type": "published_within_days",
+        "value": "45"
+      },
+      {
+        "type": "favorite_rate_min",
+        "value": "6"
+      },
+      {
+        "type": "visits_min",
+        "value": "40"
+      },
+      {
+        "type": "visits_max",
+        "value": "5000"
+      },
+      {
+        "type": "favorites_min",
+        "value": "6"
+      }
+    ]
+  },
+  "spaceJam3": {
+    "label": "spaceJam3",
+    "description": "spaceJam3 job worlds",
+    "color": "#1d4ed8",
+    "sort_order": 70,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:spaceJam3"
+      }
+    ]
+  },
+  "JapanTop": {
+    "label": "JapanTop",
+    "description": "JapanTop job worlds",
+    "color": "#1d4ed8",
+    "sort_order": 80,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:JapanTop"
+      }
+    ]
+  },
+  "Popular100": {
+    "label": "Popular100",
+    "description": "Popular100 job worlds",
+    "color": "#0f766e",
+    "sort_order": 90,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Popular100"
+      }
+    ]
+  },
+  "Game100": {
+    "label": "Game100",
+    "description": "Game100 job worlds",
+    "color": "#155e75",
+    "sort_order": 100,
+    "rules": [
+      {
+        "type": "source",
+        "value": "db:job:Game100"
+      }
+    ]
+  }
+}

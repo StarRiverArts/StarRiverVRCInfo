@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile world_info/scraper/scraper.py)",
+      "Bash(python -m py_compile world_info/actions.py)",
+      "Bash(python -m py_compile world_info/tabs/entry.py)",
+      "Bash(python -m py_compile world_info/ui.py)"
+    ]
+  }
+}

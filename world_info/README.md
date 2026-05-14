@@ -1,5 +1,8 @@
 # VRChat World Info
 
+> Legacy notice: `world_info/` is now a maintenance-only local toolchain.
+> New feature work should move to `world_info_web/` unless there is a clear legacy-only reason.
+
 This tool collects information about VRChat worlds, lets you review the entries
 and exports a filtered JSON file for use on a website or in Unity.
 
@@ -22,10 +25,6 @@ Install the required Python packages with::
 
   pip install -r requirements.txt
 
-If you plan to fetch a creator's worlds, also run::
-
-  playwright install
-
 Create ``scraper/headers.json`` with your login cookie::
 
   {"Cookie": "auth=...; twoFactorAuth=...; machineId=..."}
@@ -33,10 +32,10 @@ Create ``scraper/headers.json`` with your login cookie::
 Run the tools in order:
 
 1. ``python3 scraper/scraper.py --keyword Taiwan --limit 50`` to search worlds.
-   To collect a creator's worlds, use ``--user usr_abc123`` which will launch a
-   headless browser via Playwright to scrape ``https://vrchat.com/home/user`` and
-   then query each world ID.  Add ``--cookie``, ``--username`` or ``--password``
-   to supply authentication headers. Results are written to ``raw_worlds.json``.
+   To collect a creator's worlds, use ``--user usr_abc123`` which now queries
+   the worlds API with a ``userId`` filter instead of scraping the website.
+   Add ``--cookie``, ``--username`` or ``--password`` only when you need
+   authenticated access. Results are written to ``raw_worlds.json``.
 2. ``python3 scraper/review_tool.py`` (optional) or run ``python3 ui.py`` for
    an interface that lets you log in, fetch worlds and apply filters. The world
    list tab now shows results in a sortable table. A new "History" tab tracks
@@ -48,11 +47,6 @@ Run the tools in order:
    These Excel files require the ``openpyxl`` package and can be edited directly
    in spreadsheet software.
 3. ``python3 scraper/exporter.py``
-
-Fetching a creator's worlds requires the ``playwright`` package.  Install it and
-run ``playwright install`` before using the ``--user`` option.  If the package
-is missing, the UI will still run but the creator-world feature will be
-disabled.
 
 Copy `scraper/approved_export.json` into `docs/` to update the website or load
 it inside Unity using the `GenerateWorldCards` editor script.

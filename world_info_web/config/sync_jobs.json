@@ -1,0 +1,155 @@
+{
+  "taiwan": {
+    "label": "Zh keyword sync",
+    "type": "keywords",
+    "source_key": "job:taiwan",
+    "keywords": [
+      "Taiwan",
+      "HongKong",
+      "台灣",
+      "HK",
+      "TW",
+      "台北",
+      "台中",
+      "高雄",
+      "台南",
+      "新竹",
+      "桃園",
+      "彰化",
+      "雲林",
+      "嘉義",
+      "屏東",
+      "宜蘭",
+      "花蓮",
+      "台東",
+      "澎湖",
+      "金門",
+      "馬祖",
+      "台灣",
+      "寶島",
+      "Formosa"
+    ],
+    "limit_per_keyword": 40,
+    "blacklist_file": "world_info/blacklist_taiwan.txt",
+    "include_user_ids_file": "world_info/taiwan_creator_whitelist.txt",
+    "exclude_author_ids_file": "world_info/blacklist_taiwan_authors_cn.txt",
+    "creator_review_enabled": true,
+    "blacklist_world_name_substrings": [
+      "attack on titan"
+    ]
+  },
+  "starriver": {
+    "label": "StarRiver creator sync",
+    "type": "user",
+    "source_key": "job:starriver",
+    "user_id": "usr_0673194d-712d-4b5d-8167-1f03ed3233cb",
+    "limit": 50
+  },
+  "racing": {
+    "label": "Racing keyword sync",
+    "type": "world_search",
+    "source_key": "job:racing",
+    "search": "",
+    "tags": [
+      "author_tag_racing",
+      "author_tag_cars",
+      "author_tag_touge"
+    ],
+    "include_user_ids_file": "world_info/racing_creator_whitelist.txt",
+    "notags": [],
+    "sort": "popularity",
+    "order": "descending",
+    "featured": null,
+    "active": false,
+    "release_status": null,
+    "platform": null,
+    "limit": 100
+  },
+  "Ch": {
+    "label": "All Chinese",
+    "type": "keywords",
+    "source_key": "job:Ch",
+    "keywords": [
+      "China",
+      "Taiwan",
+      "Hongkong",
+      "CH",
+      "TW",
+      "HK",
+      "chinese",
+      "中文",
+      "台灣",
+      "中國",
+      "香港"
+    ],
+    "limit_per_keyword": 50
+  },
+  "spaceJam3": {
+    "label": "spaceJam3",
+    "type": "world_search",
+    "source_key": "job:spaceJam3",
+    "search": "",
+    "tags": [
+      "admin_spacejam3"
+    ],
+    "notags": [],
+    "sort": "popularity",
+    "order": "descending",
+    "featured": null,
+    "active": false,
+    "release_status": null,
+    "platform": null,
+    "limit": 50
+  },
+  "JapanTop": {
+    "label": "JapanTop",
+    "type": "world_search",
+    "source_key": "job:JapanTop",
+    "search": "Japan, JP",
+    "tags": [
+      "author_tag_japanese"
+    ],
+    "notags": [],
+    "sort": "popularity",
+    "order": "descending",
+    "featured": null,
+    "active": false,
+    "release_status": null,
+    "platform": null,
+    "limit": 50
+  },
+  "Popular100": {
+    "label": "Popular100",
+    "type": "world_search",
+    "source_key": "job:Popular100",
+    "search": "",
+    "tags": [
+      "system_updated_recently"
+    ],
+    "notags": [],
+    "sort": "popularity",
+    "order": "descending",
+    "featured": null,
+    "active": false,
+    "release_status": null,
+    "platform": null,
+    "limit": 100
+  },
+  "Game100": {
+    "label": "Game100",
+    "type": "world_search",
+    "source_key": "job:Game100",
+    "search": "",
+    "tags": [
+      "author_tag_game"
+    ],
+    "notags": [],
+    "sort": "popularity",
+    "order": "descending",
+    "featured": null,
+    "active": false,
+    "release_status": null,
+    "platform": null,
+    "limit": 100
+  }
+}

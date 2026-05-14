@@ -1,0 +1,6 @@
+submission_id,review_status,racer_name_input,track_input,vehicle_input,lap_time_text,review_note
+sub_001,approved,Alice,Akina DH,TX-7,1:23.456,
+sub_006,submitted,Dave,Akina DH,EVO IX,1:26.004,Need screenshot
+sub_007,needs_info,Eve,Unknown Route,GR86,1:40.250,Track mapping missing
+sub_008,rejected,Fox,Akina DH,RX-7,abc,Invalid time evidence
+

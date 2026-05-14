@@ -1,0 +1,17 @@
+{
+  "wrld_5fb84156-598a-43c8-8a2b-2c9aa7c95b40": {
+    "portal_links": [
+      "wrld_c4d985d3-11de-4a89-9e8b-60b0342a1676",
+      "wrld_660d90dd-2a8e-4743-9b70-1c6237f8192b",
+      "wrld_b7193f7d-4616-4b3e-8236-e2f4c7da2d8d"
+    ]
+  },
+  "wrld_fb9540f8-68f1-42e8-9430-558fc2d568c4": {
+    "portal_links": [
+      "wrld_16498412-b9e0-404c-9da7-114484c89ecd",
+      "wrld_c0f03f3e-ca4c-48cb-8aea-14ed13c1ee03",
+      "wrld_81e98a0f-b8eb-4a9b-b01b-35d26758c41c",
+      "wrld_c4d985d3-11de-4a89-9e8b-60b0342a1676"
+    ]
+  }
+}

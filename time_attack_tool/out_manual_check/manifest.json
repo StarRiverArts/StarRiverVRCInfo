@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-13T11:38:33.799940Z",
+  "inputs": {
+    "approved_records": "time_attack_tool\\examples\\approved_records.sample.csv",
+    "submissions": "time_attack_tool\\examples\\submissions.sample.csv"
+  },
+  "outputs": [
+    "records.json",
+    "leaderboards.json",
+    "manifest.json",
+    "review_summary.json"
+  ]
+}

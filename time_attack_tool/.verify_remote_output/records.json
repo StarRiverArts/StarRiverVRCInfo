@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-05-13T16:48:46.957066Z",
+  "record_count": 1,
+  "records": [
+    {
+      "record_id": "rec_100",
+      "submission_id": "sub_100",
+      "source_type": "google_form",
+      "review_status": "approved",
+      "record_tier": "qualified",
+      "racer_id": "racer_100",
+      "racer_display_name": "Zed",
+      "vehicle_id": "veh_100",
+      "vehicle_display_name": "FD3S",
+      "track_family_id": null,
+      "track_family_name": null,
+      "track_variant_id": "var_test",
+      "track_variant_name": "Test Variant",
+      "track_route_id": "route_test",
+      "track_route_name": "Forward",
+      "lap_time_ms": 58321,
+      "lap_time_text": "58.321",
+      "platform": null,
+      "fps_value": null,
+      "recorded_at": null,
+      "approved_at": null,
+      "event_id": null,
+      "notes": null,
+      "primary_badge": "TR",
+      "badges": [
+        "TR"
+      ]
+    }
+  ]
+}

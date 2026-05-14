@@ -1,62 +1,52 @@
-# VRChat 世界資訊工具
+# VRChat World Info
 
-此工具可收集 VRChat 世界的基本資訊，讓使用者進行人工審核，
-並匯出篩選後的 JSON 檔，可用於網站或 Unity 專案。
+> 維護模式說明：`world_info/` 現在視為 legacy / 維護用工具鏈。  
+> 新功能開發原則上應移到 `world_info_web/`，除非有明確的舊版相容需求。
 
-```
-world_info/
-├─ scraper/
-│  ├─ scraper.py          # 從 VRChat API 取得世界資料
-│  ├─ review_tool.py      # 標記世界是否核可
-│  ├─ exporter.py         # 產生 approved_export.json
-│  └─ raw_worlds.json     # 產生的範例資料
-├─ ui.py                  # Tkinter 介面，可登入並搜尋世界
-├─ docs/
-│  ├─ index.html          # 提供篩選功能的世界清單頁面
-│  └─ approved_export.json
-└─ unity_prefab_generator/
-   └─ GenerateWorldCards.cs
-```
+這個工具用來蒐集 VRChat 世界資料、檢視結果，並輸出可供網站或 Unity 使用的 JSON。
 
-執行前請先安裝 Python 套件：
+## 安裝
 
 ```bash
 pip install -r requirements.txt
 ```
 
-若需抓取作者世界，再執行：
+如需驗證，請在 `world_info/scraper/headers.json` 放入本機登入後的 Cookie：
 
-```bash
-playwright install
-```
-
-請在 ``scraper/headers.json`` 中輸入登入後取得的 Cookie，例如：
-
-```
+```json
 {"Cookie": "auth=...; twoFactorAuth=...; machineId=..."}
 ```
 
-執行流程：
+## 使用方式
 
-1. `python3 scraper/scraper.py --keyword Taiwan --limit 50` 以關鍵字搜尋世界。
-   若要抓取某作者世界，使用 `--user usr_abc123`，會透過 Playwright 在
-   `https://vrchat.com/home/user/` 頁面爬取 worldId，再查詢詳細資料。
-   可額外加入 `--cookie`、`--username` 或 `--password` 提供驗證資訊，
-   結果會輸出到 `raw_worlds.json`。
-2. `python3 scraper/review_tool.py`（可選）或執行 `python3 ui.py`，
-   透過圖形介面登入並搜尋、篩選世界。世界列表頁以表格方式呈現資料，
-   並新增「歷史記錄」分頁，可追蹤瀏覽人數、收藏數與熱度變化折線圖，
-   以及「Log」分頁顯示執行訊息與錯誤。
-   每次抓取資料也會在 `scraper/history_table.xlsx` 與 `scraper/TaiwanWorlds.xlsx`
-   追加一行，記錄瀏覽收藏比、距離上次更新，以及資料爬取日期（`YYYY/MM/DD`）。
-   這些 Excel 檔需安裝 `openpyxl` 套件後才能正確寫入，可直接以試算表軟體開啟編輯。
-3. `python3 scraper/exporter.py`
+1. 依關鍵字抓世界：
 
-若要抓取作者世界，需先安裝 `playwright` 套件並執行 `playwright install`。
-若未安裝此套件，圖形介面仍可使用，但無法取得作者創作世界。
+```bash
+python3 world_info/scraper/scraper.py --keyword Taiwan --limit 50
+```
 
-完成後，將 `scraper/approved_export.json` 複製到 `docs/` 以更新網站，
-或在 Unity 中使用 `GenerateWorldCards` 編輯器腳本載入。
+2. 依 creator user ID 抓世界：
 
-更多背景與架構說明請參考
-[`complete_guide.zh_TW.md`](complete_guide.zh_TW.md)。
+```bash
+python3 world_info/scraper/scraper.py --user usr_abc123 --limit 50
+```
+
+現在作者世界抓取會直接走 worlds API 的 `userId` 篩選，不再用 Playwright 去爬 `vrchat.com` 的使用者頁面。
+
+3. 如需桌面介面：
+
+```bash
+python3 world_info/ui.py
+```
+
+4. 匯出網站／Unity 用 JSON：
+
+```bash
+python3 world_info/scraper/exporter.py
+```
+
+## 目前建議
+
+- 抓取層盡量只走 API，不再依賴 HTML scraping。
+- 驗證資訊保留在本機，不要透過網頁介面輸入。
+- Excel 比較適合當人工檢查輸出，不適合當系統主資料來源。

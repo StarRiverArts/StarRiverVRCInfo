@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-13T16:48:46.957066Z",
+  "inputs": {
+    "approved_records": "https://docs.google.com/spreadsheets/d/test-sheet-id/edit#gid=111",
+    "submissions": "https://docs.google.com/spreadsheets/d/test-sheet-id/edit#gid=222"
+  },
+  "outputs": [
+    "records.json",
+    "leaderboards.json",
+    "manifest.json",
+    "review_summary.json"
+  ]
+}
